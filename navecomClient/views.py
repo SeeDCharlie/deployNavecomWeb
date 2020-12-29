@@ -5,4 +5,4 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request,'navecomClient/index.html')
+    return render(request,'navecomClient/indexx.html')
