@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Virtua - New Amazing HTML5 Template</title>
+    <title>Navecom</title>
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'navecomClient/css/components.css' %}">
@@ -29,7 +29,7 @@
           <div class="logo hide-l hide-xl hide-xxl">
              <a href="index.html" class="logo">
               <!-- Logo White Version -->
-              <img class="logo-white" src="{% static 'navecomClient/img/logo.svg' %}" alt="">
+              <img class="logo-white" src="{% static 'navecomClient/img/antenaSola.png' %}" alt="">
               <!-- Logo Dark Version -->
               <img class="logo-dark" src="{% static 'navecomClient/img/logo-dark.svg' %}" alt="">
             </a>
@@ -40,8 +40,6 @@
           <div class="top-nav left-menu">
              <ul class="right top-ul chevron">
                 <li><a href="">Home</a></li>
-                <li><a href="">About Us</a></li>
-                <li><a href="">Our Services</a></li>
              </ul>
           </div>
           
@@ -49,7 +47,7 @@
           <ul class="logo-menu">
             <a href="index.html" class="logo">
               <!-- Logo White Version -->
-              <img class="logo-white" src="{% static 'navecomClient/img/logo.svg' %}" alt="">
+              <img class="logo-white" style="align-top: true;" src="{% static 'navecomClient/img/antenaSola.png' %}" alt="">
               <!-- Logo Dark Version -->
               <img class="logo-dark" src="{% static 'navecomClient/img/logo-dark.svg' %}" alt="">
             </a>
@@ -61,8 +59,7 @@
                 <li>
                   <a>Products</a>
                   <ul>
-                    <li><a>Product 1</a></li>
-                    <li><a>Product 2</a></li>
+                    <li><a>Internet Local</a></li>                    
                   </ul>
                 </li>    
              </ul> 
@@ -74,19 +71,32 @@
     <!-- MAIN -->
     <main role="main">    
       <!-- Header -->
-      <header class="section-top-padding background-image text-center" style="background-image:url({% static 'navecomClient/img/img-05.jpg' %})">
+      <header class="section-top-padding background-image text-center" style="background-image:url({% static 'navecomClient/img/img-05.jpg' %})">        
         <h1 class="text-extra-thin text-white text-s-size-30 text-m-size-40 text-size-50 text-line-height-1 margin-bottom-40 margin-top-130">
           <b>
-            Internet NAVECOM
+            NAVECOM
           </b>
-        </h1>      
-          <h2 class="text-white">
-            Información: 320 8528339 
+        </h1>   
+        <b>
+          <h3 class="text-white">
+            Información:
+          </h3>
+          <h2 class="text-white">                      
+            <strong> 
+              <p style="max-width: 2.6%; position: absolute; right: 41%; bottom: 55%;">
+                <img src="{% static 'navecomClient/img/wapp.png' %}">
+              </p>
+              <p style="max-width: 3.1%; position: absolute; right: 37.9%; bottom: 54.6%;">
+                <img src="{% static 'navecomClient/img/tel.png' %}">
+              </p>        
+              320 8520718<br>320 8528339
+            </strong>                                             
           </h2>
-                            
+        </b>
+        
         <i class="slow icon-sli-arrow-down text-white margin-top-20 text-size-20"></i>
         <!-- Image -->
-        <img class="margin-top-20 center" src="{% static 'navecomClient/img/app.png' %}" alt="">
+        <img class="margin-top-10 center" src="{% static 'navecomClient/img/app.png' %}" alt="">
         
         <!-- dark full width arrow object -->
         <img class="arrow-object" src="{% static 'navecomClient/img/arrow-object-dark.svg' %}" alt="">
@@ -98,10 +108,10 @@
           <div class="m-10 l-6 xl-4 center">
             <div class="margin">
               <a class="s-12 m-6 margin-s-bottom" href="/">
-                <img class="full-img right" src="{% static 'navecomClient/img/google-play.svg' %}" alt="">
+                
               </a>
               <a class="s-12 m-6" href="/">
-                <img class="full-img" src="{% static 'navecomClient/img/app-store.svg' %}" alt="">
+
               </a>
             </div>
           </div>                                                                                               
