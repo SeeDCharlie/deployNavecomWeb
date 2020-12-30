@@ -18,23 +18,21 @@
     <script type="text/javascript" src="{% static 'navecomClient/js/jquery-ui.min.js' %}"></script>   
   </head>
 
-  <body class="size-1280">
+  <body>
     <!-- PREMIUM FEATURES BUTTON -->
     <!-- HEADER -->
-    <header role="banner" class="position-absolute">    
-      <!-- Top Navigation -->
-      <nav class="background-transparent background-primary-dott full-width sticky">          
-        <div class="top-nav"> 
+    <header class="position-absolute">
+      <!-- Top Navigation -->           
+        <div class="top-nav" style="background-image: url({% static 'navecomClient/img/img-05.jpg' %});">            
           <!-- mobile version logo -->              
-          <div class="logo hide-l hide-xl hide-xxl">
-             <a href="index.html" class="logo">
+          <div class="logo hide-l hide-xl hide-xxl">             
               <!-- Logo White Version -->
               <img class="logo-white" src="{% static 'navecomClient/img/antenaSola.png' %}" alt="">
               <!-- Logo Dark Version -->
-              <img class="logo-dark" src="{% static 'navecomClient/img/logo-dark.svg' %}" alt="">
+              <img class="logo-dark" src="{% static 'navecomClient/img/antenaSola.png' %}" alt="">
             </a>
           </div>                  
-          <p class="nav-text"></p>
+          
           
           <!-- left menu items -->
           <div class="top-nav left-menu">
@@ -49,7 +47,7 @@
               <!-- Logo White Version -->
               <img class="logo-white" style="align-top: true;" src="{% static 'navecomClient/img/antenaSola.png' %}" alt="">
               <!-- Logo Dark Version -->
-              <img class="logo-dark" src="{% static 'navecomClient/img/logo-dark.svg' %}" alt="">
+              <img class="logo-dark" src="{% static 'navecomClient/img/antenaSola.png' %}" alt="">
             </a>
           </ul>
           
@@ -64,14 +62,13 @@
                 </li>    
              </ul> 
           </div>
-        </div>
-      </nav>
+        </div>      
     </header>
     
     <!-- MAIN -->
     <main role="main">    
       <!-- Header -->
-      <header class="section-top-padding background-image text-center" style="background-image:url({% static 'navecomClient/img/img-05.jpg' %})">        
+      <header class="section-top-padding background-image text-center" style="background-position: center;background-image:url({% static 'navecomClient/img/redes.jpeg' %})">        
         <h1 class="text-extra-thin text-white text-s-size-30 text-m-size-40 text-size-50 text-line-height-1 margin-bottom-40 margin-top-130">
           <b>
             NAVECOM
@@ -80,26 +77,41 @@
         <b>
           <h3 class="text-white">
             Información:
-          </h3>
-          <h2 class="text-white">                      
-            <strong> 
-              <p style="max-width: 2.6%; position: absolute; right: 41%; bottom: 55%;">
-                <img src="{% static 'navecomClient/img/wapp.png' %}">
-              </p>
-              <p style="max-width: 3.1%; position: absolute; right: 37.9%; bottom: 54.6%;">
-                <img src="{% static 'navecomClient/img/tel.png' %}">
-              </p>        
-              320 8520718<br>320 8528339
-            </strong>                                             
-          </h2>
+          </h3>                  
+          <div class="text-white" >
+            <!-- style table-->
+            <style>                    
+              .tablita{background: none;}                       
+              tr,td{text-align:right; border: none;}                        
+            </style>     
+            <table class="tablita">
+              <tbody style="font-size: 200%;">
+                <!-- fila #1-->       
+                <tr>
+                  <td style="width: 55%;">
+                    <i>320 8520718</i>
+                  </td>
+                  <td>
+                    <img src="{% static 'navecomClient/img/wapp.png' %}" style="max-width: 54px; padding: 2px;">
+                  </td>
+                </tr>
+                <!-- fila #2-->
+                <tr style="background: none; border: none;">                  
+                  <td style="width: 55%; border: none;">
+                    <i>320 8520718</i> 
+                  </td>
+                  <td style="border: none;">
+                    <img src="{% static 'navecomClient/img/tel.png' %}" style="max-width: 60px;"> 
+                  </td>
+                </tr>                                                    
+              </tbody>    
+            </table>                                      
+          </div>         
         </b>
-        
-        <i class="slow icon-sli-arrow-down text-white margin-top-20 text-size-20"></i>
+
         <!-- Image -->
         <img class="margin-top-10 center" src="{% static 'navecomClient/img/app.png' %}" alt="">
         
-        <!-- dark full width arrow object -->
-        <img class="arrow-object" src="{% static 'navecomClient/img/arrow-object-dark.svg' %}" alt="">
       </header>
       
       <!-- Section 1 -->
