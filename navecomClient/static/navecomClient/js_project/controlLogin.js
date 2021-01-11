@@ -18,7 +18,6 @@ $('#btnLoggin').on("click", function(){
 
 
 function respuestaAjax(data){
-    alert("respuesta ajax: " + data.msj);
     window.location.replace(data.url);
 
 }
