@@ -1,0 +1,51 @@
+html, body{
+    height:100%;
+}
+
+.contentMain{
+    background-color: rgb(253, 253, 253);
+    height: 100%;
+}
+
+.navBaruno{
+    border-bottom: 1px solid rgba(236, 231, 230, 0.5) ;
+}
+.logoMenuBar {
+    padding-left: 15%;
+    text-align: center;
+}
+
+.logoMenuBar > a {    
+
+    font-size: 2rem;    
+    font-weight: bold;
+}
+
+.itemsMenuUno{
+    padding-right: 15%;
+}
+
+
+.itemsMenuUno ul li > a{
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+    color: rgb(255, 255, 255) !important;
+    font-size: 1rem;  
+}
+
+.itemsMenuUno ul li  :hover{
+    color: rgb(216, 0, 0) !important; 
+}
+
+.itemsMenuUno ul .item_active > a{
+    color: rgb(255, 0, 0) !important;
+}
+
+.content_all{
+    width: 100%;
+}
+
+.roundImg{
+
+    border-radius: 50%;
+}

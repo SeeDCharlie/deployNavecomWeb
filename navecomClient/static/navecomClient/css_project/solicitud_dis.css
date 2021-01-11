@@ -1,0 +1,22 @@
+
+.solicMain {
+  height: auto;
+  width: 100%;
+  padding-top: 10%;
+  background-color: rgba(170, 94, 6, 0.5);
+
+}
+
+.formSoli{
+
+  padding: 5%;
+  border-radius: 5%;
+  margin-bottom: 10%;
+  background-color: #0393be;
+  background-image: -webkit-linear-gradient(40deg, #6b0124 40%, #95000c 80%);
+
+}
+
+.asteRed{
+  color: red;
+}

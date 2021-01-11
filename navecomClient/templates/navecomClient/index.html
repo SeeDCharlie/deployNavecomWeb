@@ -1,27 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {% load static %}
-
-    <link href="{% static 'navecomClient/css/bootstrap.min.css' %}" rel="stylesheet">
+{% extends 'navecomClient/base1.html' %}
 
 
-    <title>Document</title>
-</head>
-<body>
+{% block styles %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'navecomClient/css_project/index_dis.css' %}">
+{% endblock %}
 
-    <p class="display-2" >C A R L O S SE LA COME 8====D - - O:</p>
-    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.xvideos.com%2Fvideo6688667%2Fvergon_culeando.&psig=AOvVaw22AGCxuJpvS9RlAMGy9xHV&ust=1609355971182000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPji9an08-0CFQAAAAAdAAAAABAJ">
-    
+{% block content %}
+
+<!-- Content -->
+<div class="container_index">
+
+    <div class="portada1 dis ">
+        <div class="row contPortadaUno">
+            <div class="col-11 col-lg-6">
+                <div class="row" style="color: seashell; font-size: 1em;">
+                    <div class="col-auto ">
+                        <p class="display-4" style="font-weight: bolder;">NAVECOM ING</p>
+                        <p >Ofrecemos servicios de Internet para el hogar. Comprometidos y responsables para su comodidad.</p>
+                        <p style="font-weight: bold;">Lineas de atencion al cliente :</p>
+                        <hr>
+                    </div>
+                    <div class="row" >
+                        <div class="col-12 col-sm-auto ">
+                            <p style="font-weight: bold; font-size: 2rem;">+57 320 8528339</p>
+                        </div>
+                        <div class="col-12 col-sm-2">
+                            <img src="{% static 'navecomClient/img/wapp.png' %}" style="height: 35px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-auto">
+                            <p style="font-weight: bold; font-size: 2rem;">+57 320 8520718</p>
+                        </div>
+                        <div class="col-12 col-sm-2">
+                            <img src="{% static 'navecomClient/img/wapp.png' %}" style="height: 35px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-11 col-lg-2 " style="margin-bottom: 5px;">
+                <img class = "roundImg" src="{% static 'navecomClient/img/img_port_uno.png' %}" style="width: 20rem; height: 20rem;">
+            </div>
+            <hr>
+        </div>
+       
+    </div>
+
+    <div class="portada2 dis">
+        <div class="row contPortadaUno">
+            <div class="col-11 col-lg-6">
+                <div class="row" style="color: seashell; font-size: 2em;">
+                    <div class="col-auto ">
+                        <p class="display-4" style="font-weight: bolder;">ENVIANOS TUS DATOS Y TE CONTACTAREMOS</p>
+                    </div>
+                    <div class="col-12">
+                        <a type="button" class="btn btnContact"  href="{% url 'solicitud' %}">Contactanos > </a><br>
+                        <hr>
+                    </div>                    
+                </div>
+            </div>
+            <div class="col-11 col-lg-2 ">
+                <img class = "roundImg" src="{% static 'navecomClient/img/img_port_dos.jpg' %}" style="width: 20rem; height: 20rem;">
+            </div>
+        </div>
+    </div>
 
 
-    <script src="{% static 'navecomClient/js/jquery-3.5.1.js' %}"></script>
-    <script src="{% static 'navecomClient/js/popper.min.js' %}" ></script>
-    <script src="{% static 'navecomClient/js/bootstrap.bundle.min.js' %}" ></script>
-    <script src="{% static 'navecomClient/js/bootstrap.min.js' %}" ></script>
 
-</body>
-</html>
+</div>
+
+<!-- End Content -->
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'navecomClient/js_project/controlIndex.js' %}"></script>
+{% endblock %}

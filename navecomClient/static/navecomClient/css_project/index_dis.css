@@ -1,0 +1,42 @@
+.container_index{
+    height: 100%;
+    align-content: center;
+    font-size: 1rem;
+}
+
+.portada1{
+    height: 100%;
+    background-image: url("/static/navecomClient/img/1920x1080/01.jpg");
+    padding-top: 10rem;
+
+}
+.portada2{
+    height: 100%;
+    background-image: url("/static/navecomClient/img/1920x1080/02.jpg");
+    padding-top:  10rem;
+
+}
+
+.contPortadaUno{
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.dis{
+    display: none;
+}
+
+.btnContact {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+}
+/* Al poner el curso encima (hover) */
+.btnContact:hover {
+    background-color: rgba(59, 59, 59, 0.8);
+    color: white;
+}
+
+

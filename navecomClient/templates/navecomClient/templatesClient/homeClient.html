@@ -1,0 +1,22 @@
+{% extends 'navecomClient/base1.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/navecomClient/css_project/client_dis.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="theme">
+    
+    <div class="container text-white">
+        <h1 class="display-2" style="font-weight: bold; -webkit-text-stroke: 2px rgb(235, 235, 235); /* width and color */
+
+        font-family: sans; color: rgb(255, 0, 0);">BIENVENIDO {{ user.f_name}} {{ user.l_name }}. <br>La pagina esta en proceso</h1>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
