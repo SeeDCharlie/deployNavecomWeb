@@ -188,7 +188,6 @@ class TypeUsers(models.Model):
 class usersManager(BaseUserManager):
     def create_superuser(self, email, nickname, f_name, l_name, id_ty_us, password):
         usuario = self.create_user(email = email, nickname = nickname, f_name = f_name, l_name = l_name, id_ty_us = id_ty_us, password = password)
-        usuario.set_password(password)
         usuario.usuario_administrador = True
         usuario.save()
         return usuario

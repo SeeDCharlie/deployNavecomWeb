@@ -3,7 +3,7 @@
   height: auto;
   width: 100%;
   padding-top: 10%;
-  background-color: rgba(170, 94, 6, 0.5);
+  background-image: url('/static/navecomClient/img/1920x1080/server.jpg');
 
 }
 
@@ -12,9 +12,15 @@
   padding: 5%;
   border-radius: 5%;
   margin-bottom: 10%;
-  background-color: #0393be;
-  background-image: -webkit-linear-gradient(40deg, #6b0124 40%, #95000c 80%);
+  background-color: rgba(0, 154, 201, 0.75);
+  background-image: -webkit-linear-gradient(45deg, rgba(53, 41, 41, 0.8) 90%, rgba(138, 26, 26, 0.9) 50%);
 
+}
+
+@media screen and (max-width: 550px){
+  .formSoli{
+    margin-top: 100px;
+  }
 }
 
 .asteRed{

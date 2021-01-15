@@ -11,17 +11,19 @@
 <!-- Content -->
 <div class="container_index">
 
+    <!-- portada 1 -->
     <div class="portada1 dis ">
         <div class="row contPortadaUno">
             <div class="col-11 col-lg-6">
                 <div class="row" style="color: seashell; font-size: 1em;">
                     <div class="col-auto ">
                         <p class="display-4" style="font-weight: bolder;">NAVECOM ING</p>
-                        <p >Ofrecemos servicios de Internet para el hogar. Comprometidos y responsables para su comodidad.</p>
+                        <p>Ofrecemos servicios de Internet para el hogar. Comprometidos y responsables para su
+                            comodidad.</p>
                         <p style="font-weight: bold;">Lineas de atencion al cliente :</p>
                         <hr>
                     </div>
-                    <div class="row" >
+                    <div class="row contact_num">
                         <div class="col-12 col-sm-auto ">
                             <p style="font-weight: bold; font-size: 2rem;">+57 320 8528339</p>
                         </div>
@@ -29,7 +31,7 @@
                             <img src="{% static 'navecomClient/img/wapp.png' %}" style="height: 35px;">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row contact_num">
                         <div class="col-12 col-sm-auto">
                             <p style="font-weight: bold; font-size: 2rem;">+57 320 8520718</p>
                         </div>
@@ -39,14 +41,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-11 col-lg-2 " style="margin-bottom: 5px;">
-                <img class = "roundImg" src="{% static 'navecomClient/img/img_port_uno.png' %}" style="width: 20rem; height: 20rem;">
+            <div class="col-11 col-lg-2" style="margin-bottom: 5px;" id="col_port1">
+                <img class="roundImg" id="port1_img" src="{% static 'navecomClient/img/img_port_uno.png' %}"
+                    style="width: 20rem; height: 20rem;">
             </div>
             <hr>
         </div>
-       
+
     </div>
 
+    <!-- portada 2 -->
     <div class="portada2 dis">
         <div class="row contPortadaUno">
             <div class="col-11 col-lg-6">
@@ -55,13 +59,14 @@
                         <p class="display-4" style="font-weight: bolder;">ENVIANOS TUS DATOS Y TE CONTACTAREMOS</p>
                     </div>
                     <div class="col-12">
-                        <a type="button" class="btn btnContact"  href="{% url 'solicitud' %}">Contactanos > </a><br>
+                        <a type="button" class="btn btnContact" href="{% url 'solicitud' %}">Contactanos > </a><br>
                         <hr>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="col-11 col-lg-2 ">
-                <img class = "roundImg" src="{% static 'navecomClient/img/img_port_dos.jpg' %}" style="width: 20rem; height: 20rem;">
+                <img class="roundImg" id="port2_img" src="{% static 'navecomClient/img/img_port_dos.jpg' %}"
+                    style="width: 20rem; height: 20rem;">
             </div>
         </div>
     </div>
