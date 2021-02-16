@@ -1,4 +1,4 @@
-mport sys, os
+import sys, os
 
 INTERP = "/home/navecomingenieri/venvNavecom/bin/python3.9"
 #INTERP is present twice so that the new python interpreter 
