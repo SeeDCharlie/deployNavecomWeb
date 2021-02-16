@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'navecom_db',
         'USER': 'admuno',
         'PASSWORD': '90c10a06afbdb26dc475e6ae8b7037487f1e9c656a8ff1cadf89368e49fec9a7',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
         
     }
