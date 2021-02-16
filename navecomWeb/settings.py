@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'navecomWeb.wsgi.application'
 
 DATABASES = {
     'default':{
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'navecom_db',
-        'USER': 'admuno',
-        'PASSWORD': '90c10a06afbdb26dc475e6ae8b7037487f1e9c656a8ff1cadf89368e49fec9a7',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'navecomi_db',
+        'USER': 'navecomi_adm',
+        'PASSWORD': 'KD4Fsz]^zH26',
+        'HOST': 'navecomingenieria.com',
+        'PORT': '3306',
         
     }
 }
