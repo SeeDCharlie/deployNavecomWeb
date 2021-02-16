@@ -14,7 +14,7 @@ class ControlLogin():
             return JsonResponse({'msj': "usuario : %s , contraseña: %s"%(email, passw), 'url': reverse('homeClient'), 'log': True,'success': True})
 
         else:
-            return JsonResponse({'msj': 'usuario o contraseña incorrectos', 'log': False})
+            return JsonResponse({'msj': 'usuario o contraseña incorrectos', 'success': False})
 
     def logOut(self, request):
         return self.ctrl.logOut(request)

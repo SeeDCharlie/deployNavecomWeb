@@ -13,11 +13,11 @@ function requestAjax(btnName,datos){
                 respuestaAjax(data);
             }
             else {
-                alert('error');
+                errorSucces(data.msj);
             }
         },
         error: function () {
-            alert("Incongruencia en los datos!!");
+            errorAjax();
         }
     });
 }

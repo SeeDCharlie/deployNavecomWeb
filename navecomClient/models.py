@@ -1,254 +1,359 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser, Permission, Group, PermissionsMixin
 
-class AditionalAmount(models.Model):
+
+
+class monto_adicional(models.Model):
     id_amount = models.AutoField(primary_key=True)
-    name_amount = models.CharField(max_length=30, blank=True, null=True)
-    description = models.CharField(max_length=60, blank=True, null=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    percentage = models.DecimalField(max_digits=4, decimal_places=3, blank=True, null=True)
+    nombre_monto = models.CharField(max_length=30, blank=True, null=True, db_column='name_amount')
+    descripcion = models.CharField(max_length=60, blank=True, null=True, db_column='description')
+    precio = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True, db_column='price')
+    porcentaje = models.DecimalField(max_digits=4, decimal_places=3, blank=True, null=True, db_column='percentage')
+
+    def __str__(self):
+        return self.nombre_monto
 
     class Meta:
         db_table = 'aditional_amount'
+        verbose_name = "monto adicional"
+        verbose_name_plural = "montos adicionales"
 
 
-class AmountList(models.Model):
+class lista_montos(models.Model):
     id_amount_aply = models.AutoField(primary_key=True)
-    plan = models.ForeignKey('Plans', models.DO_NOTHING, db_column='plan')
-    amount = models.ForeignKey(AditionalAmount, models.DO_NOTHING, db_column='amount')
+    plan = models.ForeignKey('plan', models.DO_NOTHING)
+    monto = models.ForeignKey(monto_adicional, models.DO_NOTHING, db_column='amount')
+
+    def __str__(self):
+        return "%s | %s "%(self.plan, self.monto)
 
     class Meta:
         db_table = 'amount_list'
+        verbose_name = "monto del plan"
+        verbose_name_plural = "montos de los planes"
 
 
-class Bills(models.Model):
+class facturas(models.Model):
     id_bill = models.AutoField(primary_key=True)
-    id_plan = models.ForeignKey('Plans', models.DO_NOTHING, db_column='id_plan')
-    arrears_state = models.BooleanField()
-    positive_balance = models.DecimalField(max_digits=9, decimal_places=2)
-    negative_balance = models.DecimalField(max_digits=9, decimal_places=2)
-    total_pay = models.DecimalField(max_digits=7, decimal_places=2)
-    recovery_date = models.DateField()
-    payment_date = models.DateField()
-    payday_limit = models.DateField()
-    payment_method = models.CharField(max_length=50)
+    plan = models.ForeignKey('plan', models.DO_NOTHING, db_column='id_plan')
+    pago = models.BooleanField(db_column = 'arrears_state')
+    total_recibido = models.DecimalField(max_digits= 9, decimal_places=2, blank=True, null=True, db_column='balance_received')
+    total_pagar = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, db_column='total_pay')
+    total_devuelto = models.DecimalField(max_digits=9, decimal_places=2, blank=True,null=True, db_column='balance_returned')
+    fecha_creacion = models.DateField(blank=True, auto_now=True, null = True, db_column='recovery_date')
+    fecha_pago = models.DateField(null = True, db_column='payment_date')
+    fecha_limite_pago = models.DateField(null = True, db_column='payday_limit')
+    metodo_pago = models.ForeignKey('metodos_pago', models.DO_NOTHING, db_column='payment_method')    
+    codigo_convenio = models.CharField(max_length=50, blank=True, null=True, db_column='agreement_code')
+    codigo_epy = models.CharField(max_length=50, blank=True, null=True, db_column='epayco_code')
+    pin_epy = models.CharField(max_length=50, blank=True, null=True, db_column='epayco_pin')
+    numero_recibo = models.CharField(max_length=50, blank=True, null=True, db_column='id_receipt')
+
+    def __str__(self):
+        return "%d | %s"%(self.id_bill, str(self.plan))
 
     class Meta:
         db_table = 'bills'
+        verbose_name = "factura"
+        verbose_name_plural = "facturas"
 
 
-class CategoryServices(models.Model):
+class categorias_servicio(models.Model):
     id_cat_ser = models.AutoField(primary_key=True)
-    id_ser = models.ForeignKey('Services', models.DO_NOTHING, db_column='id_ser')
-    service_complement = models.CharField(max_length=50)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    servicio = models.ForeignKey('servicio', models.DO_NOTHING, db_column='id_ser')
+    complemento_servicio = models.CharField(max_length=50, db_column='service_complement')
+    descripcion = models.TextField(max_length=100,db_column='description')
+    costo = models.DecimalField(max_digits=10, decimal_places=2, db_column='price')
+
+    def __str__(self):
+        return "%s | %s"%(self.servicio, self.complemento_servicio)
 
     class Meta:
         db_table = 'category_services'
+        verbose_name = "plan de servicio"
+        verbose_name_plural = "planes de servicios"
 
 
-class Contracts(models.Model):
+class contrato(models.Model):
     id_contract = models.AutoField(primary_key=True)
-    contract_usr = models.ForeignKey('Users', models.DO_NOTHING, db_column='contract_usr')
-    contract_status = models.BooleanField()
-    registration_date = models.DateTimeField(blank=True, null=True)
-    start_contract = models.DateField(blank=True, null=True)
-    end_contract = models.DateField(blank=True, null=True)
+    cliente = models.ForeignKey('usuario', models.DO_NOTHING, db_column='contract_usr')
+    activo = models.BooleanField(db_column='contract_status',default=True)
+    fecha_contrato = models.DateTimeField(blank=True, auto_now=True, null = True, db_column='registration_date')
+    fecha_inicio_contrato = models.DateField(blank=False, null=False, db_column='start_contract')
+    fecha_fin_contrato = models.DateField(blank=True, null=True, db_column='end_contract')
+
+    def __str__(self):
+        return "%d | %s"%(self.id_contract, str(self.cliente) )
 
     class Meta:
         db_table = 'contratcs'
+        verbose_name = "contrato"
+        verbose_name_plural = "contratos"
 
 
-class CustomStates(models.Model):
+class estados_cliente(models.Model):
     id_state_custom = models.AutoField(primary_key=True)
-    name_state = models.CharField(max_length=20, blank=True, null=True)
-    description = models.CharField(max_length=50, blank=True, null=True)
+    estado_cliente = models.CharField(max_length=20, blank=True, null=True, db_column='name_state')
+    descripcion = models.CharField(max_length=50, blank=True, null=True, db_column='description')
+
+    def __str__(self):
+        return self.estado_cliente
 
     class Meta:
         db_table = 'customer_states'
+        verbose_name = "estado del cliente"
+        verbose_name_plural = "estados de los clientes"
 
 
-class Customers(models.Model):
-    id_customer = models.OneToOneField('Users', models.DO_NOTHING, db_column='id_customer')
-    payment_method = models.ForeignKey('PaymentMethods', models.DO_NOTHING, db_column='payment_method')
-    payment_account = models.CharField(max_length=50, blank=True, null=True)
-    state = models.ForeignKey(CustomStates, models.DO_NOTHING, db_column='state')
-    register_date = models.DateTimeField(blank=True, null=True)
+class cliente(models.Model):
+    usuario = models.OneToOneField('usuario', models.DO_NOTHING, db_column='id_customer')
+    metodo_pago = models.ForeignKey('metodos_pago', models.DO_NOTHING, db_column='payment_method')
+    no_cuenta_pago = models.CharField(max_length=50, blank=True, null=True, db_column='payment_account')
+    estado_cliente = models.ForeignKey(estados_cliente, models.DO_NOTHING, db_column='state')
+    fecha_registro = models.DateTimeField(blank=True, auto_now=True, null=True, db_column='register_date')
+
+    def __str__(self):
+        return str(self.usuario)
 
     class Meta:
         db_table = 'customers'
+        verbose_name = "datos del cliente"
+        verbose_name_plural = "datos de los clientes"
 
 
-class DiscountList(models.Model):
+class lista_descuentos(models.Model):
     id_discount_aply = models.AutoField(primary_key=True)
-    plan = models.ForeignKey('Plans', models.DO_NOTHING, db_column='plan')
-    discount = models.ForeignKey('Discounts', models.DO_NOTHING, db_column='discount')
+    plan = models.ForeignKey('plan', models.DO_NOTHING, db_column='plan')
+    descuento = models.ForeignKey('descuentos', models.DO_NOTHING, db_column='discount')
+
+    def __str__(self):
+        return "%d | %s"%(self.id_discount_aply, self.plan )
 
     class Meta:
         db_table = 'discount_list'
+        verbose_name = "lista de descuentos"
+        verbose_name_plural = "listas de descuentos"
 
 
-class Discounts(models.Model):
+class descuentos(models.Model):
     id_discount = models.AutoField(primary_key=True)
-    name_discount = models.CharField(max_length=30, blank=True, null=True)
-    description = models.CharField(max_length=60, blank=True, null=True)
-    conditions = models.CharField(max_length=80, blank=True, null=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    percentage = models.DecimalField(max_digits=4, decimal_places=3, blank=True, null=True)
+    nombre_descuento = models.CharField(max_length=30, blank=True, null=True, db_column='name_discount')
+    descripcion = models.CharField(max_length=60, blank=True, null=True, db_column='description')
+    condiciones_restricciones = models.CharField(max_length=80, blank=True, null=True, db_column='conditions')
+    precio = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True,db_column='price')
+    porcentaje = models.DecimalField(max_digits=4, decimal_places=3, blank=True, null=True, db_column='percentage')
+
+    def __str__(self):
+        return self.nombre_descuento
 
     class Meta:
         db_table = 'discounts'
+        verbose_name = "descuento"
+        verbose_name_plural = "descuentos"
 
 
-class Employees(models.Model):
-    id_employe = models.OneToOneField('Users', models.DO_NOTHING, db_column='id_employe')
-    entry_date = models.DateTimeField(blank=True, null=True)
-    dismissal_date = models.DateTimeField(blank=True, null=True)
-    description_work = models.CharField(max_length=100, blank=True, null=True)
+class empleado(models.Model):
+    id_employe = models.OneToOneField('usuario', models.DO_NOTHING, db_column='id_employe')
+    fecha_ingreso = models.DateTimeField(blank=True, null=True, db_column='entry_date')
+    fecha_despido = models.DateTimeField(blank=True, null=True, db_column='dismissal_date')
+    descripcion_cargo = models.CharField(max_length=100, blank=True, null=True, db_column='description_work')
+
+    def __str__(self):
+        return "%s"%str(self.id_employe)
 
     class Meta:
         db_table = 'employees'
+        verbose_name = "datos del empleado"
+        verbose_name_plural = "datos de empleados"
 
 
-class Novelties(models.Model):
+class novedades_plan(models.Model):
     id_novel = models.AutoField(primary_key=True)
-    plan = models.ForeignKey('Plans', models.DO_NOTHING, db_column='plan')
-    name_novel = models.CharField(max_length=30, blank=True, null=True)
-    description = models.CharField(max_length=100, blank=True, null=True)
+    plan = models.ForeignKey('plan', models.DO_NOTHING, db_column='plan')
+    nombre_novedad = models.CharField(max_length=30, blank=True, null=True, db_column='name_novel')
+    descripcion = models.CharField(max_length=100, blank=True, null=True, db_column='description')
     opcional = models.CharField(max_length=50, blank=True, null=True)
-    reg_date = models.DateTimeField(blank=True, null=True)
+    fecha_resgistro = models.DateTimeField(blank=True,auto_now=True, null=True, db_column='reg_date')
+
+    def __str__(self):
+        return "%s | %s"%(self.nombre_novedad , str(self.plan))
 
     class Meta:
         db_table = 'novelties'
+        verbose_name = "novedades del plan"
+        verbose_name_plural = "novedades de los planes"
 
 
-class PaymentMethods(models.Model):
+class metodos_pago(models.Model):
     id_method = models.AutoField(primary_key=True)
-    name_method = models.CharField(max_length=50, blank=True, null=True)
+    nombre_metodo = models.CharField(max_length=50, blank=True, null=True, db_column='name_method')
+
+    def __str__(self):
+        return self.nombre_metodo
 
     class Meta:
         db_table = 'payment_methods'
+        verbose_name = "metodo de pago"
+        verbose_name_plural = "metodos de pago"
 
 
-class PlanStates(models.Model):
+class estados_plan(models.Model):
     id_state_plan = models.AutoField(primary_key=True)
-    name_st = models.CharField(max_length=20, blank=True, null=True)
-    description = models.CharField(max_length=60, blank=True, null=True)
+    estado_plan = models.CharField(max_length=20, blank=True, null=True, db_column='name_st')
+    descripcion = models.CharField(max_length=60, blank=True, null=True, db_column='description')
+
+    def __str__(self):
+        return self.estado_plan
 
     class Meta:
         db_table = 'plan_states'
+        verbose_name = "estado del plan"
+        verbose_name_plural = "estados de planes"
 
 
-class Plans(models.Model):
+class plan(models.Model):
     id_plan = models.AutoField(primary_key=True)
-    contract = models.ForeignKey(Contracts, models.DO_NOTHING, db_column='contract')
-    contract_usr = models.ForeignKey('Users', models.DO_NOTHING, db_column='contract_usr')
-    id_cat_ser = models.ForeignKey(CategoryServices, models.DO_NOTHING, db_column='id_cat_ser')
-    state_plan = models.ForeignKey(PlanStates, models.DO_NOTHING, db_column='state_plan')
-    instalation_plan = models.DateTimeField(blank=True, null=True)
-    start_payment_date = models.DateField(blank=True, null=True)
-    end_payment_date = models.DateField(blank=True, null=True)
-    cancel_plan_date = models.DateTimeField(blank=True, null=True)
+    no_contrato = models.ForeignKey(contrato, models.DO_NOTHING, db_column='contract')
+    servicio = models.ForeignKey(categorias_servicio, models.DO_NOTHING, db_column='id_cat_ser')
+    estado_plan = models.ForeignKey(estados_plan, models.DO_NOTHING, db_column='state_plan')
+    fecha_instalacion = models.DateTimeField(blank=True, null=True, db_column='instalation_date')
+    dia_inicio_pago = models.IntegerField( blank=True, null=True, db_column='start_payment_day', choices=((1,30), (2,15)) )
+    dias_limites_de_pago = models.IntegerField(default=5, blank=True, null=True, db_column='days_limit' )
+    fecha_cancelacion = models.DateTimeField(blank=True, null=True, db_column='cancel_plan_date')
     ip_router = models.CharField(max_length=20, blank=True, null=True)
+    saldo_contra = models.DecimalField(max_digits=10, decimal_places=2, default= 0, db_column='negative_balance')
+    saldo_favor = models.DecimalField(max_digits=10, decimal_places=2, default = 0, db_column='positive_balance')
+
+    def __str__(self):
+        clientPlan =  usuario.objects.get(pk = contrato.objects.get(pk = self.no_contrato.id_contract).cliente.id_user )
+        return "%s | %s | %s "%(self.id_plan, str(self.servicio), (str(clientPlan.nombre) + str(clientPlan.apellido)))
 
     class Meta:
         db_table = 'plans'
+        verbose_name = "plan"
+        verbose_name_plural = "planes contratados"
 
 
-class RequestsServices(models.Model):
+class solicitudes_servicio(models.Model):
     id_request = models.AutoField(primary_key=True)
-    fname = models.CharField(max_length=60, blank=True, null=True)
-    cell_phone = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
-    phone = models.DecimalField(max_digits=7, decimal_places=0, blank=True, null=True)
-    email = models.CharField(max_length=50, blank=True, null=True)
-    address = models.CharField(max_length=40, blank=True, null=True)
-    regis_date = models.DateTimeField(blank=True, null=True)
+    nombre = models.CharField(max_length=60, blank=True, null=True, db_column='fname')
+    no_celular = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True, db_column='cell_phone')
+    tel_fijo = models.DecimalField(max_digits=7, decimal_places=0, blank=True, null=True, db_column='phone')
+    email = models.CharField(max_length=50, blank=True, null=True, db_column='email')
+    direccion = models.CharField(max_length=40, blank=True, null=True, db_column='address')
+    fecha_solicitud = models.DateTimeField(blank=True,  auto_now=True, null = True, db_column='regis_date')
+    plan = models.ForeignKey(categorias_servicio, models.DO_NOTHING, db_column='id_plan', null=True )
+    atendido = models.BooleanField(default=False, db_column='check_soli')
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         db_table = 'requests_services'
+        verbose_name = "solicitud de servicio"
+        verbose_name_plural = "solicitudes de servicios"
 
 
-class Services(models.Model):
+class servicio(models.Model):
     id_ser = models.AutoField(primary_key=True)
-    name_ser = models.CharField(max_length=50)
-    service_offer = models.CharField(max_length=50)
+    nombre_servicio = models.CharField(max_length=50, db_column='name_ser')
+    oferta_servicio = models.CharField(max_length=50, db_column='service_offer')
+
+    def __str__(self):
+        return self.nombre_servicio
 
     class Meta:
         db_table = 'services'
+        verbose_name = "servicio"
+        verbose_name_plural = "servicios"
 
 
-class TypeUsers(models.Model):
+class tipo_usuario(models.Model):
     id_ty_us = models.AutoField(primary_key=True)
-    name_t_u = models.CharField(max_length=50)
+    tipo_usuario = models.CharField(max_length=50, db_column='name_t_u')
+
+    def __str__(self):
+        return self.tipo_usuario
 
     class Meta:
         db_table = 'type_users'
+        verbose_name = "tipo de usuario"
+        verbose_name_plural = "tipos de usuarios"
 
 class usersManager(BaseUserManager):
-    def create_superuser(self, email, nickname, f_name, l_name, id_ty_us, password):
-        usuario = self.create_user(email = email, nickname = nickname, f_name = f_name, l_name = l_name, id_ty_us = id_ty_us, password = password)
+    def create_superuser(self, email,tipo_usuario,no_documento, nombre, apellido, no_celular, tel_fijo,direccion, barrio, referencia_vivienda, nickname, estado, password):
+        usuario = self.create_user(email = email, no_documento = no_documento , nombre = nombre, apellido = apellido, no_celular = no_celular, tel_fijo = tel_fijo,direccion = direccion, barrio = barrio, referencia_vivienda = referencia_vivienda, nickname = nickname,  tipo_usr = tipo_usuario, estado = estado, password = password)
         usuario.usuario_administrador = True
         usuario.save()
         return usuario
 
-    def create_user(self, email, nickname, f_name, l_name, id_ty_us, password ):
+    def create_user(self, email, tipo_usr,no_documento, nombre, apellido, no_celular, tel_fijo,direccion, barrio, referencia_vivienda, nickname, password, estado ):
         if not email:
             raise ValueError('el usuario debe tener un correo electronico')
         else :
-            usuario = self.model(email = self.normalize_email(email), nickname = nickname , f_name = f_name, l_name = l_name, id_ty_us = TypeUsers.objects.get(pk=id_ty_us))
+            usuario = self.model(email = self.normalize_email(email),no_documento = no_documento , nombre = nombre, apellido = apellido, no_celular = no_celular, tel_fijo = tel_fijo,direccion = direccion, barrio = barrio, referencia_vivienda = referencia_vivienda, nickname = nickname, estado = estados_usuario.objects.get(pk = estado),  tipo_usuario = tipo_usuario.objects.get(pk=tipo_usr))
             usuario.set_password(password)
+            
             usuario.save()
+            
             return usuario
 
-class users(AbstractBaseUser):
+class usuario(AbstractBaseUser, PermissionsMixin):
     id_user = models.AutoField(primary_key=True)
-    id_ty_us = models.ForeignKey(TypeUsers, models.DO_NOTHING, db_column='id_ty_us')
-    document_usr = models.DecimalField(max_digits=13, decimal_places=0, null=True)
-    f_name = models.CharField(max_length=50)
-    l_name = models.CharField(max_length=50)
+    tipo_usuario = models.ForeignKey(tipo_usuario, models.DO_NOTHING, db_column='id_ty_us')
+    no_documento = models.DecimalField(max_digits=13, decimal_places=0, null=True, db_column='document_usr')
+    nombre = models.CharField(max_length=50, db_column='f_name')
+    apellido = models.CharField(max_length=50, db_column='l_name')
     email = models.CharField(unique=True, max_length=100)
-    cell_number = models.DecimalField(max_digits=10, decimal_places=0, null=True)
-    phone = models.DecimalField(max_digits=7, decimal_places=0, blank=True, null=True)
-    address = models.CharField(max_length=50, null=True)
-    neighborhood = models.CharField(max_length=50, blank=True, null=True)
-    home_reference = models.CharField(max_length=50, blank=True, null=True)
-    dob = models.DateField(blank=True, null=True)
+    no_celular = models.DecimalField(max_digits=10, decimal_places=0, null=True, db_column='cell_number')
+    tel_fijo = models.DecimalField(max_digits=7, decimal_places=0, blank=True, null=True, db_column='phone')
+    direccion = models.CharField(max_length=50, null=True, db_column='address')
+    barrio = models.CharField(max_length=50, blank=True, null=True, db_column='neighborhood')
+    referencia_vivienda = models.CharField(max_length=50, blank=True, null=True, db_column='home_reference')
+    fecha_cumpleaños = models.DateField(blank=True, null=True, db_column='dob')
     nickname = models.CharField(max_length=30, blank=True, null=True)
-    #passw = models.CharField(db_column='passw', max_length=100, blank=True, null=True)  # Field renamed because it was a Python reserved word.
     token_key = models.CharField(max_length=300, blank=True, null=True)
-    register_date = models.DateTimeField(blank=True, auto_now=True, null = True)
-    state_usr = models.ForeignKey('UsrStates', models.DO_NOTHING, db_column='state_usr', null = True)
+    fecha_registro = models.DateTimeField(blank=True, auto_now=True, null = True, db_column='register_date')
+    estado = models.ForeignKey('estados_usuario', models.DO_NOTHING, db_column='state_usr', null = True)
 
     usuario_administrador = models.BooleanField(default=False)
     objects = usersManager()
 
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [ 'nickname', 'f_name', 'l_name', 'id_ty_us' ]
+    REQUIRED_FIELDS = [ 'tipo_usuario','no_documento', 'nombre', 'apellido', 'no_celular', 'tel_fijo','direccion', 'barrio', 'referencia_vivienda', 'estado', 'nickname' ]
 
     def __str__(self):
         return self.email
     
-    def has_perm(self, perm, obj = None):
+    """def has_perm(self, perm, obj = None):
         return True
 
     def has_module_perms(self, app_label):
         return True
-
+    """
     @property
     def is_staff(self):
         return self.usuario_administrador
 
     class Meta:
         db_table = 'users'
+        app_label = 'navecomClient'
+        verbose_name = "usuario"
+        verbose_name_plural = "usuarios"
 
 
 
-class UsrStates(models.Model):
+class estados_usuario(models.Model):
     id_state_usr = models.AutoField(primary_key=True)
-    name_state = models.CharField(max_length=20, blank=True, null=True)
-    description = models.CharField(max_length=50, blank=True, null=True)
+    nombre_estado = models.CharField(max_length=20, blank=True, null=True, db_column='name_st')
+    descripcion = models.CharField(max_length=50, blank=True, null=True, db_column='description')
     
+
+    def __str__(self):
+        return self.nombre_estado
+
     class Meta:
         db_table = 'usr_states'
+        verbose_name = "estado del usuario"
+        verbose_name_plural = "estados de los usuarios"

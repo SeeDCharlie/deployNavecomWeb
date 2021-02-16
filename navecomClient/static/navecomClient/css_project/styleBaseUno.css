@@ -41,7 +41,7 @@ html, body{
   font-size: 17px;
   font-weight: bold;
 }
-.topnav .itemMenuBar:hover {
+.itemMenuBar:hover {
   color: rgb(190, 0, 0);
 }
 

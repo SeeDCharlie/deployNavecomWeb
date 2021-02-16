@@ -2,17 +2,25 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="/static/navecomClient/css_project/client_dis.css">
+<link rel="stylesheet" href="/static/navecomClient/css_project/homeClient_dis.css">
 {% endblock %}
 
 {% block content %}
 
-<div class="theme">
-    
-    <div class="container text-white">
-        <h1 class="display-2" style="font-weight: bold; -webkit-text-stroke: 2px rgb(235, 235, 235); /* width and color */
+<div class="theme presentation">
 
-        font-family: sans; color: rgb(255, 0, 0);">BIENVENIDO {{ user.f_name}} {{ user.l_name }}. <br>La pagina esta en proceso</h1>
+    <div class="container wrapper">
+        <div class="row">
+            <div class="col align-self-start" id="textPresentation">
+                <span class="display-1 title"> ¡BIENVENIDO!</span>
+                <br>
+                <span class="display-4 name">  {{user.nombre}} {{user.apellido}} </span>
+            </div>
+            <div class="col align-self-center" id="btnFact">
+                <button type="button" class="btn btn-info btn-lg"><i class="fa fa-clone"></i> Mis Facturas</button>
+            </div>
+        </div>
+
     </div>
 </div>
 

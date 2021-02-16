@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
-import dj_database_url
-from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,20 +26,24 @@ SECRET_KEY = 'w*pch_&+(4jv16l_@bqy(d74swhgm3*x3u45dx9crhpr5*b#j)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['seedcharlie.co']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'navecomClient',
+    'navecomClient.apps.NavecomclientConfig',
 ]
+
+X_FRAME_OPTIONS='SAMEORIGIN'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +80,15 @@ WSGI_APPLICATION = 'navecomWeb.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd58iad68rl4g3o',
+        'USER': 'kfvbtgrvcdsejc',
+        'PASSWORD': '90c10a06afbdb26dc475e6ae8b7037487f1e9c656a8ff1cadf89368e49fec9a7',
+        'HOST': 'ec2-34-196-34-158.compute-1.amazonaws.com',
+        'PORT': '5432',
+        
+    }
 }
 
 
@@ -101,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'navecomClient.users'
+AUTH_USER_MODEL = 'navecomClient.usuario'
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
@@ -114,9 +123,11 @@ PASSWORD_HASHERS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-spa'
 
 TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'Etc/GMT-5'
 
 USE_I18N = True
 
@@ -136,4 +147,3 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-django_heroku.settings(locals())

@@ -17,12 +17,12 @@
 
 }
 
+.asteRed{
+  color: red;
+}
+
 @media screen and (max-width: 550px){
   .formSoli{
     margin-top: 100px;
   }
-}
-
-.asteRed{
-  color: red;
 }

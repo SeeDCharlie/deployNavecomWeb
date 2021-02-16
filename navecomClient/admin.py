@@ -1,23 +1,197 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group, PermissionManager
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import *
+from .forms import *
+from django.db.models import F
+
 # Register your models here.
+@admin.register(usuario)
+class UserAdmin(BaseUserAdmin):
+    # The forms to add and change user instances
+    form = UserChangeForm
+    add_form = UserCreationForm
+    model = usuario
+
+    list_display = ('email', 'nombre', 'apellido', 'tipo_usuario')
+    list_display_links = ('email', 'nombre')
+    list_filter = ('estado','tipo_usuario')
+    fieldsets = (
+        (None, {'fields': ('nickname', 'tipo_usuario', 'estado')}),
+        ('Informacion personal', {'fields': ('email', 'no_documento', 'nombre', 'apellido', 'no_celular', 'tel_fijo','direccion', 'barrio','referencia_vivienda', 'password')}),
+        ('Permisos', {'fields': ('groups' ,)}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'tipo_usuario','no_documento', 'nombre', 'apellido', 'no_celular', 'tel_fijo','direccion', 'barrio', 'referencia_vivienda', 'estado', 'nickname', 'password1', 'password2'),
+        }),
+        ('Permisos', {'fields': ('groups',)}),
+    )
+
+    radio_fields = {"estado": admin.VERTICAL}
+
+    search_fields = ('email', 'nombre', 'apellido')
+    ordering = ('email','estado')
+    filter_horizontal = ()
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser or request.user.tipo_usuario == tipo_usuario.objects.get(pk=1):
+            return qs
+        return qs.exclude(tipo_usuario=1).exclude(tipo_usuario = 2)
+
+@admin.register(categorias_servicio)
+class planesServiciosAdmin(admin.ModelAdmin):
+
+    list_display = ('id_cat_ser','servicio','complemento_servicio', 'costo')
+
+@admin.register(contrato)
+class contratoAdmin(admin.ModelAdmin):
+
+    list_filter = ('activo',)
+    list_display = ('id_contract','cliente','nombre', 'apellido', 'activo')
+    list_display_links = ('id_contract', 'cliente') 
+    autocomplete_fields = ['cliente']
+    search_fields = ['cliente__email', 'cliente__nombre', 'cliente__apellido']
+    date_hierarchy = 'fecha_contrato'
+    
+
+    def nombre (self, obj):
+        return obj.nombre
+
+    def apellido(self, obj):
+        return obj.apellido
+
+    def get_queryset(self, request):
+        querysetAux = super().get_queryset(request)
+        return querysetAux.annotate(
+            nombre = F('cliente__nombre'),
+            apellido = F('cliente__apellido')
+        )
+
+@admin.register(cliente)
+class datsClientsAdmin(admin.ModelAdmin):
+   
+    list_display = ('usuario','nombre_cliente', 'apellido_cliente', 'estado_cliente')
+    list_filter = ('estado_cliente', 'usuario__estado')
+    list_display_links = ('usuario', 'nombre_cliente', 'apellido_cliente', 'estado_cliente') 
+    autocomplete_fields = ['usuario']
+    search_fields = ['usuario__email', 'usuario__nombre', 'usuario__apellido']
+
+    def nombre_cliente (self, obj):
+        return obj.nombre_cliente
+
+    def apellido_cliente(self, obj):
+        return obj.apellido_cliente
+
+    def get_queryset(self, request):
+        querysetAux = super().get_queryset(request)
+        return querysetAux.annotate( nombre_cliente = F('usuario__nombre'), apellido_cliente = F('usuario__apellido') )
 
 
-admin.site.register(users)
-admin.site.register(AditionalAmount)
-admin.site.register(AmountList)
-admin.site.register(Bills)
-admin.site.register(CategoryServices)
-admin.site.register(Contracts)
-admin.site.register(CustomStates)
-admin.site.register(Customers)
-admin.site.register(DiscountList)
-admin.site.register(Discounts)
-admin.site.register(Employees)
-admin.site.register(Novelties)
-admin.site.register(PaymentMethods)
-admin.site.register(PlanStates)
-admin.site.register(Plans)
-admin.site.register(RequestsServices)
-admin.site.register(Services)
-admin.site.register(TypeUsers)
+@admin.register(facturas)
+class facturaAdmin(admin.ModelAdmin):
+
+    list_filter = ('pago', 'fecha_creacion', 'metodo_pago')
+    list_display = ('id_bill','nombre', 'apellido', 'plan', 'total_pagar')
+    list_display_links = ( 'id_bill','plan','nombre') 
+    show_full_result_count = 50
+    autocomplete_fields = ['plan']
+    search_fields = ['nombre', 'apellido', 'id_bill']
+    date_hierarchy = 'fecha_creacion'
+
+    fieldsets = (
+        ('Informacion de la factura', {'fields': ( 'pago', 'plan', 'total_recibido' , 'total_pagar', 'total_devuelto', 'fecha_creacion', 'fecha_pago',
+         'fecha_limite_pago', 'metodo_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo'  )}),
+        ('Informacion del plan', {'fields': ('id_plan','servicio','costo_del_plan', 'saldo_en_contra', 'saldo_a_favor')}),
+        ('Informacion del cliente', {'fields': ('nombre' , 'apellido', 'no_documento')}),
+    )
+
+    readonly_fields = ['fecha_creacion', 'fecha_limite_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo','servicio',
+     'saldo_en_contra', 'saldo_a_favor','nombre' , 'apellido', 'no_documento', 'costo_del_plan', 'total_devuelto', 'id_plan']
+
+
+    def nombre(self, obj):
+        return obj.nombre
+
+    def apellido(self, obj):
+        return obj.apellido
+    
+    def no_documento(self, obj):
+        return obj.no_documento
+    
+    def servicio(self, obj):
+        return categorias_servicio.objects.get(pk = obj.servicio)
+
+    def costo_del_plan(self, obj):
+        return obj.costo_del_plan
+
+    def saldo_en_contra(self, obj):
+        return obj.saldo_en_contra
+
+    def saldo_a_favor(self, obj):
+        return obj.saldo_a_favor
+    
+    def id_plan(self, obj):
+        return obj.no_plan
+
+    def get_queryset(self, request):
+        querysetAux = super().get_queryset(request)
+        return querysetAux.annotate(
+            #informacion del plan 
+            no_plan = F('plan__id_plan'), servicio = F('plan__servicio'), costo_del_plan = F('plan__servicio__costo'), saldo_en_contra = F('plan__saldo_contra') , saldo_a_favor = F('plan__saldo_favor'),
+            #informacion del cliente
+            nombre = F('plan__no_contrato__cliente__nombre'), apellido = F('plan__no_contrato__cliente__apellido'), no_documento = F('plan__no_contrato__cliente__no_documento')
+        )
+    
+
+@admin.register(plan)
+class planAdmin(admin.ModelAdmin):
+
+    list_filter = ('servicio', 'estado_plan','dia_inicio_pago')
+    list_display = ('id_plan', 'nombre_cliente', 'apellido_cliente', 'servicio', 'precio_plan')
+    list_display_links = ( 'id_plan','nombre_cliente', 'apellido_cliente', 'servicio', 'precio_plan') 
+    show_full_result_count = 50
+    raw_id_fields = ('no_contrato',)
+    search_fields = ['id_plan','nombre_cliente', 'apellido_cliente']
+    readonly_fields = ['dias_limites_de_pago', 'saldo_contra', 'saldo_favor']
+
+    def nombre_cliente(self, obj):
+        return obj.nombre_cliente
+
+    def apellido_cliente(self, obj):
+        return obj.apellido_cliente
+    
+    def precio_plan(self, obj):
+        return obj.precio
+
+    def get_queryset(self, request):
+        querysetAux = super().get_queryset(request)
+        return querysetAux.annotate( nombre_cliente = F('no_contrato__cliente__nombre'), apellido_cliente = F('no_contrato__cliente__apellido'), precio = F('servicio__costo') )
+
+@admin.register(solicitudes_servicio)
+
+class solitudServAdmin(admin.ModelAdmin):
+
+    list_display = ('nombre', 'no_celular', 'fecha_solicitud' )
+    readonly_fields = ['email','nombre', 'no_celular','tel_fijo', 'direccion', 'fecha_solicitud', 'plan']
+    list_filter = ('atendido',)
+
+
+admin.site.register(monto_adicional)
+admin.site.register(lista_montos)
+admin.site.register(estados_cliente)
+admin.site.register(lista_descuentos)
+admin.site.register(descuentos)
+admin.site.register(empleado)
+admin.site.register(novedades_plan)
+admin.site.register(metodos_pago)
+admin.site.register(estados_plan)
+admin.site.register(servicio)
+admin.site.register(tipo_usuario)
+admin.site.register(estados_usuario)
+admin.site.register(Permission)
+
+

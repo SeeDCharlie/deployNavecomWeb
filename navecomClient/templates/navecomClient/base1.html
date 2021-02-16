@@ -58,13 +58,6 @@
     </div>
 
 
-
-
-
-
-
-
-
     <!-- End Navbar -->
 
     <nav class="contentMain">
@@ -73,7 +66,22 @@
 
         {% endblock %}
 
+        <!--toast msj-->
+
     </nav>
+
+    <div class="toast toastMsj" style="position: fixed; top: 12%; right: 3%;">
+        <div class="toast-header">
+            <img src="{% static 'navecomClient/img/antenaUno.png' %}" class="rounded mr-2" >
+            <strong class="mr-auto">NAVECOM MSJ! </strong>
+            <small style = "padding-left: 5px;" class="titleToast" ></small>
+            <button type="button" class="btn-close ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body bodyToast">
+            
+        </div>
+    </div>
+
 
 
     <script src="{% static 'navecomClient/js/popper.min.js' %}"></script>
@@ -81,6 +89,7 @@
     <script src="{% static 'navecomClient/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'navecomClient/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'navecomClient/js_project/controlBaseUno.js' %}"></script>
+    <script src="https://kit.fontawesome.com/5ec620e748.js" crossorigin="anonymous"></script>
 
     {% block scripts %}
 

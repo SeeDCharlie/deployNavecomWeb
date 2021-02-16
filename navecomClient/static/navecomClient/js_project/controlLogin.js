@@ -13,11 +13,13 @@ $('#btnLoggin').on("click", function(){
 
     requestAjax('btnLoggin', datos);
     
-
 });
 
 
 function respuestaAjax(data){
     window.location.replace(data.url);
+}
 
+function errorSucces(msj){
+    showToastMsj('Error !', msj);
 }
