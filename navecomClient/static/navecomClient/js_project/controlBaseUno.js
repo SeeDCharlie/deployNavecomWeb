@@ -25,5 +25,9 @@ function myFunction() {
 function showToastMsj(title, msj){
   $('.titleToast').text(title);
   $('.bodyToast').text(msj);
-  $('.toastMsj').toast('show');
+
+  var x = document.getElementById("toastMsj")
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+
 }

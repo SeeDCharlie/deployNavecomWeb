@@ -1,82 +1,535 @@
 {% extends 'navecomClient/base1.html' %}
 
-
 {% block styles %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'navecomClient/css_project/index_dis.css' %}">
 {% endblock %}
-
 {% block content %}
-
-<!-- Content -->
-<div class="container_index">
+<!--==========================
+    Hero Section
+  ============================-->
+<section id="hero">
+  <div class="hero-container">
 
     <!-- portada 1 -->
     <div class="portada1 dis ">
-        <div class="row contPortadaUno">
-            <div class="col-11 col-lg-6">
-                <div class="row" style="color: seashell; font-size: 1em;">
-                    <div class="col-auto ">
-                        <p class="display-4" style="font-weight: bolder;">NAVECOM ING</p>
-                        <p>Ofrecemos servicios de Internet para el hogar. Comprometidos y responsables para su
-                            comodidad.</p>
-                        <p style="font-weight: bold;">Lineas de atencion al cliente :</p>
-                        <hr>
-                    </div>
-                    <div class="row contact_num">
-                        <div class="col-12 col-sm-auto ">
-                            <p style="font-weight: bold; font-size: 2rem;">+57 320 8528339</p>
-                        </div>
-                        <div class="col-12 col-sm-2">
-                            <img src="{% static 'navecomClient/img/wapp.png' %}" style="height: 35px;">
-                        </div>
-                    </div>
-                    <div class="row contact_num">
-                        <div class="col-12 col-sm-auto">
-                            <p style="font-weight: bold; font-size: 2rem;">+57 320 8520718</p>
-                        </div>
-                        <div class="col-12 col-sm-2">
-                            <img src="{% static 'navecomClient/img/wapp.png' %}" style="height: 35px;">
-                        </div>
-                    </div>
-                </div>
+
+      <div class="row contPortadaUno align-items-center justify-content-left">
+        <div class="col-12 col-lg-7">
+          <div class="row justify-content-left">
+            <div class="col-12" style="text-align:left;">
+              <p class="title_uno" style=" font-weight: bold;">NAVECOM SAS</p>
+              <p class="">Ofrecemos servicios de Internet para el hogar. <br> Comprometidos y responsables para su
+                comodidad.</p>
+              <p style="font-weight: bold;">Lineas de atencion al cliente :</p>
             </div>
-            <div class="col-11 col-lg-2" style="margin-bottom: 5px;" id="col_port1">
-                <img class="roundImg" id="port1_img" src="{% static 'navecomClient/img/img_port_uno.png' %}"
-                    style="width: 20rem; height: 20rem;">
+            <div class="col-12" style="text-align: left;">
+              <div class="icon btn-get-started contact_num"><i style="color: springgreen;" class="fa fa-whatsapp"></i>
+                +57 320 8528339</div> <br>
+              <div class="icon btn-get-started contact_num"><i style="color: springgreen;" class="fa fa-whatsapp"></i>
+                +57 320 8520718</div>
             </div>
-            <hr>
+          </div>
+
         </div>
 
+        <div class="col-12 col-lg-4">
+          <img class="roundImg" id="port1_img" src="{% static 'navecomClient/img/img_port_uno.png' %}"
+            style="width: 400px; height: 400px;">
+        </div>
+        <hr>
+      </div><br><br>
+      <hr style="background-color: #00425C;">
     </div>
 
     <!-- portada 2 -->
-    <div class="portada2 dis">
-        <div class="row contPortadaUno">
-            <div class="col-11 col-lg-6">
-                <div class="row" style="color: seashell; font-size: 2em;">
-                    <div class="col-auto ">
-                        <p class="display-4" style="font-weight: bolder;">ENVIANOS TUS DATOS Y TE CONTACTAREMOS</p>
-                    </div>
-                    <div class="col-12">
-                        <a type="button" class="btn btnContact" href="{% url 'solicitud' %}">Contactanos > </a><br>
-                        <hr>
-                    </div>
-                </div>
+    <div class="portada2 dis" style="text-align: left; color: aliceblue;">
+      <div class="row contPortadaUno align-items-center justify-content-left">
+        <div class="col-12 col-lg-7">
+          <div class="row">
+            <div class="col-12 ">
+              <p class="title_uno" style="font-weight: bolder;">ENVIANOS TUS DATOS Y TE CONTACTAREMOS</p> <br>
+              <a class="btn-get-started" href="{% url 'solicitud' %}">Contactanos > </a><br>
+              <hr>
             </div>
-            <div class="col-11 col-lg-2 ">
-                <img class="roundImg" id="port2_img" src="{% static 'navecomClient/img/img_port_dos.jpg' %}"
-                    style="width: 20rem; height: 20rem;">
-            </div>
+          </div>
         </div>
+        <div class="col-12 col-lg-4 justify-content-center" style="align-items: center;">
+          <img class="roundImg" id="port1_img" src="{% static 'navecomClient/img/img_port_dos.jpg' %}"
+            style="width: 400px; height: 400px;">
+        </div>
+      </div><br><br>
+      <hr style="background-color: #00425C;">
+    </div>
+  </div>
+</section>
+
+
+<main id="main">
+
+  <!--==========================
+      About Us Section
+    ============================-->
+  <section id="about">
+    <div class="container">
+      <div class="row about-container">
+
+        <div class="col-lg-6 content order-lg-1 order-2">
+          <h2 class="title">Quienes Somos ?</h2>
+          <p>
+            Somos una empresa en crecimiento, dedicada a los cliente y a solucionar sus problemas
+            de infraestructura de redes o a brindar servicios relacionados.
+          </p>
+
+          <div class="icon-box wow fadeInUp">
+            <div class="icon"><i class="fa fa-sitemap"></i></div>
+            <h4 class="title"><a href="">Instalacion de Redes</a></h4>
+            <p class="description">
+              Lo ayudamos en la instalacion de sus redes
+            </p>
+          </div>
+
+          <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+            <div class="icon"><i class="fa fa-wifi"></i></div>
+            <h4 class="title"><a href="">Internet Hogar</a></h4>
+            <p class="description">
+              Llevamos internet hasta su hogar
+            </p>
+          </div>
+
+        </div>
+
+        <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight"></div>
+      </div>
+
+    </div>
+  </section><!-- #about -->
+
+  <!--
+  <!--==========================
+      Facts Section
+    ============================-->
+
+  <section id="facts">
+    <div class="container wow fadeIn">
+      <div class="section-header">
+        <h3 class="section-title">Nos Complace Servirle</h3>
+        <p class="section-description">
+          Contamos con atencion al cliente y soporte de servicio.<br>Procurando que sea en el menor tiempo pocible 
+        </p>
+      </div>
+      <div class="row counters align-items-center justify-content-center">
+
+        <div class="col-lg-3 col-6 text-center">
+          <span data-toggle="">Atencion al Cliente</span>
+          <p>8:00AM - 5:00PM</p>
+        </div>
+
+        <div class="col-lg-3 col-6 text-center">
+          <span data-toggle="">Soporte Servicio</span>
+          <p>100% Eficaz</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- #facts -->
+
+  <!--==========================
+      Services Section
+    ============================-->
+  <section id="services">
+    <div class="container wow fadeIn">
+      <div class="section-header">
+        <h3 class="section-title">Servicios</h3>
+        <p class="section-description">...</p>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+          <div class="box">
+            <div class="icon"><a href=""><i class="fa fa-desktop"></i></a></div>
+            <h4 class="title"><a href="">Instalacion de Redes</a></h4>
+            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+              occaecati cupiditate non provident</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+          <div class="box">
+            <div class="icon"><a href=""><i class="fa fa-cogs"></i></a></div>
+            <h4 class="title"><a href="">Mantenimiento de Redes</a></h4>
+            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat tarad limino ata</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+          <div class="box">
+            <div class="icon"><a href=""><i class="fa fa-internet-explorer"></i></a></div>
+            <h4 class="title"><a href="">Internet Hogar</a></h4>
+            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+          <div class="box">
+            <div class="icon"><a href=""><i class="fa fa-rocket"></i></a></div>
+            <h4 class="title"><a href="">Internet 5MB </a></h4>
+            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+          <div class="box">
+            <div class="icon"><a href=""><i class="fa fa-rocket"></i></a></div>
+            <h4 class="title"><a href="">Internet 10MB</a></h4>
+            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+              voluptatum deleniti atque</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+          <div class="box">
+            <div class="icon"><a href=""><i class="fa fa-rocket"></i></a></div>
+            <h4 class="title"><a href="">Internet 20MB</a></h4>
+            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum
+              soluta nobis est eligendi</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #services -->
+
+  <!--==========================
+    Call To Action Section
+    ============================-->
+  <section id="call-to-action">
+    <div class="container wow fadeIn">
+      <div class="row">
+        <div class="col-lg-9 text-center text-lg-left">
+          <h3 class="cta-title">Paga tu Factura en Linea</h3>
+          <p class="cta-text"> 
+            Puedes pagar tu factura en linea desde cualquier tipo de banco o via PSE.
+          </p>
+        </div>
+        <div class="col-lg-3 cta-btn-container text-center">
+          <a class="cta-btn align-middle" href="#">Pagar Facturas</a>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #call-to-action -->
+
+  <!--==========================
+      Portfolio Section
+    ============================-->
+  <!--<section id="portfolio">
+    <div class="container wow fadeInUp">
+      <div class="section-header">
+        <h3 class="section-title">Portfolio</h3>
+        <p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+          doloremque</p>
+      </div>
+      <div class="row">
+
+        <div class="col-lg-12">
+          <ul id="portfolio-flters">
+            <li data-filter=".filter-app, .filter-card, .filter-logo, .filter-web" class="filter-active">All</li>
+            <li data-filter=".filter-app">App</li>
+            <li data-filter=".filter-card">Card</li>
+            <li data-filter=".filter-logo">Logo</li>
+            <li data-filter=".filter-web">Web</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row" id="portfolio-wrapper">
+        <div class="col-lg-3 col-md-6 portfolio-item filter-app">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/app1.jpg' %}" alt="">
+            <div class="details">
+              <h4>App 1</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-web">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/web2.jpg' %}" alt="">
+            <div class="details">
+              <h4>Web 2</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-app">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/app3.jpg' %}" alt="">
+            <div class="details">
+              <h4>App 3</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-card">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/card1.jpg' %}" alt="">
+            <div class="details">
+              <h4>Card 1</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-card">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/card2.jpg' %}" alt="">
+            <div class="details">
+              <h4>Card 2</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-web">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/web3.jpg' %}" alt="">
+            <div class="details">
+              <h4>Web 3</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-card">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/card3.jpg' %}" alt="">
+            <div class="details">
+              <h4>Card 3</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-app">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/app2.jpg' %}" alt="">
+            <div class="details">
+              <h4>App 2</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-logo">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/logo1.jpg' %}" alt="">
+            <div class="details">
+              <h4>Logo 1</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-logo">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/logo3.jpg' %}" alt="">
+            <div class="details">
+              <h4>Logo 3</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-web">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/web1.jpg' %}" alt="">
+            <div class="details">
+              <h4>Web 1</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-6 portfolio-item filter-logo">
+          <a href="">
+            <img src="{% static 'navecomClient/img/portfolio/logo2.jpg' %}" alt="">
+            <div class="details">
+              <h4>Logo 2</h4>
+              <span>Alored dono par</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- #portfolio -->
+
+  <!--==========================
+      Team Section
+    ============================-->
+  <!--<section id="team">
+    <div class="container wow fadeInUp">
+      <div class="section-header">
+        <h3 class="section-title">Equipo de Trabajo</h3>
+        <p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+          doloremque</p>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="member">
+            <div class="pic"><img src="{% static 'navecomClient/img/team-1.jpg' %}" alt=""></div>
+            <h4>Walter White</h4>
+            <span>Chief Executive Officer</span>
+            <div class="social">
+              <a href=""><i class="fa fa-twitter"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-google-plus"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="member">
+            <div class="pic"><img src="{% static 'navecomClient/img/team-2.jpg' %}" alt=""></div>
+            <h4>Sarah Jhinson</h4>
+            <span>Product Manager</span>
+            <div class="social">
+              <a href=""><i class="fa fa-twitter"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-google-plus"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="member">
+            <div class="pic"><img src="{% static 'navecomClient/img/team-3.jpg' %}" alt=""></div>
+            <h4>William Anderson</h4>
+            <span>CTO</span>
+            <div class="social">
+              <a href=""><i class="fa fa-twitter"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-google-plus"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="member">
+            <div class="pic"><img src="{% static 'navecomClient/img/team-4.jpg' %}" alt=""></div>
+            <h4>Amanda Jepson</h4>
+            <span>Accountant</span>
+            <div class="social">
+              <a href=""><i class="fa fa-twitter"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-google-plus"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #team -->
+
+  <!--==========================
+      Contact Section
+    ============================-->
+  <section id="contact">
+    <div class="container wow fadeInUp">
+      <div class="section-header">
+        <h3 class="section-title">Contacto Directo</h3>
+        <p class="section-description">
+          ...
+        </p>
+      </div>
     </div>
 
+    <!-- Uncomment below if you wan to use dynamic maps -->
+    <iframe
+
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.7154377221173!2d-76.54143158472421!3d3.4193443523844596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a6a363aa2753%3A0x6cb0ec15f010f0df!2sAv.%20Joaqu%C3%ADn%20Borrero%20Sinisterra%20%2341-89%20a%2041-3%2C%20Cali%2C%20Valle%20del%20Cauca!5e0!3m2!1ses!2sco!4v1613842463018!5m2!1ses!2sco"
+      width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+    <div class="container wow fadeInUp mt-5">
+      <div class="row justify-content-center">
+
+        <div class="col-lg-3 col-md-4">
+
+          <div class="info">
+            <div>
+              <i class="fa fa-map-marker"></i>
+              <p>Cali <br>Colombia</p>
+            </div>
+
+            <div>
+              <i class="fa fa-envelope"></i>
+              <p>correo@correo.com</p>
+            </div>
+
+            <div>
+              <i class="fa fa-phone"></i>
+              <p>+57 320 8528339</p>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+          </div>
+
+        </div>
+
+        <div class="col-lg-5 col-md-8">
+          <div class="form">
+            <div id="sendmessage">Tu mensaje ha sido enviado. Gracias!</div>
+            <div id="errormessage"></div>
+            <form action="" method="post" role="form" class="contactForm">
+              <div class="form-group">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Nombre"
+                  data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                  data-rule="email" data-msg="Please enter a valid email" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto"
+                  data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" data-rule="required"
+                  data-msg="Please write something for us" placeholder="Mensaje"></textarea>
+                <div class="validation"></div>
+              </div>
+              <div class="text-center"><button type="submit">Enviar mensaje</button></div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- #contact -->
+
+</main>
 
 
-</div>
 
-<!-- End Content -->
-
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 {% endblock %}
 
 {% block scripts %}

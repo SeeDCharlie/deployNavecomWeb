@@ -5,6 +5,84 @@ html, body{
 .content_all{
     width: 100%;
 }
+#toastMsj {
+  visibility: hidden;
+  max-width: 400;
+  width: 100;
+  height: auto ;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  position: fixed;
+  top: 10%;
+  right: 5%;
+}
+#toastMsj .img {
+
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(105, 104, 104, 0.8);
+}
+#toastMsj .bodyTo {
+
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(252, 252, 252, 0.5);
+}
+#toastMsj.show  {
+  visibility: visible;
+
+  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+}
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes expand {
+  from {min-width: 50px} 
+  to {min-width: 350px}
+}
+
+@keyframes expand {
+  from {min-width: 50px}
+  to {min-width: 350px}
+}
+@-webkit-keyframes stay {
+  from {min-width: 50px} 
+  to {min-width: 350px}
+}
+
+@keyframes stay {
+  from {min-width: 350px}
+  to {min-width: 350px}
+}
+@-webkit-keyframes shrink {
+  from {min-width: 350px;} 
+  to {min-width: 50px;}
+}
+
+@keyframes shrink {
+  from {min-width: 350px;} 
+  to {min-width: 50px;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 60px; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 60px; opacity: 0;}
+}
+
 .roundImg{
     border-radius: 50%;
 }
@@ -23,7 +101,6 @@ html, body{
 
 .contentMain{
     background-color: rgb(253, 253, 253);
-    height: 100%;
 }
 
 .topnav {
