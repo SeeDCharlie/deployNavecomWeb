@@ -501,7 +501,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #about .about-container .background {
-  border-radius: 10px;
+  border-radius: 40px;
   min-height: 300px;
   margin-bottom: 10px;
   background: url(../img/f_uno.jpg) center top no-repeat; 
