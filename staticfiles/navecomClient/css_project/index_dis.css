@@ -4,9 +4,18 @@
     padding-right: 10%;
     height: 100%;
     width: 100%;
-    background-image: url("/static/navecomClient/img/1920x1080/01.jpg");
+    background-image: url("/static/navecomClient/img/portada_uno.jpg");
     padding-top: 10%;
 
+}
+
+.contPortadaUno {
+    padding-top: 15px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 5px;
+    border-radius: 70px;
+    background-image: -webkit-linear-gradient(45deg, rgba(2, 49, 219, 0.5) 50%, rgba(255, 255, 255, 0.2) 50%);
 }
 
 .portada2{
@@ -38,10 +47,10 @@
       max-height: 180px;
     }
     .portada1{
-        padding-top: 17%;
+        padding-top: 18%;
     }
     .portada2{
-        padding-top: 17%;
+        padding-top: 18%;
     }
     .title_uno{
         font-size: 2rem;
@@ -54,10 +63,10 @@
       max-height: 140px;
     }
     .portada1{
-        padding-top: 23%;
+        padding-top: 24%;
     }
     .portada2{
-        padding-top: 23%;
+        padding-top: 24%;
     }
     .title_uno{
         font-size: 1.2rem;
