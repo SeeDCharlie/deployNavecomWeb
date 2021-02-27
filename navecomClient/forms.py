@@ -28,10 +28,8 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
 
-        print("tipo usr : %s"%user.tipo_usuario)
         if user.tipo_usuario.id_ty_us == 2 or user.tipo_usuario.id_ty_us == 1:
             user.usuario_administrador = True
-            print("tipo usr : %s"%user.tipo_usuario)
             user.save()
             
         return user
@@ -49,7 +47,7 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
-
+"""
 class factureAddForm(forms.ModelForm):
 
     class Meta:
@@ -57,3 +55,5 @@ class factureAddForm(forms.ModelForm):
         model = facturas
         fields = ('id_bill' , 'pago', 'total_pagar', 'total_recibido', 'total_devuelto', 'fecha_pago',
             'fecha_limite_pago', 'metodo_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo')
+
+"""

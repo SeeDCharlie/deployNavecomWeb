@@ -36,15 +36,22 @@
 
 @media screen and (max-width: 1140px){
     #port1_img{
-      max-width: 250px;
-      max-height: 250px;
+      max-width: 260px;
+      max-height: 260px;
+    }
+}
+
+@media screen and (max-width: 960px){
+    #port1_img{
+      max-width: 180px;
+      max-height: 180px;
     }
 }
 
 @media screen and (max-width: 720px){
     #port1_img{
-      max-width: 180px;
-      max-height: 180px;
+      max-width: 120px;
+      max-height: 120px;
     }
     .portada1{
         padding-top: 18%;
@@ -59,8 +66,8 @@
 
 @media screen and (max-width: 540px){
     #port1_img{
-      max-width: 140px;
-      max-height: 140px;
+      max-width: 100px;
+      max-height: 100px;
     }
     .portada1{
         padding-top: 24%;
