@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import *
 from .forms import *
 from django.db.models import F
+from django.utils.html import format_html
 
 
 from django.contrib.admin.widgets import AutocompleteSelect
@@ -36,11 +37,13 @@ class UserAdmin(BaseUserAdmin):
         ('Permisos', {'fields': ('groups', )}),
     )
 
-    radio_fields = {"estado": admin.VERTICAL}
+    #radio_fields = {"estado": admin.VERTICAL}
 
     search_fields = ('email', 'nombre', 'apellido')
     ordering = ('email', 'estado')
     filter_horizontal = ('groups', )
+
+    readonly_fields = ('estado',)
 
     def grupos(self, obj):
         return obj.groups.exclude(permission=1)
@@ -116,32 +119,36 @@ class datsClientsAdmin(admin.ModelAdmin):
 class facturaAdmin(admin.ModelAdmin):
 
     list_filter = ('pago', 'fecha_creacion', 'metodo_pago')
-    list_display = ('id_bill', 'nombre', 'apellido', 'plan', 'total_pagar')
+    list_display = ('id_bill', 'nombre', 'plan', 'total_pagar', 'descargar')
     list_display_links = ('id_bill', 'plan', 'nombre')
     show_full_result_count = 50
     autocomplete_fields = ['plan']
     #raw_id_fields = ('plan' , )
-    search_fields = ['nombre', 'apellido', 'id_bill']
+    search_fields = ['nombre',  'id_bill']
     date_hierarchy = 'fecha_creacion'
-    
 
     fieldsets = (
-        ('Informacion de la factura', {'fields': ('pago', 'plan', 'total_recibido', 'total_devuelto', 'fecha_creacion', 'fecha_pago',
+        ('Informacion de la factura', {'fields': ('pago', 'plan', 'total_recibido', 'total_pagar','total_devuelto', 'fecha_creacion', 'fecha_pago',
                                                   'fecha_limite_pago', 'metodo_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo')}),
         ('Informacion del plan', {'fields': (
             'id_plan', 'servicio', 'costo_del_plan', 'saldo_en_contra', 'saldo_a_favor')}),
         ('Informacion del cliente', {
-         'fields': ('nombre', 'apellido', 'no_documento')}),
+         'fields': ('nombre',  'no_documento')}),
     )
 
-    readonly_fields = [ 'total_pagar', 'fecha_creacion', 'fecha_limite_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo', 'servicio',
-                       'saldo_en_contra', 'saldo_a_favor', 'nombre', 'apellido', 'no_documento', 'costo_del_plan', 'total_devuelto', 'id_plan']
+    readonly_fields = ['total_pagar', 'fecha_creacion', 'fecha_limite_pago',  'metodo_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo', 'servicio',
+                       'saldo_en_contra', 'saldo_a_favor', 'nombre', 'no_documento', 'costo_del_plan', 'total_devuelto', 'id_plan']
+
+    class Media:
+        css = {
+            "all": ("navecomClient/css_project/style_admin.css", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+        }
+
+    def descargar(self, obj):
+        return format_html('<i class="fa fa-file-pdf-o linkPdf"><a href="#"> Descargar</a></i>')
 
     def nombre(self, obj):
-        return obj.nombre
-
-    def apellido(self, obj):
-        return obj.apellido
+        return "%s %s" % (obj.nombre, obj.apellido)
 
     def no_documento(self, obj):
         return obj.no_documento
@@ -176,22 +183,27 @@ class planAdmin(admin.ModelAdmin):
 
     list_filter = ('estado_plan', 'dia_inicio_pago', 'servicio')
     list_display = ('id_plan', 'nombre_cliente',
-                    'apellido_cliente', 'servicio', 'precio_plan')
+                    'servicio', 'precio_plan', 'estado_del_plan')
     list_display_links = ('id_plan', 'nombre_cliente',
-                          'apellido_cliente', 'servicio', 'precio_plan')
+                          'servicio', 'precio_plan')
     #raw_id_fields = ('', )
-    search_fields = ['id_plan', 'nombre_cliente', 'apellido_cliente']
+    search_fields = ['id_plan', 'nombre_cliente']
+
     readonly_fields = ['fecha_registro_plan', 'fecha_ultima_modificacion',
                        'dias_limites_de_pago', 'saldo_contra', 'saldo_favor', 'estado_plan']
+
     autocomplete_fields = ['contrato', 'servicio']
     filter_horizontal = ('montos_adicionales',
                          'descuentos_adicionales', 'novedades')
 
-    def nombre_cliente(self, obj):
-        return obj.nombre_cliente
+    def estado_del_plan(self, obj):
+        color = {1: '74FF00', 2: 'FFF700', 3: 'FF0000', 4: '00FFA2'}
+        return format_html('<span style="color: #898989; background-color:#{}; padding: 3px 10px; border-radius: 7px; font-weight: bold;">{}</span>',
+                           color[obj.estado_plan.id_state_plan],
+                           obj.estado_plan)
 
-    def apellido_cliente(self, obj):
-        return obj.apellido_cliente
+    def nombre_cliente(self, obj):
+        return "%s %s" % (obj.nombre_cliente, obj.apellido_cliente)
 
     def precio_plan(self, obj):
         return obj.precio
@@ -218,14 +230,22 @@ class serviciosAdmin(admin.ModelAdmin):
     search_fields = ('nombre_servicio', 'oferta_servicio')
 
 
+@admin.register(estados_usuario)
+class estadosUsuarioAdmin(admin.ModelAdmin):
+    list_display = ('id_state_usr', 'nombre_estado', 'descripcion')
+
+
+@admin.register(estados_plan)
+class estadoPlanAdmin(admin.ModelAdmin):
+    list_display = ('id_state_plan', 'estado_plan', 'descripcion')
+
+
 admin.site.register(monto_adicional)
 admin.site.register(descuentos)
 admin.site.register(empleado)
 admin.site.register(novedades_plan)
 admin.site.register(metodos_pago)
-admin.site.register(estados_plan)
 admin.site.register(tipo_usuario)
-admin.site.register(estados_usuario)
 admin.site.register(Permission)
 admin.site.register(zonas_servicio)
 admin.site.register(contact_request)

@@ -53,7 +53,7 @@ class facturas(models.Model):
     total_recibido = models.DecimalField(max_digits= 9, decimal_places=2, blank=True, null=True, db_column='balance_received')
     total_pagar = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, db_column='total_pay')
     total_devuelto = models.DecimalField(max_digits=9, decimal_places=2, blank=True,null=True, db_column='balance_returned')
-    metodo_pago = models.ForeignKey('metodos_pago', models.DO_NOTHING, db_column='payment_method')    
+    metodo_pago = models.ForeignKey('metodos_pago', models.DO_NOTHING, default=5, db_column='payment_method')    
     codigo_convenio = models.CharField(max_length=50, blank=True, null=True, db_column='agreement_code')
     codigo_epy = models.CharField(max_length=50, blank=True, null=True, db_column='epayco_code')
     pin_epy = models.CharField(max_length=50, blank=True, null=True, db_column='epayco_pin')
@@ -98,7 +98,7 @@ class contrato(models.Model):
     activo = models.BooleanField(db_column='contract_status',default=True)
     fecha_creacion = models.DateField( blank=True, null = True, auto_now_add=True, db_column='registration_date')
     fecha_inicio_contrato = models.DateField(blank=False, null=False, db_column='start_contract')
-    fecha_fin_contrato = models.DateField( db_column='end_contract')
+    fecha_minima_permanencia = models.DateField( db_column='end_contract')
     fecha_ultima_modificacion = models.DateTimeField(blank=True, null = True, auto_now=True, db_column='last_modify')
 
     def __str__(self):
@@ -294,7 +294,7 @@ class usersManager(BaseUserManager):
 
 class usuario(AbstractBaseUser, PermissionsMixin):
     id_user = models.AutoField(primary_key=True)
-    tipo_usuario = models.ForeignKey(tipo_usuario, models.DO_NOTHING, db_column='id_ty_us')
+    tipo_usuario = models.ForeignKey(tipo_usuario, models.DO_NOTHING, default=3, db_column='id_ty_us')
     no_documento = models.DecimalField(max_digits=13, decimal_places=0, null=True, db_column='document_usr')
     nombre = models.CharField(max_length=50, db_column='f_name')
     apellido = models.CharField(max_length=50, db_column='l_name')
@@ -308,18 +308,16 @@ class usuario(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(max_length=30, blank=True, null=True)
     token_key = models.CharField(max_length=300, blank=True, null=True)
     fecha_registro = models.DateTimeField(blank=True, auto_now=True, null = True, db_column='register_date')
-    estado = models.ForeignKey('estados_usuario', models.DO_NOTHING, db_column='state_usr', null = True)
+    estado = models.ForeignKey('estados_usuario', models.DO_NOTHING, default=1,  db_column='state_usr', null = True)
     
-
     usuario_administrador = models.BooleanField(default=False)
     objects = usersManager()
-
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [ 'tipo_usuario','no_documento', 'nombre', 'apellido', 'no_celular', 'tel_fijo','direccion', 'barrio', 'referencia_vivienda', 'estado', 'nickname' ]
 
     def __str__(self):
-        return " %d | %s %s | %d"%(self.id_user , self.nombre, self.apellido, self.no_documento)
+        return " %d | %s %s | CC. %d"%(self.id_user , self.nombre, self.apellido, self.no_documento)
     
     """def has_perm(self, perm, obj = None):
         return True
