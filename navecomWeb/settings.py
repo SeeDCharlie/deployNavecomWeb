@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'navecomWeb.wsgi.application'
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'navecomi_db',
-        'USER': 'navecomi_adm',
-        'PASSWORD': 'KD4Fsz]^zH26',
+        'NAME': 'admseed_navecom_db',
+        'USER': 'admseed_adm_navecom',
+        'PASSWORD': '.H9,Il^iF@Gm',
         'HOST': 'navecomingenieria.com',
         'PORT': '3306',
         
@@ -128,7 +128,7 @@ LANGUAGE_CODE = 'es-spa'
 
 TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'Etc/GMT-5'
+TIME_ZONE = 'Etc/GMT+5'
 
 USE_I18N = True
 
