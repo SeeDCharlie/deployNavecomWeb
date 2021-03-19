@@ -216,7 +216,7 @@ class plan(models.Model):
 
     fecha_instalacion = models.DateTimeField( db_column='instalation_date')
     fecha_registro_plan = models.DateTimeField(blank=True, null=True, auto_now_add=True, db_column='date_start_plan')
-    fecha_fin_plan = models.DateTimeField( db_column='date_end_plan')
+    fecha_fin_plan = models.DateTimeField( db_column='date_end_plan', null=True, blank=True)
     fecha_cancelacion = models.DateTimeField(blank=True, null=True, db_column='cancel_plan_date')
     fecha_ultima_modificacion = models.DateTimeField(blank=True, null = True, auto_now=True, db_column='last_modify')
 

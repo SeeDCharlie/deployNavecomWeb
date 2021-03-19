@@ -7,47 +7,130 @@ html, body{
 }
 #toastMsj {
   visibility: hidden;
-  max-width: 400;
-  width: 100;
+  max-width: 350px;
+  max-height: 200px ;
+  width: 0px;
   height: auto ;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border-radius: 5px;
   position: fixed;
   top: 10%;
   right: 5%;
 }
-#toastMsj .img {
 
-  padding: 10px;
+.text-navblue{
+  color: #009DDB;
+}
+
+.titleTres{
+  font-size: 1rem;
+  font-weight: 700;
+  color: #141414;
+}
+
+.titleDos {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #00648b;
+}
+.titleUno{
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #00648b;
+}
+
+.btn-blue{
+  font-weight: 900 !important;
+  background-color: #009DDB ;
+  color: rgb(240, 240, 240);
+  border-radius: 0 !important;
+  width: 200px;
+  height: 60px;
+}
+
+.btn-blue:hover{
+  border:solid 2px #00648b;
+  background-color: #ffffff ;
+  color: #00648b;
+  
+}
+
+.posiRight {
+    text-align: right;
+}
+
+.padLeftUno{
+  padding-left: 50px;
+}
+
+.btn-ok{
+  font-weight: 900 !important;
+  background-color: #06b400 ;
+  color: rgb(240, 240, 240);
+  border-radius: 0 !important;
+  width: 200px;
+  height: 60px;
+}
+
+.btn-ok:hover{
+  border:solid 2px #009137;
+  background-color: #ffffff ;
+  color: #009137;
+  
+}
+
+.btn-cancel{
+  font-weight: 900 !important;
+  background-color: #db0000 ;
+  color: rgb(240, 240, 240);
+  border-radius: 0 !important;
+  width: 200px;
+  height: 60px;
+}
+
+.btn-cancel:hover{
+  border:solid 2px #8d2100;
+  background-color: #ffffff ;
+  color: #8d2100;
+  
+}
+
+.centrar {
+  align-items: center; 
+  justify-content: center;
+  text-align: center;
+}
+#toastMsj .img {
+  word-wrap: break-word;
+  padding: 10px 10%;
   border-radius: 5px;
-  background-color: rgba(105, 104, 104, 0.8);
+  background-color: rgba(105, 105, 104, 0.8);
 }
 #toastMsj .bodyTo {
-
-  padding: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 10px 10%;
   border-radius: 5px;
-  background-color: rgba(252, 252, 252, 0.5);
+  max-height: 250px;
+  background-color: rgb(0, 0, 0);
+  max-block-size: 250px;
 }
+
+
 #toastMsj.show  {
   visibility: visible;
-
-  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
-}
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
+  -webkit-animation:  expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
+  animation:  expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
 }
 
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
 
 @-webkit-keyframes expand {
-  from {min-width: 50px} 
+  from {min-width: 100px; font-size: 0rem;  } 
   to {min-width: 350px}
+
 }
 
 @keyframes expand {

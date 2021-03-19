@@ -5,6 +5,7 @@
     height: 100%;
     width: 100%;
     background-image: url("/static/navecomClient/img/portada_uno.jpg");
+    background-attachment: fixed;
     padding-top: 10%;
 
 }
@@ -24,6 +25,7 @@
     height: 100%;
     width: 100%;
     background-image: url("/static/navecomClient/img/portada_dos.jpg");
+    background-attachment: fixed;
     padding-top: 10%;
 }
 .contact_num{

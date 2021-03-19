@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, PermissionManager
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.urls import reverse
 from .models import *
 from .forms import *
 from django.db.models import F
@@ -143,9 +144,10 @@ class facturaAdmin(admin.ModelAdmin):
         css = {
             "all": ("navecomClient/css_project/style_admin.css", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
         }
+        js = ( 'navecomClient/js_project/ctrlFaturaAdmin.js',)
 
     def descargar(self, obj):
-        return format_html('<i class="fa fa-file-pdf-o linkPdf"><a href="#"> Descargar</a></i>')
+        return format_html('<i class="fa fa-file-pdf-o linkPdf downloadFact" id="downloadFact" ><a href="%s"> Descargar</a></i>'%reverse('downloadFact', args=[obj.id_bill]) )
 
     def nombre(self, obj):
         return "%s %s" % (obj.nombre, obj.apellido)

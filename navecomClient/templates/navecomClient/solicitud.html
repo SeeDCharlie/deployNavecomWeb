@@ -10,54 +10,64 @@
 
 <nav class="solicMain">
 
-    <div class="row justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
 
-        <div class="col-7 col-md-5 formSoli text-light">
-            <h2 class="title text-info">Formulario de contacto</h2>
-            <p class="text-muted">Los campos marcados con un <span class="asteRed">*</span> son obligatorios. <br>En Un
-                momento un asesor de servicio se pondra en contacto con usted.</p>
+            
+            <div class="col-12 formSoli text-light">
+                
+                <div class="col-12 align-self-center">
+                    <h1 class="title text-navblue" style="font-weight: 600;">Formulario de Solicitud de Servicio</h1>
+                    <p class="text-muted">Llene el formulario, escoja un plan de internet que sea de interes y que este en la zona en que vives. <br>
+                        Los campos con asterisco son obligatorios.
+                    </p>
 
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="nameSoli">Nombre <span class="asteRed">*</span></label>
-                <input type="text" class="form-control" id="nameSoli" placeholder="Nombre y apellido" name="nameSoli"
-                    required>
-            </div>
-            <div class="form-group">
-                <label for="cellSoli">Celular<span class="asteRed"> *</span></label>
-                <input type="number" class="form-control" id="cellSoli" min="10" max="10" placeholder="Telefono celular" name="cellSoli"
-                    required>
-            </div>
-            <div class="form-group">
-                <label for="telSoli">Telefono</label>
-                <input type="number" class="form-control" id="telSoli" min="7" max="7" placeholder="Telefono fijo" name="telSoli">
-            </div>
-            <div class="form-group">
-                <label for="emailSoli">Correo Electronico</label>
-                <input type="email" class="form-control" id="emailSoli" placeholder="Correo electronico"
-                    name="emailSoli">
-            </div>
-            <div class="form-group">
-                <label for="dirSoli">Direccion</label>
-                <input type="text" class="form-control" id="dirSoli" placeholder="Direccion o Barrio" name="dirSoli">
-            </div>
-            <div class="form-group ">
-                <label for="planSoli">Plan de Interes</label>
-                <select id="planSoli" class="form-control">
-                    <option value="-1" selected>Ninguno</option>
-                    {% for plan in planes %}
-                        <option value="{{plan.id_cat_ser}}">{{plan}} </option>
-                    {% endfor %}
-                </select>
-            </div><br>
-            <br>
-            <div class="row justify-content-center">
-                <button type="button" class="btn btn-primary col-5 " id="btnContact" url="{% url 'getDataContact' %}">
-                    Enviar</button>
-            </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nameSoli" placeholder="Nombre y apellido *"
+                            name="nameSoli" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="cellSoli" min="10" max="10"
+                            placeholder="Telefono celular *" name="cellSoli" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="telSoli" min="7" max="7"
+                            placeholder="Telefono fijo" name="telSoli">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="emailSoli" placeholder="Correo electronico"
+                            name="emailSoli">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="dirSoli" placeholder="Direccion o Barrio"
+                            name="dirSoli">
+                    </div>
+                    <div class="form-group ">
+                        <label for="planSoli" class="title text-navblue">Plan de Internet</label>
+                        {% csrf_token %}
+                        <select id="planSoli" class="form-control">
+                            <option value="-1" selected>Ninguno</option>
+                            {% for plan in planes %}
+                            <option value="{{plan.id_cat_ser}}">{{plan}} </option>
+                            {% endfor %}
+                        </select>
+                    </div><br>
+                    <br>
+               
+                        <button type="button" class="btn btn-blue col-12 " id="btnContact"
+                            url="{% url 'getDataContact' %}">
+                            Enviar</button>
 
+
+                </div>
+
+
+            </div>
         </div>
+
     </div>
+
 </nav>
 
 {% endblock %}
