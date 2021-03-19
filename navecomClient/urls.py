@@ -13,6 +13,8 @@ urlpatterns = [
     path( 'logUsr/' , loginUsr  , name = 'logUsr'),
     path( 'getDataContact/' , getDataContact  , name = 'getDataContact'),
     path( 'pagos/' , pagos  , name = 'pagos'),
-
+    path( 'preFactura/<int:idPlan>/' , preFactura  , name = 'preFactura'),
+    path( 'downloadFact/<int:id_fact>/' , downloadFact , name='downloadFact'),
+    path( 'checkFacturaPlan/', checkFacturaPlan, name="checkFacturaPlan" ),
 ]
 
