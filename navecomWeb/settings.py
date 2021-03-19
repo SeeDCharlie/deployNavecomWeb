@@ -26,8 +26,8 @@ SECRET_KEY = 'w*pch_&+(4jv16l_@bqy(d74swhgm3*x3u45dx9crhpr5*b#j)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['navecomingenieria.com']
-#ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['navecomingenieria.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
