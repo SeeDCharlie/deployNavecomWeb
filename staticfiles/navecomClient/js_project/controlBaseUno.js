@@ -22,9 +22,11 @@ function myFunction() {
 }
 
 
-function showToastMsj(title, msj){
+function showToastMsj(title, msj, color = "#00425C"){
   $('.titleToast').text(title);
   $('.bodyToast').text(msj);
+
+  $('.bodyTo').css("background-color", color);
 
   var x = document.getElementById("toastMsj")
   x.className = "show";

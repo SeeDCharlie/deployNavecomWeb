@@ -1,8 +1,12 @@
-function requestAjax(btnName,datos){
+
+
+
+
+function requestAjax(btnName, datos) {
     $.ajax({
-        url: $('#'+btnName).attr('url'),
+        url: $('#' + btnName).attr('url'),
         data: {
-            dats:datos,
+            dats: datos,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             action: 'post'
         },
