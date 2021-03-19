@@ -11,10 +11,6 @@ from .models import *
 # Create your views here.
 
 
-# metodos para la devolucion de vistas html
-def not_found_404(request,exception=None):
-    return render(request,'navecomClient/error_404.html')
-
 def index(request):
     return render(request,'navecomClient/index.html')
 
