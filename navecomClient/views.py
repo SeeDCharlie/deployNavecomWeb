@@ -35,8 +35,6 @@ def index(request):
 def pagos(request):
     return render(request,'navecomClient/pago.html')    
 """
-def prueba(request):
-    return render(request,'navecomClient/prueba.html')
 
 def login(request):
     return render(request,'navecomClient/login.html')

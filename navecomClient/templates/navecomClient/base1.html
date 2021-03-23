@@ -51,8 +51,8 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
                     <li class="menu-active"><a href="{% url 'index'%}">Inicio</a></li>
-                    <li><a href="/#about">Conocenos</a></li>
-                    <li><a href="/#services">Servicios</a></li>
+                    <li><a href="{% url 'index'%}#about">Conocenos</a></li>
+                    <li><a href="{% url 'index'%}#services">Servicios</a></li>
                     <li><a href="#">Pagar Facturas</a></li>
                     <li><a href="{% url 'solicitud' %}">Solicitud</a></li>
                     {% if user.is_authenticated %}
@@ -61,7 +61,7 @@
                     {% else %}
                     <li><a href="{% url 'login' %}">Iniciar Sesion</a></li>
                     {% endif %}
-                    <li><a href="/#contact">Contactanos</a></li>
+                    <li><a href="{% url 'index'%}#contact">Contactanos</a></li>
                 </ul>
             </nav><!-- #nav-menu-container  -->
         </div>
