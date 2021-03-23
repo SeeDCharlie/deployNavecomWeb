@@ -14,7 +14,7 @@ from .models import *
 def index(request):
     return render(request,'navecomClient/index.html')
 
-def preFactura(request, idPlan = -1):
+"""def preFactura(request, idPlan = -1):
 
     if idPlan < 1 :
         return redirect('index')
@@ -22,9 +22,7 @@ def preFactura(request, idPlan = -1):
         #no plan, no factura, fecha vencimiento, total a pagar, nombres propietario, nombre plan, total
         try:
             factura = facturas.objects.get(plan=plan.objects.get(pk=int(idPlan)))
-
             if factura.plan.estado_plan == estados_plan.objects.get(pk=4) :
-                
                 context = {'factura': factura, 'msj': 'Bienvenido'}
                 return render(request, 'navecomClient/preFactura.html', context )
             else :
@@ -32,11 +30,11 @@ def preFactura(request, idPlan = -1):
         except Exception as error:
             print(error)
             return render(request, 'navecomClient/preFactura.html', {'error': True, 'msj': 'LO SENTIMOS, POR FAVOR INTENTE MAS TARDE.' })
-  
-
+"""
+"""
 def pagos(request):
     return render(request,'navecomClient/pago.html')    
-
+"""
 def prueba(request):
     return render(request,'navecomClient/prueba.html')
 
@@ -94,20 +92,16 @@ def getDataContact(request):
 #devuelve la factura en pdf. la peticion debe ser ajax y post y llevar dentro el id de la factura
 
 def downloadFact(request, id_fact):
-
     if request.user.is_authenticated and request.user.tipo_usuario == tipo_usuario.objects.all().get(pk=1)  :
-
         try:
-                
             return render_to_pdf_response(request, 'navecomClient/templatesAdmin/modelFact.html', {'content': "pdf prueba"},
                                       download_filename='prueba.pdf', base_url=request.build_absolute_uri())
         except Exception as error : 
             print(error)
             return JsonResponse({'success': False, 'msj': 'No pudimos procesar la solicitus \n error: %s.'%error})
-
     return redirect('login')
 
-
+"""
 def checkFacturaPlan(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
         try:
@@ -126,3 +120,4 @@ def checkFacturaPlan(request):
             print(error)
             return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})
     return redirect('index')
+"""
