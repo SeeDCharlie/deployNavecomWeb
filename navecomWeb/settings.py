@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'navecomClient.apps.NavecomclientConfig',
+
 ]
 
 X_FRAME_OPTIONS='SAMEORIGIN'
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'navecomClient.usuario'
+#AUTH_USER_MODEL = 'navecomClient.usuario'
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
