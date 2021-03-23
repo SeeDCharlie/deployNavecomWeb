@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'w*pch_&+(4jv16l_@bqy(d74swhgm3*x3u45dx9crhpr5*b#j)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['navecomingenieria.com']
-#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['navecomingenieria.com']
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'navecomClient.apps.NavecomclientConfig',
 ]
 
 X_FRAME_OPTIONS='SAMEORIGIN'
@@ -88,7 +88,6 @@ DATABASES = {
         'PASSWORD': '.H9,Il^iF@Gm',
         'HOST': 'navecomingenieria.com',
         'PORT': '3306',
-        
     }
 }
 
@@ -111,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#AUTH_USER_MODEL = 'navecomClient.usuario'
+AUTH_USER_MODEL = 'navecomClient.usuario'
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
@@ -120,7 +119,6 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -128,7 +126,7 @@ LANGUAGE_CODE = 'es-spa'
 
 TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'Etc/GMT+5'
+TIME_ZONE = 'Etc/GMT-5'
 
 USE_I18N = True
 
@@ -140,11 +138,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),   
 )
-

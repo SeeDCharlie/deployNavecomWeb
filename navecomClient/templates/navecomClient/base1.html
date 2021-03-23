@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Navecom SAS</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'navecomClient/css_project/styleBaseUno.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'navecomClient/img/antenaUno.png' %}" rel="icon">
+    <link href="{% static 'navecomClient/img/antenaUno.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="{% static 'navecomClient/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="{% static 'navecomClient/lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'navecomClient/lib/animate/animate.min.css' %}" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="{% static 'navecomClient/css/style.css' %}" rel="stylesheet">
+    {% block styles %}
+
+    {% endblock %}
+</head>
+
+<body>
+
+    <!--==========================
+  Header
+  ============================-->
+    <header id="header">
+        <div class="container">
+
+            <div id="logo" class="pull-left">
+                <a href="{% url 'index' %}"><img src="{% static 'navecomClient/img/ico_uno.png' %}" alt=""
+                        title="" /></img></a>
+            </div>
+
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <li class="menu-active"><a href="{% url 'index'%}">Inicio</a></li>
+                    <li><a href="/#about">Conocenos</a></li>
+                    <li><a href="/#services">Servicios</a></li>
+                 
+                    <li><a href="/#contact">Contactanos</a></li>
+                </ul>
+            </nav><!-- #nav-menu-container  -->
+        </div>
+    </header><!-- #header -->
+
+
+
+    <nav class="contentMain">
+
+        {% block content %}
+
+        {% endblock %}
+
+    <!--==========================
+    Footer
+    ============================-->
+        <footer id="footer">
+            <div class="footer-top">
+                <div class="container">
+
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="copyright">
+                    &copy; Copyright <strong>NAVECOM</strong>. All Rights Reserved 2021
+                </div>
+                <div class="credits">
+
+                    Designed by <a href="https://seedcharlie.co/">seedcharlie</a>
+                </div>
+            </div>
+        </footer><!-- #footer -->
+    </nav>
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="{% static 'navecomClient/lib/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'navecomClient/lib/jquery/jquery-migrate.min.js' %}"></script>
+    <!--<script src=" static 'navecomClient/js/jquery-3.5.1.js' "></script>-->
+
+    <script src="{% static 'navecomClient/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'navecomClient/lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'navecomClient/lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'navecomClient/lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'navecomClient/lib/superfish/hoverIntent.js' %}"></script>
+    <script src="{% static 'navecomClient/lib/superfish/superfish.min.js' %}"></script>
+
+    <script src="{% static 'navecomClient/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'navecomClient/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'navecomClient/js/popper.min.js' %}"></script>
+    <!-- Contact Form JavaScript File -->
+    <script src="{% static 'navecomClient/contactform/contactform.js' %}"></script>
+
+    <!-- Template Main Javascript File -->
+    <script src="{% static 'navecomClient/js/main.js' %}"></script>
+    <script src="{% static 'navecomClient/js_project/controlBaseUno.js' %}"></script>
+    <script src="https://kit.fontawesome.com/5ec620e748.js" crossorigin="anonymous"></script>
+
+    {% block scripts %}
+
+    {% endblock %}
+
+
+</body>
+
+</html>

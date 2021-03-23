@@ -1,0 +1,17 @@
+.linkPdf{
+    text-decoration: none;
+    min-width: 70px;
+    padding: 5px 15px;
+    background-color:rgba(187, 187, 187, 0.6);
+    color: #BF4634!important;
+    border: solid 3px #074E68;
+    border-radius: 20px 10px;
+}  
+.linkPdf a {
+    color: rgb(7, 78, 104) !important;
+}
+
+.linkPdf a:hover{
+
+    color: #E74C3C !important;
+}
