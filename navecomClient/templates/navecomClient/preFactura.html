@@ -1,0 +1,153 @@
+{% extends 'navecomClient/base1.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/navecomClient/css_project/preFactura_dis.css">
+{% endblock %}
+
+{% block content %}
+
+
+<nav class="solicMain">
+
+    {% if error %}
+
+    <div class="container" style="padding: 7% 10px;">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-4 align-self-center">
+                <h1 style="color: #00425C; font-size: 50px; font-weight: 800;">
+                    {{msj}}
+                </h1>
+
+                <a href="{% url 'index' %}">
+                    <button class="btn btn-blue">
+                        Volver
+                    </button>
+                </a>
+
+            </div>
+            <div class="col-12 col-sm-8">
+                <img class="img-fluid" src="{% static 'navecomClient/img/404error.png' %}" style="width: 1000px;"
+                    alt="">
+            </div>
+        </div>
+    </div>
+    {% else %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-12 preFactForm borderFormFacat">
+
+                <div class="row">
+                    <div class="col-10 align-self-center">
+
+                        <div class="row">
+                            <h2 class="titleUno col-12">DATOS DE LA FACTURA</h2>
+                            <h5 class="titleDos col-12 col-sm-4">Numero del Plan </h5>
+                            <h5 class="titleTres col-12 col-sm-8"># {{factura.plan.id_plan}} </h5>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        <img class="img-fluid" alt="Responsive image" style="max-width: 100px;"
+                            src="{% static 'navecomClient/img/bill_img.png' %}" alt="">
+                    </div>
+
+
+                </div>
+                <hr>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 col-sm-5">
+                        <h5 class="titleDos">Numero de Factura</h5>
+                        <span class="titleTres"><i class="fa fa-file-text"></i> # {{factura.id_bill}}</span>
+                    </div>
+                    <div class="col-12 col-sm-5">
+                        <h5 class="titleDos">Fecha de Vencimiento</h5>
+                        <span class="titleTres"><i class="fa fa-calendar-times-o"></i> {{factura.fecha_limite_pago}}</span>
+                    </div>
+                    <div class="col-12 col-sm-2 d-none d-sm-block ">
+                        <h5 class="titleDos">Valor</h5>
+   
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class="row justify-content-end" >
+                    <div class="col-12 col-sm-4 titleDos">Propietario del Plan</div>
+                    <div class="col-12 col-sm-7 titleTres">
+                        {{factura.plan.contrato.cliente.nombre}} {{factura.plan.contrato.cliente.apellido}}
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-4 titleDos ">Plan</div>
+                    <div class="col-12 col-sm-5 titleTres">{{factura.plan.servicio}}</div>
+                    <div class="col-12 col-sm-2 titleTres">$ {{factura.plan.servicio.costo}}</div>
+                </div>
+                <hr>
+
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleDos ">Montos Adicionales</div>
+                    <div class="col-12 col-sm-2 titleDos">$ 0.00</div>
+                </div>
+                <hr>
+
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleDos ">Total</div>
+                    <div class="col-12 col-sm-2 titleDos">$ {{factura.total_pagar}}</div>
+                </div>
+                <hr>
+
+                <div class="row justify-content-center justify-content-md-end">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <br>
+                        <button class="btn btn-cancel">
+                            Regresar
+                        </button>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <br>
+                        <button class="btn btn-ok">Pagar</button>
+                        
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+            <!-- Epyaco img -->
+
+            <div class="col-12 footerFormFact borderFormFacat" id="epayco_img">
+                <img class="img-fluid" alt="Responsive image"
+                    src="https://multimedia.epayco.co/epayco-landing/btns/pagos_procesados_por_epayco_370px_.png"
+                    alt="epayco">
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+
+
+
+</nav>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
+
+
+
+{% endblock %}

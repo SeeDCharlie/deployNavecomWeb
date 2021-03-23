@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/static/navecomClient/css_project/prueba.css">
+  <link href="{% static 'navecomClient/css/bootstrap.min.css' %}" rel="stylesheet">
+  {% block scripts %}
+
+  <script src="{% static 'navecomClient/js_project/prueba.js' %}"></script>
+  <script src="https://kit.fontawesome.com/5ec620e748.js" crossorigin="anonymous"></script>
+
+  {% endblock %}
+
+</head>
+
+<body>
+
+  <!-- INFORMACION -->
+
+  <button type="button" class="btn btn-info" onclick="togglePopup()"> Boton</button>
+  <div class="popup" id="popupData">
+    <div class="overlay"></div>
+    <div class="content_popup">
+      <div class="close-btn" onclick="togglePopup()">&times;</div>
+      <div class="icon_popup" id="iconAlert">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <div class="title_popup">
+        <h1>Envío satisfactorio</h1>
+      </div>
+      <div class="body_popup">
+        <p> Te contactaremos lo más antes posibles. Gracias </p>
+      </div>
+      <div class="footer_popup">
+        <div class="btn-primary btn-lg" onclick="togglePopup()"> Listo</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONFIRMACIÓN -->
+  <button type="button" class="btn btn-light" onclick="togglePopupConf()"> Boton</button>
+  <div class="popup" id="popupDataConf">
+    <div class="overlay"></div>
+    <div class="content_popup">
+      <div class="close-btn" onclick="togglePopupConf()">&times;</div>
+      <div class="icon_popup" id="iconCheck">
+        <i class="far fa-check-circle"></i>
+      </div>
+      <div class="title_popup">
+        <h1>Envío satisfactorio</h1>
+      </div>
+      <div class="body_popup">
+        <p> Te contactaremos lo más antes posibles. Gracias </p>
+      </div>
+      <div class="footer_popup">
+        <div class="btn-danger btn-lg" id="btnNeg" onclick="togglePopupConf()"> Cancelar</div>
+        <div class="btn-success btn-lg" id="btnConf"> Aceptar</div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- Factura Pay -->
+<button type="button" class="btn btn-danger" onclick="togglePopupPay()"> Boton</button>
+<div class="popup" id="popupDataPay">
+  <div class="overlay"></div>
+  <div class="content_popup" id="content_popup_pay">
+    <div class="close-btn" onclick="togglePopupPay()">&times;</div>
+    <div class="icon_popup" id="iconPay">
+      <i class="fas fa-dollar-sign"></i>
+    </div>
+    <div class="title_popup">
+      <h1>Datos Facturación</h1>
+    </div>
+    <div class="body_popup" id="body_pay">
+      <p> Número del plan: </p>
+      <p> Nombre del cliente: JUAN ANDRES RODRIGUEZ JARAMILLO </p>
+      <p> Plan contratado: </p>
+      <p> Total a pagar: $ </p>
+      <p> Fecha límite de pago: </p>
+    </div>
+    <div class="footer_popup">
+      <div class="btn-danger btn-lg" id="btnNeg" onclick="togglePopupPay()"> Cancelar</div>
+      <div class="btn-success btn-lg" id="btnConf"> EPAYCO PAY</div>
+    </div>
+
+  </div>
+</div>  
+
+</body>
+
+</html>

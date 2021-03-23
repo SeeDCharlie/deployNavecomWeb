@@ -1,0 +1,85 @@
+{% extends 'navecomClient/base1.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/navecomClient/css_project/pago_dis.css">
+{% endblock %}
+
+
+{% block content %}
+
+<nav class="solicMain">
+
+
+    <div class="row justify-content-center">
+        <!-- PLAN A PAGAR -->
+        <div class="col-6 col-md-4 formSoli text-light" id="pagar_plan">
+            <h2 class="title text-info">Plan a pagar</h2>
+            <p class="text-muted"> Sigue el instructivo de pago y podrás pagar una factura.</p>
+
+            <div class="form-group">
+                <label for="numPlan">Número del plan:</label>
+                <input type="number" class="form-control" id="idPlan" placeholder="Ejemplo: 20 " name="numPlan" min="1"
+                    required>
+            </div>
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <a type="button" class="btn btn-primary col-5 " id="btnPlan" url="{% url 'checkFacturaPlan' %}">
+                    Aceptar</a>
+            </div>
+
+        </div>
+
+
+        <!-- INSTRUCTIVO DE PAGO -->
+        <div class="col-6 col-md-5 formSoli text-light text-white" id="pagar_instructivo">
+            <h2 class="title ">INSTRUCTIVO DE PAGO</h2>
+            <ul>
+                <h5>
+                    <li> Paso 1.
+                        <h6>
+                            En la opción <b>"Plan a pagar"</b> ingresa el <b>número del plan</b> asociado
+                            a una factura.
+                        </h6>
+                    </li>
+                </h5>
+
+                <h5>
+                    <li> Paso 2.
+                        <h6>
+                            Verificar en el anuncio <b>"Datos Facturación"</b> los datos correspondientes
+                            a la factura que deseas pagar.
+                        </h6>
+                    </li>
+                </h5>
+
+                <h5>
+                    <li> Paso 3.
+                        <h6>
+                            Selecciona el boton <b>"Pagar con ePayco"</b> si estás seguro
+                            de los datos correspondientes en el anuncio de <b>"Datos Facturación"</b>.
+                        </h6>
+                    </li>
+                </h5>
+
+            </ul>
+
+
+        </div>
+
+    </div>
+
+    <div id="epayco_img">
+        <img src="https://multimedia.epayco.co/epayco-landing/btns/pagos_procesados_por_epayco_370px_.png" alt="epayco">
+    </div>
+
+</nav>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
+<script src="{% static 'navecomClient/js_project/controlPago.js' %}"></script>
+
+{% endblock %}

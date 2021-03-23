@@ -29,7 +29,6 @@ DEBUG = False
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['navecomingenieria.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [

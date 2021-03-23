@@ -1,0 +1,52 @@
+{% extends 'navecomClient/base1.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/navecomClient/css_project/homeClient_dis.css">
+
+<script src="{% static 'navecomClient/js_project/homeClient.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="theme presentation">
+
+    <div class="container wrapper">
+        <div class="row">
+            <div class="col align-self-start" id="textPresentation">
+                <span class="display-1 title"> ¡BIENVENIDO!</span>
+                <br>
+                <span class="display-4 name"> {{user.nombre}} {{user.apellido}} </span>
+            </div>
+            <div class="col align-self-center" id="btnFact">
+                <button type="button" class="btn btn-info btn-lg"><i class="fa fa-clone"></i> Mis Facturas</button>
+            </div>
+
+            <div class="col align-self-sm-center" id="btnFact">
+
+
+                <button type="button" class="btn btn-warning btn-lg">
+                    <form>
+                        <script src="https://checkout.epayco.co/checkout.js" class="epayco-button"
+                            data-epayco-key="491d6a0b6e992cf924edd8d3d088aff1" data-epayco-amount="999999"
+                            data-epayco-name="NAVECOM" data-epayco-description="Internet navecom"
+                            data-epayco-currency="cop" data-epayco-country="co" data-epayco-test="true"
+                            data-epayco-external="false" data-epayco-response="https://ejemplo.com/respuesta.html"
+                            data-epayco-confirmation="https://ejemplo.com/confirmacion">
+                            </script>
+                    </form>
+
+                </button>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
