@@ -21,7 +21,7 @@ idna==2.10
 mysqlclient==2.0.3
 Pillow==8.1.1
 pycparser==2.20
-pycryptodome==3.10.1
+pycrypto==2.6.1
 Pyphen==0.10.0
 pytz==2020.5
 requests==2.25.1
