@@ -12,8 +12,6 @@ from .models import *
 
 
 # metodos para la devolucion de vistas html
-def not_found_404(request,exception=None):
-    return render(request,'navecomClient/error_404.html')
 
 def index(request):
     return render(request,'navecomClient/index.html')
@@ -40,9 +38,6 @@ def preFactura(request, idPlan = -1):
 
 def pagos(request):
     return render(request,'navecomClient/pago.html')    
-
-def prueba(request):
-    return render(request,'navecomClient/prueba.html')
 
 def login(request):
     return render(request,'navecomClient/login.html')

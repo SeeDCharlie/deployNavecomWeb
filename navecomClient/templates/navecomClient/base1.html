@@ -75,7 +75,7 @@
 
         {% endblock %}
 
-    <!--==========================
+        <!--==========================
     Footer
     ============================-->
         <footer id="footer">
@@ -97,7 +97,19 @@
         </footer><!-- #footer -->
     </nav>
 
+    <!--toast msj-->
+    <div class="row" id="toastMsj">
+        <div class="col-12 img">
+            <img class="img-flex" src="{% static 'navecomClient/img/antenaUno.png' %}">
 
+            <strong class="col">NAVECOM MSJ! <small class="col titleToast"></small> </strong>
+
+        </div>
+        <div class="bodyTo col-12">
+            <div class="bodyToast"></div>
+        </div>
+    </div>
+    
 
     <!-- JavaScript Libraries -->
     <script src="{% static 'navecomClient/lib/jquery/jquery.min.js' %}"></script>
