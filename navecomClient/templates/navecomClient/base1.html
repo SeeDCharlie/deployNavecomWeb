@@ -67,6 +67,18 @@
         </div>
     </header><!-- #header -->
 
+    <!--toast msj-->
+    <div class="row" id="toastMsj">
+        <div class="col-12 img">
+            <img class="img-flex" src="{% static 'navecomClient/img/antenaUno.png' %}">
+
+            <strong class="col">NAVECOM MSJ! <small class="col titleToast"></small> </strong>
+
+        </div>
+        <div class="bodyTo col-12">
+            <div class="bodyToast"></div>
+        </div>
+    </div>
 
 
     <nav class="contentMain">
@@ -75,7 +87,7 @@
 
         {% endblock %}
 
-        <!--==========================
+    <!--==========================
     Footer
     ============================-->
         <footer id="footer">
@@ -91,25 +103,13 @@
                 </div>
                 <div class="credits">
 
-                    Designed by <a href="https://seedcharlie.co/">seedcharlie</a>
+                    Designed by <a href="https://seedcharlie.co/" target="__blanck" >seedcharlie</a>
                 </div>
             </div>
         </footer><!-- #footer -->
     </nav>
 
-    <!--toast msj-->
-    <div class="row" id="toastMsj">
-        <div class="col-12 img">
-            <img class="img-flex" src="{% static 'navecomClient/img/antenaUno.png' %}">
 
-            <strong class="col">NAVECOM MSJ! <small class="col titleToast"></small> </strong>
-
-        </div>
-        <div class="bodyTo col-12">
-            <div class="bodyToast"></div>
-        </div>
-    </div>
-    
 
     <!-- JavaScript Libraries -->
     <script src="{% static 'navecomClient/lib/jquery/jquery.min.js' %}"></script>
