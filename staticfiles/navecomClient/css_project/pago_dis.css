@@ -1,0 +1,30 @@
+
+.solicMain {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 157, 219, 0.1);
+  padding: 7% 0px;
+}
+
+header{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.formSoli{
+  padding: 50px 50px;
+  box-shadow: 2px 2px 25px rgb(0, 0, 0);
+  border-radius: 1%;
+  background-color: #ffffff;
+  margin-top: 50px;
+  border: solid 1px grey;
+}
+
+.formSoli .form-group input{
+  border: 1px solid #39c;
+  border-radius: 0;
+
+}
+
+.tagTop{
+  background-image: -webkit-linear-gradient(45deg,  rgba(255,255,255,0.0) 90%, #343b40 10%);
+}

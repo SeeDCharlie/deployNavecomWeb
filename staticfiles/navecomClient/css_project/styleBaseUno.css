@@ -1,0 +1,238 @@
+html, body{
+  width: 100%;
+  height: 100%;
+}
+.content_all{
+    width: 100%;
+}
+#toastMsj {
+  visibility: hidden;
+  max-width: 350px;
+  max-height: 200px ;
+  width: 0px;
+  height: auto ;
+  color: #fff;
+  text-align: left;
+  border-radius: 5px;
+  position: fixed;
+  top: 10%;
+  right: 5%;
+}
+
+.text-navblue{
+  color: #009DDB;
+}
+
+.titleTres{
+  font-size: 1rem;
+  font-weight: 700;
+  color: #141414;
+}
+
+.titleDos {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #00648b;
+}
+.titleUno{
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #00648b;
+}
+
+.btn-blue{
+  font-weight: 900 !important;
+  background-color: #009DDB ;
+  color: rgb(240, 240, 240);
+  border-radius: 0 !important;
+  width: 200px;
+  height: 60px;
+}
+
+.btn-blue:hover{
+  border:solid 2px #00648b;
+  background-color: #ffffff ;
+  color: #00648b;
+  
+}
+
+.posiRight {
+    text-align: right;
+}
+
+.padLeftUno{
+  padding-left: 50px;
+}
+
+.btn-ok{
+  font-weight: 900 !important;
+  background-color: #06b400 ;
+  color: rgb(240, 240, 240);
+  border-radius: 0 !important;
+  width: 200px;
+  height: 60px;
+}
+
+.btn-ok:hover{
+  border:solid 2px #009137;
+  background-color: rgba(255, 255, 255, 0.9) ;
+  color: #009137;
+  
+}
+
+.btn-cancel{
+  font-weight: 900 !important;
+  background-color: #db0000 ;
+  color: rgb(240, 240, 240);
+  border-radius: 0 !important;
+  width: 200px;
+  height: 60px;
+}
+
+.btn-cancel:hover{
+  border:solid 2px #8d2100;
+  background-color: #ffffff ;
+  color: #8d2100;
+  
+}
+
+.centrar {
+  align-items: center; 
+  justify-content: center;
+  text-align: center;
+}
+#toastMsj .img {
+  word-wrap: break-word;
+  padding: 10px 10%;
+  border-radius: 5px;
+  background-color: rgba(105, 105, 104, 0.8);
+}
+#toastMsj .bodyTo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 10px 10%;
+  border-radius: 5px;
+  max-height: 250px;
+  background-color: rgb(0, 0, 0);
+  max-block-size: 250px;
+}
+
+
+#toastMsj.show  {
+  visibility: visible;
+  -webkit-animation:  expand 0.1s 0.1s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
+  animation:  expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+  z-index: 999;
+}
+
+
+@-webkit-keyframes expand {
+  from {min-width: 100px; font-size: 0rem;  } 
+  to {min-width: 350px}
+
+}
+
+@keyframes expand {
+  from {min-width: 100px}
+  to {min-width: 350px}
+}
+@-webkit-keyframes stay {
+  from {min-width: 50px} 
+  to {min-width: 350px}
+}
+
+@keyframes stay {
+  from {min-width: 350px}
+  to {min-width: 350px}
+}
+@-webkit-keyframes shrink {
+  from {min-width: 350px;} 
+  to {min-width: 50px;}
+}
+
+@keyframes shrink {
+  from {min-width: 350px;} 
+  to {min-width: 50px;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 60px; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 60px; opacity: 0;}
+}
+
+.roundImg{
+    border-radius: 50%;
+}
+.topnav .colorRed{
+  color:rgb(190, 0, 0) ;
+}
+.topnav .icoMenuBar{
+  padding-left: 15%;
+  padding-right: 30%;
+}
+.topnav .itemMenuBar{
+  margin: 0.5% 1%;
+  align-self: center;
+  color: rgb(255, 255, 255);
+}
+
+.contentMain{
+    background-color: rgb(253, 253, 253);
+}
+
+.topnav {
+  background-color: rgba(255, 255, 255, 0);
+  overflow: hidden;
+  border-bottom: 1px solid silver;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 0.5%;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+}
+.itemMenuBar:hover {
+  color: rgb(190, 0, 0);
+}
+
+.topnav .icon {
+  display: none;
+}
+@media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {display: none;}
+    .topnav a.icon {
+      float: right;
+      display: block;
+      margin-right: 10px;
+      margin-top: 1%;
+    }
+}
+@media screen and (max-width: 600px) {
+  
+  .topnav.responsive a.icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+  }
+  .topnav.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+      color: rgb(117, 117, 117);
+  }
+  .topnav.responsive .itemMenuBar:hover{
+    color: rgb(190, 0, 0);
+    background-color: rgba(156, 156, 156, 0.3);
+  }
+}
