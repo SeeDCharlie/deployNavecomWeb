@@ -12,6 +12,14 @@ window.addEventListener('scroll', function(){
 }, true);
 
 
+function myFunction() {
+   var x = document.getElementById("myTopnav");
+   if (x.className === "topnav fixed-top") {
+     x.className += " responsive";
+   } else {
+     x.className = "topnav fixed-top";
+   }
+}
 
 
 function showToastMsj(title, msj, color = "#00425C"){
@@ -20,7 +28,7 @@ function showToastMsj(title, msj, color = "#00425C"){
 
   $('.bodyTo').css("background-color", color);
 
-  var x = document.getElementById("toastMsj");
+  var x = document.getElementById("toastMsj")
   x.className = "show";
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
 

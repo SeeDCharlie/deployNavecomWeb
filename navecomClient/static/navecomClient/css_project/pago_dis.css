@@ -1,168 +1,30 @@
 
 .solicMain {
-  height: auto;
+  height: 100%;
   width: 100%;
-  padding-top: 10%;
   background-color: rgba(0, 157, 219, 0.1);
-
+  padding: 7% 0px;
 }
 
 header{
-
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 .formSoli{
-
-  height: 400px;
-  width: 100px;
-  padding: 5%;
+  padding: 50px 50px;
+  box-shadow: 2px 2px 25px rgb(0, 0, 0);
   border-radius: 1%;
-  margin-bottom: 10%;
-  background-color: rgba(0, 154, 201, 0.75);
-  background-image: -webkit-linear-gradient(45deg, rgba(53, 41, 41, 0.8) 90%, rgba(12, 214, 39, 0.9) 50%);
+  background-color: #ffffff;
+  margin-top: 50px;
+  border: solid 1px grey;
 }
 
-#pagar_instructivo{
-  background-image: -webkit-linear-gradient(45deg, rgba(53, 41, 41, 0.8) 90%, rgba(252, 248, 4, 0.9) 10%);
-}
-
-#pagar_plan{
-  transform : translate(10%, 10%) scale(1);
-}
-
-#pagar_instructivo{
-  transform : translate(10%, 10%) scale(1);
-}
-
-#epayco_img{
-  transform : translate(15%, -80%) scale(1);
-}
-
-.asteRed{
-  color: red;
-}
-
-/* ANUNCIO FACTURACION */
-.icon_popup {
-  font-size: 500%;
-}
-
-#iconPay {
-  color: rgb(25, 219, 74);
-}
-
-.overlay {
-  position        : fixed;
-  top             : 0px;
-  left            : 0px;
-  width           : 100%;
-  height          : 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index         : 1;
-  display         : none;
+.formSoli .form-group input{
+  border: 1px solid #39c;
+  border-radius: 0;
 
 }
 
-.popup .content_popup {
-  position   : absolute;
-  top        : 50%;
-  left       : 50%;
-  transform  : translate(-50%, -50%) scale(0.0);
-  transition: all 100ms ease-in;
-  border-radius: 30px;
-  background : #fff;
-  width      : 480px;
-  height     : 380px;
-  z-index    : 2;
-  text-align : center;
-  padding    : 45px;
-  box-sizing : border-box;
-  font-family: "Open Sans", sans-serif;
-  border     : 3.5px solid rgba(102, 100, 105, 0.9);
-}
-
-#popupDataPay #content_popup_pay {
-  width      : 640px;
-  height     : 640px;
-}
-
-#body_pay{
-  padding-top: 20px;
-  padding-bottom: 2px;
-  text-align: left;
-}
-
-.content_popup .close-btn {
-  cursor       : pointer;
-  position     : absolute;
-  right        : 10px;
-  top          : 10px;
-  width        : 30px;
-  height       : 30px;
-  background   : #319;
-  color        : #fff;
-  font-size    : 30px;
-  font-weight  : 600;
-  line-height  : 30px;
-  text-align   : center;
-  border-radius: 50%;  
-}
-
-.popup.active .overlay {
-  display: block;
-}
-
-.popup.active .content_popup {
-  transition: all 800ms ease-in-out;
-  transform : translate(-50%, -45%) scale(0.95);
-}
-
-.popup.active .title_popup {
-  font-size: large;
-
-}
-
-.popup.active .body_popup {
-  font-size    : large;
-  margin-bottom: 30px;
-}
-
-.popup.active .footer_popup {
-  margin-top: 100px;
-  display   : inline;  
-}
-
-#btnNeg {
-  float: left;
-  margin-left: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-}
-
-#btnConf {
-  float: right;
-  margin-right: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-}
-
-.epayco-button-render{
-  transform: scale(1.3);
-  margin-left: 140px;
-  margin-top: 2px;
-}
-
-@media screen and (max-width: 600px) {
-  .popup.active .content_popup {
-    transform: translate(-50%, -50%) scale(0.72);
-  }
-}
-
-
-
-@media screen and (max-width: 550px){
-  .formSoli{
-    margin-top: 23px;
-  }
+.tagTop{
+  background-image: -webkit-linear-gradient(45deg,  rgba(255,255,255,0.0) 90%, #343b40 10%);
 }
