@@ -194,7 +194,7 @@ def responseTransactionEpayco(request, ref_payco = None):
                 context.msj = 'transacción pendiente'
           
             #Transaccion Fallida
-            if (response.x_cod_response == 4:
+            if response.x_cod_response == 4:
                 context.msj = 'transacción fallida'
           
 

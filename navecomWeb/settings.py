@@ -16,19 +16,24 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from dotenv import load_dotenv
+load_dotenv()
+
+# OR, the same with increased verbosity
+load_dotenv(verbose=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY_NAV_PRO']
+SECRET_KEY = os.getenv('SECRET_KEY_NAV_PRO')
 
 ## llaves api epayco
 
-P_CUST_ID_CLIENTE = os.environ['NAV_P_CUST_ID_CLIENTE']
-P_KEY = os.environ['NAV_P_KEY']
-PUBLIC_KEY = os.environ['NAV_PUBLIC_KEY']
-PRIVATE_KEY = os.environ['NAV_PRIVATE_KEY']
+P_CUST_ID_CLIENTE = os.getenv('NAV_P_CUST_ID_CLIENTE')
+P_KEY = os.getenv('NAV_P_KEY')
+PUBLIC_KEY = os.getenv('NAV_PUBLIC_KEY')
+PRIVATE_KEY = os.getenv('NAV_PRIVATE_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
