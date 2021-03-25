@@ -49,7 +49,7 @@ class monto_adicional(models.Model):
 class facturas(models.Model):
     id_bill = models.AutoField(primary_key=True)
     plan = models.ForeignKey('plan', models.DO_NOTHING, db_column='id_plan')
-    pago = models.BooleanField(db_column = 'arrears_state')
+    pago = models.BooleanField(db_column = 'arrears_state', default=0)
     total_recibido = models.DecimalField(max_digits= 9, decimal_places=2, blank=True, null=True, db_column='balance_received')
     total_pagar = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, db_column='total_pay')
     total_devuelto = models.DecimalField(max_digits=9, decimal_places=2, blank=True,null=True, db_column='balance_returned')
@@ -207,7 +207,8 @@ class plan(models.Model):
     estado_plan = models.ForeignKey(estados_plan, models.DO_NOTHING,default=1, db_column='state_plan')
     dia_inicio_pago = models.IntegerField(default=1, db_column='start_payment_day', choices=((1,1), (2,15)) )
     dias_limites_de_pago = models.IntegerField(default=5, blank=True, null=True, db_column='days_limit' )
-    ip_router = models.CharField(max_length=20, blank=True, null=True)
+    ip_router = models.CharField(max_length=20, blank=True, null=True, db_column='address_plan')
+    direccion_recidencial = models.CharField(max_length=300, blank=False, null=False)
     montos_adicionales = models.ManyToManyField(monto_adicional, blank=True)
     descuentos_adicionales = models.ManyToManyField(descuentos, blank=True)
     novedades = models.ManyToManyField(novedades_plan, blank=True)

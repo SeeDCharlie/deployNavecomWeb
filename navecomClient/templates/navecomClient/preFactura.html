@@ -90,7 +90,7 @@
 
                 <div class="row justify-content-end">
                     <div class="col-12 col-sm-9 titleDos ">Montos Adicionales</div>
-                    <div class="col-12 col-sm-2 titleDos">$ 0.00</div>
+                    <div class="col-12 col-sm-2 titleTres">$ 0.00</div>
                 </div>
                 <hr>
 
@@ -103,20 +103,17 @@
                 <div class="row justify-content-center justify-content-md-end">
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
-                        <button class="btn btn-cancel">
+                        <button id="btnReturn" class="btn btn-cancel">
                             Regresar
                         </button>
                     </div>
-
+                    {%csrf_token%}
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
-                        <button class="btn btn-ok">Pagar</button>
+                        <button id="btnPayInvoice" class="btn btn-ok" id_fact="{{factura.id_bill}}" url="{% url 'getDatsFrorEpayco' %}" >Pagar</button>
                         
                     </div>
                 </div>
-
-
-
 
             </div>
 
@@ -148,6 +145,7 @@
 {% block scripts %}
 <script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
 
-
+<script type="text/javascript" src="https://checkout.epayco.co/checkout.js"></script>
+<script src="{% static 'navecomClient/js_project/controlPreFactura.js' %}"></script>
 
 {% endblock %}

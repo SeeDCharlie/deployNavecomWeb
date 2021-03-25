@@ -21,7 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'w*pch_&+(4jv16l_@bqy(d74swhgm3*x3u45dx9crhpr5*b#j)'
+SECRET_KEY = os.environ['SECRET_KEY_NAV_PRO']
+
+## llaves api epayco
+
+P_CUST_ID_CLIENTE = os.environ['NAV_P_CUST_ID_CLIENTE']
+P_KEY = os.environ['NAV_P_KEY']
+PUBLIC_KEY = os.environ['NAV_PUBLIC_KEY']
+PRIVATE_KEY = os.environ['NAV_PRIVATE_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False

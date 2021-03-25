@@ -119,7 +119,7 @@ class datsClientsAdmin(admin.ModelAdmin):
 @admin.register(facturas)
 class facturaAdmin(admin.ModelAdmin):
 
-    list_filter = ('pago', 'fecha_creacion', 'metodo_pago')
+    list_filter = ('pago', 'fecha_creacion', 'metodo_pago', 'plan__dia_inicio_pago')
     list_display = ('id_bill', 'nombre', 'plan', 'total_pagar', 'descargar')
     list_display_links = ('id_bill', 'plan', 'nombre')
     show_full_result_count = 50

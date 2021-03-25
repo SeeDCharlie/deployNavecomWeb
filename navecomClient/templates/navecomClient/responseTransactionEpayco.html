@@ -1,0 +1,68 @@
+{% extends 'navecomClient/base1.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/navecomClient/css_project/solicitud_dis.css">
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6">Resultado de la Transaccion</div>
+                    <div class="col-6">{{msj}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Referencia</div>
+                    <div class="col-6">{{referencia}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Fecha</div>
+                    <div class="col-6">{{fecha}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Respuesta</div>
+                    <div class="col-6">{{respuesta}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Motivo</div>
+                    <div class="col-6">{{motivo}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Banco</div>
+                    <div class="col-6">{{banco}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Recibo</div>
+                    <div class="col-6">{{recibo}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Total</div>
+                    <div class="col-6">{{total}}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-blue">Volver Al Inicio</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-cancel">Descargar Factura</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
+
+{% endblock %}

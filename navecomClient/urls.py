@@ -16,5 +16,7 @@ urlpatterns = [
     path( 'preFactura/<int:idPlan>' , preFactura  , name = 'preFactura'),
     path( 'downloadFact/<int:id_fact>/' , downloadFact , name='downloadFact'),
     path( 'checkFacturaPlan/', checkFacturaPlan, name="checkFacturaPlan" ),
+    path( 'getDatsFrorEpayco/' , getDatsFrorEpayco, name='getDatsFrorEpayco'),
+    path( 'responseTransactionEpayco/<str:ref_payco>/', responseTransactionEpayco, name='responseTransactionEpayco'),
+    path( 'confirmationTransactionEpayco/', confirmationTransactionEpayco, name='confirmationTransactionEpayco'),
 ]
-

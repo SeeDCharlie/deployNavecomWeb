@@ -46,6 +46,7 @@ html, body{
   color: rgb(240, 240, 240);
   border-radius: 0 !important;
   width: 200px;
+  min-width: 100px;
   height: 60px;
 }
 
@@ -69,6 +70,7 @@ html, body{
   background-color: #06b400 ;
   color: rgb(240, 240, 240);
   border-radius: 0 !important;
+  min-width: 100px;
   width: 200px;
   height: 60px;
 }
@@ -86,6 +88,7 @@ html, body{
   color: rgb(240, 240, 240);
   border-radius: 0 !important;
   width: 200px;
+  min-width: 100px;
   height: 60px;
 }
 
