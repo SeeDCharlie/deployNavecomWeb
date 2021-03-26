@@ -166,8 +166,8 @@ def getDatsForEpayco(request):
 
 def responseTransactionEpayco(request, ref_payco = None):
     
-    if ref_payco != None :
-        
+    if request.method == 'GET' :
+        context = {'msj': 'no se encontro referencia de pago'}
         urlapp = "https://secure.epayco.co/validation/v1/reference/" + ref_payco
         response = requests.get(urlapp)
         if response :
@@ -196,7 +196,8 @@ def responseTransactionEpayco(request, ref_payco = None):
             #Transaccion Fallida
             if response.x_cod_response == 4:
                 context.msj = 'transacción fallida'
-          
+    
+
 
         return render(request, 'navecomClient/responseTransactionEpayco.html', context)
     
