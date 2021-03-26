@@ -242,4 +242,4 @@ def confirmationTransactionEpayco(request):
 
 
     else :
-        return redirect('solicitud')
+        return redirect('index')
