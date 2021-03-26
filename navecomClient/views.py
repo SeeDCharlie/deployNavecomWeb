@@ -164,11 +164,11 @@ def getDatsForEpayco(request):
     return redirect('index')
 
 
-def responseTransactionEpayco(request, ref_payco = None):
+def responseTransactionEpayco(request):
     
     if request.method == 'GET' :
         context = {'msj': 'no se encontro referencia de pago'}
-        urlapp = "https://secure.epayco.co/validation/v1/reference/" + ref_payco
+        urlapp = "https://secure.epayco.co/validation/v1/reference/" + request.GET.get('ref_payco')
         response = requests.get(urlapp)
         if response :
             response = response.json()['data']

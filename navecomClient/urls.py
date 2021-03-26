@@ -17,6 +17,6 @@ urlpatterns = [
     path( 'downloadFact/<int:id_fact>/' , downloadFact , name='downloadFact'),
     path( 'checkFacturaPlan/', checkFacturaPlan, name="checkFacturaPlan" ),
     path( 'getDatsForEpayco/' , getDatsForEpayco, name='getDatsForEpayco'),
-    re_path( r'^responseTransactionEpayco/(?P<ref_payco>/\w+)/$', responseTransactionEpayco, name='responseTransactionEpayco'),
+    path( 'responseTransactionEpayco/', responseTransactionEpayco, name='responseTransactionEpayco'),
     path( 'confirmationTransactionEpayco/', confirmationTransactionEpayco, name='confirmationTransactionEpayco'),
 ]
