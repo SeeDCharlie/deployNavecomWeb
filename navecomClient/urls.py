@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,re_path
 
 
 from .views import *
@@ -17,6 +17,6 @@ urlpatterns = [
     path( 'downloadFact/<int:id_fact>/' , downloadFact , name='downloadFact'),
     path( 'checkFacturaPlan/', checkFacturaPlan, name="checkFacturaPlan" ),
     path( 'getDatsForEpayco/' , getDatsForEpayco, name='getDatsForEpayco'),
-    path( 'responseTransactionEpayco/<str:ref_payco>/', responseTransactionEpayco, name='responseTransactionEpayco'),
+    re_path( r'^responseTransactionEpayco/(?P<ref_payco>/\w+)/$', responseTransactionEpayco, name='responseTransactionEpayco'),
     path( 'confirmationTransactionEpayco/', confirmationTransactionEpayco, name='confirmationTransactionEpayco'),
 ]
