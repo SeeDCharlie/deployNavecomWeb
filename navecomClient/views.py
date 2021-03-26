@@ -240,6 +240,6 @@ def confirmationTransactionEpayco(request):
         else:
             print('Firma no valida')
 
-
+        return redirect('index')
     else :
         return redirect('index')

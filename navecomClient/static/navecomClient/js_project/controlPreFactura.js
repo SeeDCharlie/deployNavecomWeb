@@ -34,8 +34,8 @@ function respuestaAjax(data) {
         external: "false",
 
         //Atributos opcionales
-        confirmation: "https://navecomingenieria.com/responseTransactionEpayco/",
-        response: "https://navecomingenieria.com/confirmationTransactionEpayco/",
+        confirmation: "https://navecomingenieria.com/confirmationTransactionEpayco/",
+        response: "https://navecomingenieria.com/responseTransactionEpayco/",
 
         //Atributos cliente
         name_billing: data.dats.name_billing,
