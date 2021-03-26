@@ -140,7 +140,7 @@ def checkFacturaPlan(request):
 ## funcion que retorna los datos de la factura que debe ir incluidos en la peticion de pago a epayco 
 ## data-epayco-costo, data-epayco-cliente, data-epayco-descripcion etc
 
-def getDatsFrorEpayco(request):
+def getDatsForEpayco(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
         try:
             idFact = int(json.loads(request.POST.get('dats'))['id_fact'])
@@ -201,7 +201,7 @@ def responseTransactionEpayco(request, ref_payco = None):
         return render(request, 'navecomClient/responseTransactionEpayco.html', context)
     
     else :
-        return redirect('index')
+        return redirect('solicitud')
 
 ## metodo que recibe los datos y estado de la transaccion por part de epayco estos datos son enviados por POST metodo
 ##
@@ -241,4 +241,4 @@ def confirmationTransactionEpayco(request):
 
 
     else :
-        return redirect('index')
+        return redirect('solicitud')

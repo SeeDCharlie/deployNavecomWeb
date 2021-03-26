@@ -98,7 +98,7 @@ class contrato(models.Model):
     activo = models.BooleanField(db_column='contract_status',default=True)
     fecha_creacion = models.DateField( blank=True, null = True, auto_now_add=True, db_column='registration_date')
     fecha_inicio_contrato = models.DateField(blank=False, null=False, db_column='start_contract')
-    fecha_minima_permanencia = models.DateField( db_column='end_contract')
+    fecha_minima_permanencia = models.DateField(blank=True, null = True, db_column='end_contract')
     fecha_ultima_modificacion = models.DateTimeField(blank=True, null = True, auto_now=True, db_column='last_modify')
 
     def __str__(self):

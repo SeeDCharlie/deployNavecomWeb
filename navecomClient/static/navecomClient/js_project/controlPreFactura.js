@@ -15,11 +15,11 @@ function respuestaAjax(data) {
 
     var handler = ePayco.checkout.configure({
         key: data.dats.key,
-        test: false
+        test: true
     });
+
     var daataPay = {
         //Parametros compra (obligatorio)
-
         name: data.dats.name,
         description: data.dats.description,
         invoice: data.dats.id_fact,

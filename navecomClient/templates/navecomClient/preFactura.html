@@ -110,13 +110,10 @@
                     {%csrf_token%}
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
-                        <button id="btnPayInvoice" class="btn btn-ok" id_fact="{{factura.id_bill}}" url="{% url 'getDatsFrorEpayco' %}" >Pagar</button>
-                        
+                        <button id="btnPayInvoice" class="btn btn-ok" id_fact="{{factura.id_bill}}" url="{% url 'getDatsForEpayco' %}" >Pagar</button>  
                     </div>
                 </div>
-
             </div>
-
 
             <!-- Epyaco img -->
 
@@ -132,19 +129,13 @@
 
     {% endif %}
 
-
-
-
-
 </nav>
-
 
 
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
-
 <script type="text/javascript" src="https://checkout.epayco.co/checkout.js"></script>
 <script src="{% static 'navecomClient/js_project/controlPreFactura.js' %}"></script>
 

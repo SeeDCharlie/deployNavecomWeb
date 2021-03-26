@@ -27,7 +27,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('nickname', 'tipo_usuario', 'estado')}),
         ('Informacion personal', {'fields': ('email', 'no_documento', 'nombre', 'apellido',
                                              'no_celular', 'tel_fijo', 'direccion', 'barrio', 'referencia_vivienda', 'password')}),
-        ('Permisos', {'fields': ('groups',)}),
+        #('Permisos', {'fields': ('groups',)}),
     )
 
     add_fieldsets = (
@@ -35,14 +35,14 @@ class UserAdmin(BaseUserAdmin):
             'classes': ('wide',),
             'fields': ('email', 'tipo_usuario', 'no_documento', 'nombre', 'apellido', 'no_celular', 'tel_fijo', 'direccion', 'barrio', 'referencia_vivienda', 'estado', 'nickname', 'password1', 'password2'),
         }),
-        ('Permisos', {'fields': ('groups', )}),
+        #('Permisos', {'fields': ('groups', )}),
     )
 
     #radio_fields = {"estado": admin.VERTICAL}
 
     search_fields = ('email', 'nombre', 'apellido')
     ordering = ('email', 'estado')
-    filter_horizontal = ('groups', )
+    #filter_horizontal = ('groups', )
 
     readonly_fields = ('estado',)
 
@@ -123,8 +123,8 @@ class facturaAdmin(admin.ModelAdmin):
     list_display = ('id_bill', 'nombre', 'plan', 'total_pagar', 'descargar')
     list_display_links = ('id_bill', 'plan', 'nombre')
     show_full_result_count = 50
-    autocomplete_fields = ['plan']
-    #raw_id_fields = ('plan' , )
+    #autocomplete_fields = ['plan']
+    raw_id_fields = ('plan' , )
     search_fields = ['nombre',  'id_bill']
     date_hierarchy = 'fecha_creacion'
 
@@ -214,7 +214,6 @@ class planAdmin(admin.ModelAdmin):
         querysetAux = super().get_queryset(request)
         return querysetAux.annotate(nombre_cliente=F('contrato__cliente__nombre'), apellido_cliente=F('contrato__cliente__apellido'), precio=F('servicio__costo'))
 
-
 @admin.register(solicitudes_servicio)
 class solitudServAdmin(admin.ModelAdmin):
 
@@ -223,7 +222,6 @@ class solitudServAdmin(admin.ModelAdmin):
                        'tel_fijo', 'direccion', 'fecha_solicitud', 'plan']
     list_filter = ('atendido',)
 
-
 @admin.register(servicio)
 class serviciosAdmin(admin.ModelAdmin):
 
@@ -231,16 +229,13 @@ class serviciosAdmin(admin.ModelAdmin):
     list_display_links = ('id_ser', 'nombre_servicio')
     search_fields = ('nombre_servicio', 'oferta_servicio')
 
-
 @admin.register(estados_usuario)
 class estadosUsuarioAdmin(admin.ModelAdmin):
     list_display = ('id_state_usr', 'nombre_estado', 'descripcion')
 
-
 @admin.register(estados_plan)
 class estadoPlanAdmin(admin.ModelAdmin):
     list_display = ('id_state_plan', 'estado_plan', 'descripcion')
-
 
 admin.site.register(monto_adicional)
 admin.site.register(descuentos)

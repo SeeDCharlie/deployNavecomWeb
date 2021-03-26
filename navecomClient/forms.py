@@ -28,11 +28,17 @@ class UserCreationForm(forms.ModelForm):
         
         if commit:
             user.save()
-
+        #damos permisos al administrador de django sí el usuario es tipo administrador (2) o superadministrador (1)
         if user.tipo_usuario.id_ty_us == 2 or user.tipo_usuario.id_ty_us == 1:
             user.usuario_administrador = True
             user.save()
-            
+            #añadimos al usuario al grupo de permisos al que pertenece
+            if user.tipo_usuario.id_ty_us == 2:
+                user_group = Group.objects.get(pk=2) 
+                user.groups.add(user_group)
+            if user.tipo_usuario.id_ty_us == 1:
+                user_group = Group.objects.get(pk=1) 
+                user.groups.add(user_group)
         return user
 
 class UserChangeForm(forms.ModelForm):
