@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from ..models import *
 from django.conf import settings
 import requests
+import hashlib
 
 
 class PagosEPayco():
@@ -34,7 +35,7 @@ class PagosEPayco():
             if query.exists():
                 fact = query.get(pk=idFact)
                 billing = fact.plan.contrato.cliente
-                #key, amount, name, description, price, document
+                # key, amount, name, description, price, document
                 if not fact.pago:
                     dats = {
                         'key': settings.PUBLIC_KEY,
@@ -58,40 +59,47 @@ class PagosEPayco():
             return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})
 
     def checkResponseTransactionPayco(self, request):
-        try :
-            x_ref_payco      = request.POST.get('x_ref_payco')
+        try:
+            x_ref_payco = request.POST.get('x_ref_payco')
             x_transaction_id = request.POST.get('x_transaction_id')
-            x_amount         = request.POST.get('x_amount')
-            x_currency_code  = request.POST.get('x_currency_code')
-            x_signature      = request.POST.get('x_signature')
+            x_amount = request.POST.get('x_amount')
+            x_currency_code = request.POST.get('x_currency_code')
+            x_signature = request.POST.get('x_signature')
 
             signature = hashlib.sha256()
-            signature.update(str(settings.P_CUST_ID_CLIENTE) + '^' + str(settings.P_KEY) + '^' + 
-                        str(x_ref_payco) + '^' + str(x_transaction_id) + '^' + str(x_amount) + '^' + str(x_currency_code))
+            signature.update(str(str(settings.P_CUST_ID_CLIENTE) + '^' + str(settings.P_KEY) + '^' +
+                        str(x_ref_payco) + '^' + str(x_transaction_id) + '^' + str(x_amount) + '^' + str(x_currency_code)).encode('utf-8'))
 
-            x_response     = request.POST.get('x_response')
-            x_motivo       = request.POST.get('x_response_reason_text')
-            x_id_invoice   = request.POST.get('x_id_invoice')
+            x_response = request.POST.get('x_response')
+            x_motivo = request.POST.get('x_response_reason_text')
+            x_id_invoice = request.POST.get('x_id_invoice')
             x_autorizacion = request.POST.get('x_approval_code')
             x_type_payment = request.POST.get('x_type_payment')
-            x_transaction_date = requests.POST.get('x_transaction_date')
+            x_transaction_date = request.POST.get('x_transaction_date')
 
-            id_fact = request.POST.get('x_id_factura')       
-            #Validamos la firma x_signature == signature.digest()
-            if x_signature == signature.digest() :
-                if x_cod_response == 1 :
+            id_fact = request.POST.get('x_id_factura')
+
+            # Validamos la firma x_signature == signature.digest()
+            if x_signature == signature.digest():
+                x_cod_response = request.POST.get('x_cod_response')
+                if x_cod_response == 1:
                     self.transactionConfirmPayco(x_type_payment,x_ref_payco,x_autorizacion, x_transaction_id,x_transaction_date, id_fact)
-                if x_cod_response == 2 :
+                    return JsonResponse({"success": False, 'msj': "transaccion exitosa"})
+                if x_cod_response == 2:
                     print("transaccion rechazada : ", id_fact)
-                if x_cod_response == 3 :
+                if x_cod_response == 3:
                     print("transaccion pendiente", id_fact)
-                if x_cod_response == 4 :
+                if x_cod_response == 4:
                     print("transaccion fallida", id_fact)
             else:
                 print('Firma no valida')
+                return JsonResponse({"success": False, 'msj': "firmano valida"})
 
         except Exception as error:
             print('error : ', error)
+            return JsonResponse({"success": False, 'msj': "e 1.1 : " + str(error)})
+
+
 
     def transactionConfirmPayco(self, *args):
         fact = facturas.objects.get(pk=args[5])
@@ -112,8 +120,6 @@ class PagosEPayco():
             pln.estado_plan = estados_plan.objects.get(pk=1)
             pln.save(update_fields=['estado_plan'], force_update=True)
 
-        print("transaccion aceptada : ", args[4])
-
     def checStatePlanOk(self, id_plan):
         plan = Plan.objects.get(pk=id_plan)
         query = facturas.objects.filter(plan=plan)
@@ -121,4 +127,3 @@ class PagosEPayco():
             return True
         else:
             return False
-        

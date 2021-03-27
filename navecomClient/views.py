@@ -11,6 +11,7 @@ from django.conf import settings
 import hashlib
 import requests
 from .modules.PagosEPayco import PagosEPayco
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -149,8 +150,6 @@ def responseTransactionEpayco(request):
                         }
                 #Transaccion Aprobada
                 if response['x_cod_response'] == 1:
-                    pagosMod = PagosEPayco()
-                    pagosMod.transactionConfirmPayco(request)
                     context['msj'] = "Transaccion Aprobada"  
                 #Transaccion Rechazada
                 if response['x_cod_response'] == 2:
@@ -177,15 +176,16 @@ def responseTransactionEpayco(request):
 
 ## metodo que recibe los datos y estado de la transaccion por part de epayco estos datos son enviados por POST metodo
 ##
-
+@csrf_exempt
 def confirmationTransactionEpayco(request):
     
     if request.method == 'POST':
-        try:
-            pagosMod = PagosEPayco()
-            pagosMod.transactionConfirmPayco(request)
-            return JsonResponse({'success':True})
-        except Exception as error:
-            return JsonResponse({'success': False})
+        #try:
+
+        pagosMod = PagosEPayco()
+        pagosMod.checkResponseTransactionPayco(request)
+        return JsonResponse({'success':True, 'msj':'exelente'})
+        #except Exception as error:
+          #  return JsonResponse({'success': False, 'msj':'error 1.2 : %s'%str(error)})
     else :
         return redirect('index')
