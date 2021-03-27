@@ -76,7 +76,7 @@ class PagosEPayco():
             x_type_payment = request.POST.get('x_type_payment')
             today = date.today()
             d1 = today.strftime("%Y-%m-%d")
-            x_transaction_date = d1 #request.POST.get('x_transaction_date')
+            x_transaction_date = "2021-02-20" #request.POST.get('x_transaction_date')
 
             id_fact = int(request.POST.get('x_id_factura').replace('"',''))
             
