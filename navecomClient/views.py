@@ -168,39 +168,40 @@ def responseTransactionEpayco(request):
     
     if request.method == 'GET' :
         context = {'msj': 'no se encontro referencia de pago'}
-        urlapp = "https://secure.epayco.co/validation/v1/reference/" + request.GET.get('ref_payco')
-        response = requests.get(urlapp)
-        if response :
-            response = response.json()['data']
-            context = {'fecha': response.x_transaction_date,
-                        'respuesta':response.x_response ,
-                        'referencia': response.x_id_invoice,
-                        'motivo': response.x_response_reason_text,
-                        'recibo': response.x_transaction_id,
-                        'banco': response.x_bank_name,
-                        'autorizacion': response.x_approval_code,
-                        'total':(response.x_amount + ' ' + response.x_currency_code),
-                        'msj':''
-                        }
-            if response.x_cod_response == 1:
-            #Codigo personalizado
-                context.msj = "Transaccion Aprobada"          
-            #Transaccion Rechazada
-            if response.x_cod_response == 2:
-                context.msj = 'transacción rechazada'
-          
-            #Transaccion Pendiente
-            if response.x_cod_response == 3:
-                context.msj = 'transacción pendiente'
-          
-            #Transaccion Fallida
-            if response.x_cod_response == 4:
-                context.msj = 'transacción fallida'
+        try :
+            urlapp = "https://secure.epayco.co/validation/v1/reference/" + str(request.GET.get('ref_payco'))
+            response = requests.get(urlapp)
     
+            if response :
+                response = response.json()['data']
+                context = {'fecha': response.x_transaction_date,
+                            'respuesta':response.x_response ,
+                            'referencia': response.x_id_invoice,
+                            'motivo': response.x_response_reason_text,
+                            'recibo': response.x_transaction_id,
+                            'banco': response.x_bank_name,
+                            'autorizacion': response.x_approval_code,
+                            'total':(response.x_amount + ' ' + response.x_currency_code),
+                            'msj':''
+                            }
+                if response.x_cod_response == 1:
+                #Codigo personalizado
+                    context.msj = "Transaccion Aprobada"          
+                #Transaccion Rechazada
+                if response.x_cod_response == 2:
+                    context.msj = 'transacción rechazada'
 
+                #Transaccion Pendiente
+                if response.x_cod_response == 3:
+                    context.msj = 'transacción pendiente'
 
-        return render(request, 'navecomClient/responseTransactionEpayco.html', context)
-    
+                #Transaccion Fallida
+                if response.x_cod_response == 4:
+                    context.msj = 'transacción fallida'
+
+                return render(request, 'navecomClient/responseTransactionEpayco.html', context)
+        except Exception as error : 
+            return render(request, 'navecomClient/responseTransactionEpayco.html', context)
     else :
         return redirect('solicitud')
 
