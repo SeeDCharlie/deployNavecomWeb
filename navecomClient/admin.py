@@ -130,14 +130,14 @@ class facturaAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Informacion de la factura', {'fields': ('pago', 'plan', 'total_recibido', 'total_pagar','total_devuelto', 'fecha_creacion', 'fecha_pago',
-                                                  'fecha_limite_pago', 'metodo_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo')}),
+                                                  'fecha_limite_pago', 'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion')}),
         ('Informacion del plan', {'fields': (
             'id_plan', 'servicio', 'costo_del_plan', 'saldo_en_contra', 'saldo_a_favor')}),
         ('Informacion del cliente', {
          'fields': ('nombre',  'no_documento')}),
     )
 
-    readonly_fields = ['total_pagar', 'fecha_creacion', 'fecha_limite_pago',  'metodo_pago', 'codigo_convenio', 'codigo_epy', 'pin_epy', 'numero_recibo', 'servicio',
+    readonly_fields = ['total_pagar', 'fecha_creacion', 'fecha_limite_pago',  'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion', 'servicio',
                        'saldo_en_contra', 'saldo_a_favor', 'nombre', 'no_documento', 'costo_del_plan', 'total_devuelto', 'id_plan']
 
     class Media:

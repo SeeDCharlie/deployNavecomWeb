@@ -179,36 +179,7 @@ def responseTransactionEpayco(request):
 def confirmationTransactionEpayco(request):
     
     if request.method == 'POST':
-
-        x_ref_payco      = request.POST.get('x_ref_payco')
-        x_transaction_id = request.POST.get('x_transaction_id')
-        x_amount         = request.POST.get('x_amount')
-        x_currency_code  = request.POST.get('x_currency_code')
-        x_signature      = request.POST.get('x_signature')
-
-        signature = hashlib.sha256()
-        signature.update(settings.P_CUST_ID_CLIENTE + '^' + settings.P_KEY + '^' + x_ref_payco + '^' + x_transaction_id + '^' + x_amount + '^' + x_currency_code)
-
-        x_response     = request.POST.get('x_response')
-        x_motivo       = request.POST.get('x_response_reason_text')
-        x_id_invoice   = request.POST.get('x_id_invoice')
-        x_autorizacion = request.POST.get('x_approval_code')
-
-        id_fact = request.POST.get('x_id_factura')       
-        #Validamos la firma
-        if x_signature == signature.digest() :
-            if x_cod_response == 1 :
-                print("transaccion aceptada : ", id_fact)
-            if x_cod_response == 2 :
-                print("transaccion rechazada : ", id_fact)
-            if x_cod_response == 3 :
-                print("transaccion pendiente", id_fact)
-            if x_cod_response == 4 :
-                print("transaccion fallida", id_fact)
-
-        else:
-            print('Firma no valida')
-
-        return redirect('index')
+        pagosMod = PagosEPayco()
+        return pagosMod.transactionConfirmPayco(request)
     else :
         return redirect('index')
