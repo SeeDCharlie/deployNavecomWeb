@@ -18,7 +18,7 @@ class PagosEPayco():
             if query.exists():
                 pln = query.get(pk=idPlan)
                 print("id plan : ", pln.id_plan)
-                if pln.estado_plan == estados_plan.objects.get(pk=4) or pln.estado_plan == estados_plan.objects.get(pk=2):
+                if pln.estado_plan == estados_plan.objects.get(pk=4) or pln.estado_plan == estados_plan.objects.get(pk=2) or not self.checStatePlanOk(pln):
                     return JsonResponse({'success': True, 'url': reverse('preFactura', kwargs={'idPlan': pln.id_plan})})
                 else:
                     return JsonResponse({'success': False, 'msj': 'No tienes facturas por pagar'})
@@ -104,7 +104,7 @@ class PagosEPayco():
             return JsonResponse({"success": False, 'msj': "e 1.1 : " + str(error)})
 
 
-
+    #se hace registro del pago con los datos de confirmacion de devuelve epayco
     def transactionConfirmPayco(self, *args):
         fact = facturas.objects.get(pk=args[5])
         fact.pago = 1
@@ -123,6 +123,7 @@ class PagosEPayco():
             pln.estado_plan = estados_plan.objects.get(pk=1)
             pln.save(update_fields=['estado_plan'], force_update=True)
 
+    #verifica que un plan no tenga facturaspendientes por pagar
     def checStatePlanOk(self, pln):
         query = facturas.objects.filter(plan=pln)
         if query.exists():
