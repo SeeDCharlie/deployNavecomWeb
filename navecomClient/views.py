@@ -149,6 +149,8 @@ def responseTransactionEpayco(request):
                         }
                 #Transaccion Aprobada
                 if response['x_cod_response'] == 1:
+                    pagosMod = PagosEPayco()
+                    pagosMod.transactionConfirmPayco(request)
                     context['msj'] = "Transaccion Aprobada"  
                 #Transaccion Rechazada
                 if response['x_cod_response'] == 2:

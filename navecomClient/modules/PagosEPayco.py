@@ -58,11 +58,7 @@ class PagosEPayco():
             return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})
 
     def checkResponseTransactionPayco(self, request):
-        f = open("/home/admseed/public_html/logs_navecom_uno.txt", "w")
         try :
-            
-            f.write("init check proccess!\n")
-            
             x_ref_payco      = request.POST.get('x_ref_payco')
             x_transaction_id = request.POST.get('x_transaction_id')
             x_amount         = request.POST.get('x_amount')
@@ -84,24 +80,17 @@ class PagosEPayco():
             #Validamos la firma x_signature == signature.digest()
             if x_signature == signature.digest() :
                 if x_cod_response == 1 :
-                    f.write("empezando aprobacion : !\n")
                     self.transactionConfirmPayco(x_type_payment,x_ref_payco,x_autorizacion, x_transaction_id,x_transaction_date, id_fact)
-                    f.write("fializando aprobacion : !\n")
                 if x_cod_response == 2 :
                     print("transaccion rechazada : ", id_fact)
                 if x_cod_response == 3 :
                     print("transaccion pendiente", id_fact)
                 if x_cod_response == 4 :
                     print("transaccion fallida", id_fact)
-                f.close()
             else:
-                f.write("no se pudo validar la llave : !\n")
-                f.close()
                 print('Firma no valida')
 
         except Exception as error:
-            f.write("error try : %s  !\n"%str(error))
-            f.close()
             print('error : ', error)
 
     def transactionConfirmPayco(self, *args):
