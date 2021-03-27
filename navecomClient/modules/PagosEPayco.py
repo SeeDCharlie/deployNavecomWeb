@@ -106,7 +106,8 @@ class PagosEPayco():
         fact.save(update_fields=['pago','type_method',
                         'referencia_payco',
                         'codigo_aprobacion_payco',
-                        'numero_recibo_transaccion'], force_update=True)
+                        'numero_recibo_transaccion',
+                        'fecha_pago'], force_update=True)
         if self.checStatePlanOk(id_plan):
             pln = Plan.objects.get(pk=id_plan)
             pln.estado_plan = estados_plan.objects.get(pk=1)
