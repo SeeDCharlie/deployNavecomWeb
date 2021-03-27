@@ -201,7 +201,7 @@ def responseTransactionEpayco(request):
 
                 return render(request, 'navecomClient/responseTransactionEpayco.html', context)
         except Exception as error : 
-            context.msj = str(error)
+            context.msj = error
             return render(request, 'navecomClient/responseTransactionEpayco.html', context)
     else :
         return redirect('solicitud')
