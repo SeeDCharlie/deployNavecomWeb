@@ -21,12 +21,12 @@ class PagosEPayco():
                 if pln.estado_plan == estados_plan.objects.get(pk=4) or pln.estado_plan == estados_plan.objects.get(pk=2):
                     return JsonResponse({'success': True, 'url': reverse('preFactura', kwargs={'idPlan': pln.id_plan})})
                 else:
-                    return JsonResponse({'success': False, 'msj': 'No tienes saldo por pagar'})
+                    return JsonResponse({'success': False, 'msj': 'No tienes facturas por pagar'})
             else:
                 return JsonResponse({'success': False, 'msj': 'El plan que ingreso no existe en nuesta base de datos'})
         except Exception as error:
             print(error)
-            return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})
+            return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifique el numero que ingreso o intente mas tarde'})
 
     def sendDatsCleintToPay(self, request):
         try:
@@ -53,7 +53,7 @@ class PagosEPayco():
                 else:
                     return JsonResponse({'success': False, 'msj': 'La factura ya fue cancelada, gracias por su fidelidad'})
             else:
-                return JsonResponse({'success': False, 'msj': 'El plan que ingreso no existe en nuesta base de datos'})
+                return JsonResponse({'success': False, 'msj': 'El numero de plan que ingreso no existe en nuesta base de datos'})
         except Exception as error:
             print("error : ", error)
             return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})

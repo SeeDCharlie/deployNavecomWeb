@@ -60,7 +60,7 @@ class facturas(models.Model):
     numero_recibo_transaccion = models.CharField(max_length=250, blank=True, null=True, db_column='id_invoice_payco')
     
     fecha_creacion = models.DateField(blank=True, null=True, auto_now_add=True, db_column='recovery_date')
-    fecha_pago = models.DateField(blank=True, null=True, db_column='payment_date')
+    fecha_pago = models.DateTimeField(blank=True, null=True, db_column='payment_date')
     fecha_limite_pago = models.DateField(blank=True, null = True, db_column='payday_limit')
 
     def __str__(self):
