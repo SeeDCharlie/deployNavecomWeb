@@ -66,7 +66,8 @@ class PagosEPayco():
             x_signature      = request.POST.get('x_signature')
 
             signature = hashlib.sha256()
-            signature.update(settings.P_CUST_ID_CLIENTE + '^' + settings.P_KEY + '^' + x_ref_payco + '^' + x_transaction_id + '^' + x_amount + '^' + x_currency_code)
+            signature.update(str(settings.P_CUST_ID_CLIENTE) + '^' + str(settings.P_KEY) + '^' + 
+                        str(x_ref_payco) + '^' + str(x_transaction_id) + '^' + str(x_amount) + '^' + str(x_currency_code))
 
             x_response     = request.POST.get('x_response')
             x_motivo       = request.POST.get('x_response_reason_text')
@@ -109,6 +110,7 @@ class PagosEPayco():
         if self.checStatePlanOk(id_plan):
             pln = Plan.objects.get(pk=id_plan)
             pln.estado_plan = estados_plan.objects.get(pk=1)
+            pln.save(update_fields=['estado_plan'], force_update=True)
 
         print("transaccion aceptada : ", args[4])
 

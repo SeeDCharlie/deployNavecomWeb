@@ -147,8 +147,8 @@ def responseTransactionEpayco(request):
                     'fact':fact,
                     'msj':''
                         }
+                #Transaccion Aprobada
                 if response['x_cod_response'] == 1:
-                #Codigo personalizado
                     context['msj'] = "Transaccion Aprobada"  
                 #Transaccion Rechazada
                 if response['x_cod_response'] == 2:
@@ -179,7 +179,11 @@ def responseTransactionEpayco(request):
 def confirmationTransactionEpayco(request):
     
     if request.method == 'POST':
-        pagosMod = PagosEPayco()
-        return pagosMod.transactionConfirmPayco(request)
+        try:
+            pagosMod = PagosEPayco()
+            pagosMod.transactionConfirmPayco(request)
+            return JsonResponse({'success':True})
+        except Exception as error:
+            return JsonResponse({'success': False})
     else :
         return redirect('index')
