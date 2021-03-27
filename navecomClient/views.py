@@ -10,6 +10,7 @@ from .models import *
 from django.conf import settings
 import hashlib
 import requests
+from .modules.PagosEPayco import PagosEPayco
 
 # Create your views here.
 
@@ -29,13 +30,11 @@ def preFactura(request, idPlan = -1):
         #no plan, no factura, fecha vencimiento, total a pagar, nombres propietario, nombre plan, total
         try:
             factura = facturas.objects.get(plan=plan.objects.get(pk=int(idPlan)))
-
             if factura.plan.estado_plan == estados_plan.objects.get(pk=4) :
-                
                 context = {'factura': factura, 'msj': 'Bienvenido'}
                 return render(request, 'navecomClient/preFactura.html', context )
             else :
-                return render(request, 'navecomClient/preFactura.html' ,{'error': True, 'msj': 'USTED NOT TIENE SALDO PENDIENTE POR PAGAR' })
+                return render(request, 'navecomClient/preFactura.html' ,{'error': True, 'msj': 'USTED NO TIENE SALDO PENDIENTE POR PAGAR' })
         except Exception as error:
             print(error)
             return render(request, 'navecomClient/preFactura.html', {'error': True, 'msj': 'LO SENTIMOS, POR FAVOR INTENTE MAS TARDE.' })
@@ -64,15 +63,11 @@ def homeClient(request):
 
 # login
 def loginUsr(request):
-
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
-
         c = ControlLogin()
         email = json.loads(request.POST.get('dats'))['email']
         passw = json.loads(request.POST.get('dats'))['pass']
-
         return c.loggin(request, email, passw)
-        
     else :
         return redirect('login')
 
@@ -101,11 +96,8 @@ def getDataContact(request):
 #devuelve la factura en pdf. la peticion debe ser ajax y post y llevar dentro el id de la factura
 
 def downloadFact(request, id_fact):
-
     if request.user.is_authenticated and request.user.tipo_usuario == tipo_usuario.objects.all().get(pk=1)  :
-
         try:
-                
             return render_to_pdf_response(request, 'navecomClient/templatesAdmin/modelFact.html', {'content': "pdf prueba"},
                                       download_filename='prueba.pdf', base_url=request.build_absolute_uri())
         except Exception as error : 
@@ -118,51 +110,18 @@ def downloadFact(request, id_fact):
 ## pagina con el resumen de la factura que debe pagar
 def checkFacturaPlan(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
-        try:
-            idPlan = int(json.loads(request.POST.get('dats'))['idPlan'])
-            query = plan.objects.filter(pk= idPlan)
-            if query.exists() :
-                pln = query.get(pk=idPlan)
-                print("id plan : " , pln.id_plan )
-                if pln.estado_plan == estados_plan.objects.get(pk=4) :
-                    return JsonResponse({'success': True, 'url': reverse( 'preFactura', kwargs={'idPlan' : pln.id_plan } ) })
-                else :
-                    return JsonResponse({'success': False, 'msj': 'No tienes saldo por pagar'})
-            else:
-                return JsonResponse({'success': False, 'msj': 'El plan que ingreso no existe en nuesta base de datos'})
-        except Exception as error:
-            print(error)
-            return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})
+        pagosMod = PagosEPayco()
+        return pagosMod.checkPlanToPay(request)
     return redirect('index')
-
-
 
 ## funcion que retorna los datos de la factura que debe ir incluidos en la peticion de pago a epayco 
 ## data-epayco-costo, data-epayco-cliente, data-epayco-descripcion etc
 
 def getDatsForEpayco(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
-        try:
-            idFact = int(json.loads(request.POST.get('dats'))['id_fact'])
-            query = facturas.objects.filter(pk= idFact)
-            if query.exists() :
-                fact = query.get(pk=idFact)
-                billing = fact.plan.contrato.cliente
-                #key, amount, name, description, price, document 
-                if not fact.pago :
-                    dats = {'key': settings.PUBLIC_KEY, 'name': 'Plan de Internet' , 'description':( fact.plan.servicio.servicio.nombre_servicio + " " + fact.plan.servicio.complemento_servicio ),
-                            'id_fact': str(fact.id_bill) , 'price' : str(fact.total_pagar), 'name_billing': (billing.nombre + " " + billing.apellido), 'address' : billing.direccion,
-                            'document': str(billing.no_documento), 'phone':str(billing.no_celular)}
-                    return JsonResponse({'success': True, 'dats': dats})
-                else:
-                    return JsonResponse({'success': False, 'msj': 'La factura ya fue cancelada, gracias por su fidelidad'})
-            else:
-                return JsonResponse({'success': False, 'msj': 'El plan que ingreso no existe en nuesta base de datos'})
-        except Exception as error:
-            print("error : ", error)
-            return JsonResponse({'success': False, 'msj': 'No pudimos procesar tu solicitud\nVerifica el numero que ingresaste o intenta mas tarde'})
+        pagosMod = PagosEPayco()
+        return pagosMod.sendDatsCleintToPay(request)
     return redirect('index')
-
 
 def responseTransactionEpayco(request):
     
@@ -174,38 +133,42 @@ def responseTransactionEpayco(request):
     
             if response :
                 response = response.json()['data']
-    
-                
-                context = {'fecha': response['x_transaction_date'],
-                        'respuesta': response['x_response'] ,
-                        'referencia': response['x_id_invoice'],
-                        'motivo': response['x_response_reason_text'],
-                        'recibo': response['x_transaction_id'],
-                        'banco': response['x_bank_name'],
-                        'autorizacion': response['x_approval_code'],
-                        'total':(response['x_amount'] + ' ' + response['x_currency_code']),
-                        'msj':''
+                fact = facturas.objects.get(pk=response['x_id_invoice'])
+                context = {
+                    'fecha': response['x_transaction_date'],
+                    'referenciaPayco': response['x_ref_payco'],
+                    'no_factura': response['x_id_invoice'],
+                    'motivo': response['x_description'],
+                    'recibo': response['x_transaction_id'],
+                    'banco': response['x_bank_name'],
+                    'total':( str(response['x_amount']) + ' ' + str(response['x_currency_code']) ),
+                    'estado_transaccion' : response['x_transaction_state'],
+                    'payment_type':response['x_type_payment'],
+                    'fact':fact,
+                    'msj':''
                         }
                 if response['x_cod_response'] == 1:
                 #Codigo personalizado
-                    context['msj'] = "Transaccion Aprobada" + response['status']    
+                    context['msj'] = "Transaccion Aprobada"  
                 #Transaccion Rechazada
                 if response['x_cod_response'] == 2:
-                    context['msj'] = 'transacción rechazada' + response['status'] 
+                    context['msj'] = 'transacción rechazada' 
                 #Transaccion Pendiente
                 if response['x_cod_response'] == 3:
-                    context['msj'] = 'transacción pendiente' + response['status'] 
+                    context['msj'] = 'transacción pendiente' 
                 #Transaccion Fallida
                 if response['x_cod_response'] == 4:
-                    context['msj'] = 'transacción fallida' + response['status']
+                    context['msj'] = 'transacción fallida'
             
                 return render(request, 'navecomClient/responseTransactionEpayco.html', context)
 
             else:
+                context['error'] = True
                 context['msj'] = "Lo sentimos, intente mas tarde, si el problema persiste comuniquese con nosotros"
                 return render(request, 'navecomClient/responseTransactionEpayco.html', context)
         except Exception as error : 
-            context['msj'] = "Lo sentimos, intente mas tarde, si el problema persiste comuniquese con nosotros" + error
+            context['error'] = True
+            context['msj'] = "Lo sentimos, intente mas tarde, si el problema persiste comuniquese con nosotros.\n error:" + str(error) 
             return render(request, 'navecomClient/responseTransactionEpayco.html', context)
     else :
         return redirect('solicitud')

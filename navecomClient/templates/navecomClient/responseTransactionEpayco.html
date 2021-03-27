@@ -2,67 +2,149 @@
 {% load static %}
 
 {% block styles %}
-<link rel="stylesheet" href="/static/navecomClient/css_project/solicitud_dis.css">
+<link rel="stylesheet" href="/static/navecomClient/css_project/preFactura_dis.css">
 {% endblock %}
 
 
 {% block content %}
 
+<nav class="solicMain">
+
+    {% if error %}
+
+    <div class="container" style="padding: 7% 10px;">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-4 align-self-center">
+                <h1 style="color: #00425C; font-size: 50px; font-weight: 800;">
+                    {{msj}}
+                </h1>
+
+                <a href="{% url 'index' %}">
+                    <button class="btn btn-blue">
+                        Volver
+                    </button>
+                </a>
+
+            </div>
+            <div class="col-12 col-sm-8">
+                <img class="img-fluid" src="{% static 'navecomClient/img/404error.png' %}" style="width: 1000px;"
+                    alt="">
+            </div>
+        </div>
+    </div>
+    {% else %}
 
     <div class="container">
         <div class="row justify-content-center">
 
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-6">Resultado de la Transaccion</div>
-                    <div class="col-6">{{msj}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Referencia</div>
-                    <div class="col-6">{{referencia}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Fecha</div>
-                    <div class="col-6">{{fecha}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Respuesta</div>
-                    <div class="col-6">{{respuesta}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Motivo</div>
-                    <div class="col-6">{{motivo}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Banco</div>
-                    <div class="col-6">{{banco}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Recibo</div>
-                    <div class="col-6">{{recibo}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Total</div>
-                    <div class="col-6">{{total}}</div>
-                </div>
+            <div class="col-12 preFactForm borderFormFacat">
 
                 <div class="row">
-                    <div class="col-6">
-                        <button class="btn btn-blue">Volver Al Inicio</button>
+                    <div class="col-10 align-self-center">
+
+                        <div class="row">
+                            <h2 class="titleUno col-12">RESUMEN DE LA FACTURA</h2>
+                            <h5 class="titleDos col-9 col-sm-4">Numero del Plan </h5>
+                            <h5 class="titleTres col-3 col-sm-3"># {{fact.plan.id_plan}} </h5>
+                            <div class="titleDos col-12 col-sm-4" style="color: yellowgreen;">{{msj}}</div>
+                        </div>
+
                     </div>
-                    <div class="col-6">
-                        <button class="btn btn-cancel">Descargar Factura</button>
+                    <div class="col-2">
+                        <img class="img-fluid" alt="Responsive image" style="max-width: 100px;"
+                            src="{% static 'navecomClient/img/bill_img.png' %}" alt="">
+                    </div>
+
+
+                </div>
+                <hr>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 col-sm-5">
+                        <h5 class="titleDos">Numero de Factura</h5>
+                        <span class="titleTres"><i class="fa fa-file-text"></i> # {{no_factura}}</span>
+                    </div>
+                    <div class="col-12 col-sm-5">
+                        <h5 class="titleDos">Fecha de Pago</h5>
+                        <span class="titleTres"><i class="fa fa-calendar-times-o"></i>
+                            {{fecha}}</span>
+                    </div>
+                    <div class="col-12 col-sm-2 d-none d-sm-block ">
+                        <div class="row">
+                            <h5 class="titleDos col-12">Motivo</h5>
+                            <h3 class="titleTres col-12">{{motivo}}</h3>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-4 titleDos">Propietario del Plan</div>
+                    <div class="col-12 col-sm-7 titleTres">
+                        {{fact.plan.contrato.cliente.nombre}} {{fact.plan.contrato.cliente.apellido}}
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-4 titleDos ">Referencia ePayco</div>
+                    <div class="col-12 col-sm-7 titleTres">{{referenciaPayco}}</div>
+                </div>
+                <hr>
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-4 titleDos ">Plan</div>
+                    <div class="col-12 col-sm-5 titleTres">{{fact.plan.servicio}}</div>
+                    <div class="col-12 col-sm-2 titleTres">$ {{fact.plan.servicio.costo}}</div>
+                </div>
+                <hr>
+
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleDos ">Total</div>
+                    <div class="col-12 col-sm-2 titleDos">$ {{total}}</div>
+                </div>
+                <hr>
+
+                <div class="row justify-content-center justify-content-md-end">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <br>
+                        <a href="{% url 'index' %}"  >
+                            <button id="btnReturn" class="btn btn-blue">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>Regresar
+                            </button>
+                        </a>
+
+                        
+                    </div>
+                    {%csrf_token%}
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <br>
+                        <button id="btnPayInvoice" class="btn btn-cancel" id_fact="{{fact.id_bill}}"
+                            url="{% url 'getDatsForEpayco' %}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                             Factura
+                        </button>
+
                     </div>
                 </div>
             </div>
 
+            <!-- Epyaco img -->
+
+            <div class="col-12 footerFormFact borderFormFacat" id="epayco_img">
+                <img class="img-fluid" alt="Responsive image"
+                    src="https://multimedia.epayco.co/epayco-landing/btns/pagos_procesados_por_epayco_370px_.png"
+                    alt="epayco">
+            </div>
+
         </div>
+
     </div>
+
+    {% endif %}
+
+</nav>
 
 {% endblock %}
 
 {% block scripts %}
-
 <script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
 
 {% endblock %}
