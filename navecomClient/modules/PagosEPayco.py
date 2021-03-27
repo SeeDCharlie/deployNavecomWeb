@@ -7,7 +7,7 @@ from ..models import *
 from django.conf import settings
 import requests
 import hashlib
-
+from datetime import date
 
 class PagosEPayco():
 
@@ -74,7 +74,9 @@ class PagosEPayco():
             x_id_invoice = int(request.POST.get('x_id_invoice').replace('"',''))
             x_autorizacion = request.POST.get('x_approval_code')
             x_type_payment = request.POST.get('x_type_payment')
-            x_transaction_date = request.POST.get('x_transaction_date').replace('"','')
+            today = date.today()
+            d1 = today.strftime("%Y-%m-%d")
+            x_transaction_date = d1 #request.POST.get('x_transaction_date')
 
             id_fact = int(request.POST.get('x_id_factura').replace('"',''))
             
