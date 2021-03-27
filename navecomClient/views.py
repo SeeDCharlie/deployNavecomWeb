@@ -180,12 +180,13 @@ def responseTransactionEpayco(request):
 def confirmationTransactionEpayco(request):
     
     if request.method == 'POST':
-        #try:
+        try:
 
-        pagosMod = PagosEPayco()
-        pagosMod.checkResponseTransactionPayco(request)
-        return JsonResponse({'success':True, 'msj':'exelente'})
-        #except Exception as error:
-          #  return JsonResponse({'success': False, 'msj':'error 1.2 : %s'%str(error)})
+            pagosMod = PagosEPayco()
+            print("request content : ",[ str(i) for i in request.POST.items()] )
+            return pagosMod.checkResponseTransactionPayco(request)
+
+        except Exception as error:
+            return JsonResponse({'success': False, 'msj':'error 1.2 : %s'%str(error)})
     else :
         return redirect('index')

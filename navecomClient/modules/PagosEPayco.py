@@ -64,36 +64,38 @@ class PagosEPayco():
             x_transaction_id = request.POST.get('x_transaction_id')
             x_amount = request.POST.get('x_amount')
             x_currency_code = request.POST.get('x_currency_code')
-            x_signature = request.POST.get('x_signature')
-
-            signature = hashlib.sha256()
-            signature.update(str(str(settings.P_CUST_ID_CLIENTE) + '^' + str(settings.P_KEY) + '^' +
-                        str(x_ref_payco) + '^' + str(x_transaction_id) + '^' + str(x_amount) + '^' + str(x_currency_code)).encode('utf-8'))
+            x_signature = str(request.POST.get('x_signature')).encode('utf-8')
+            
+            #signature.update(str(str(settings.P_CUST_ID_CLIENTE) + '^' + str(settings.P_KEY) + '^' +
+            #            str(x_ref_payco) + '^' + str(x_transaction_id) + '^' + str(x_amount) + '^' + str(x_currency_code)).encode('utf-8'))
 
             x_response = request.POST.get('x_response')
             x_motivo = request.POST.get('x_response_reason_text')
-            x_id_invoice = request.POST.get('x_id_invoice')
+            x_id_invoice = int(request.POST.get('x_id_invoice').replace('"',''))
             x_autorizacion = request.POST.get('x_approval_code')
             x_type_payment = request.POST.get('x_type_payment')
-            x_transaction_date = request.POST.get('x_transaction_date')
+            x_transaction_date = request.POST.get('x_transaction_date').replace('"','')
 
-            id_fact = request.POST.get('x_id_factura')
-
+            id_fact = int(request.POST.get('x_id_factura').replace('"',''))
+            
             # Validamos la firma x_signature == signature.digest()
-            if x_signature == signature.digest():
-                x_cod_response = request.POST.get('x_cod_response')
+            if True:
+                x_cod_response = int(request.POST.get('x_cod_response').replace('"',''))
                 if x_cod_response == 1:
-                    self.transactionConfirmPayco(x_type_payment,x_ref_payco,x_autorizacion, x_transaction_id,x_transaction_date, id_fact)
-                    return JsonResponse({"success": False, 'msj': "transaccion exitosa"})
+                    self.transactionConfirmPayco(x_type_payment, x_ref_payco,x_autorizacion, x_transaction_id,x_transaction_date, id_fact)
+                    return JsonResponse({"success": False, 'msj': "1transaccion exitosa"})
                 if x_cod_response == 2:
                     print("transaccion rechazada : ", id_fact)
+                    return JsonResponse({"success": False, 'msj': "2transaccion exitosa"})
                 if x_cod_response == 3:
                     print("transaccion pendiente", id_fact)
+                    return JsonResponse({"success": False, 'msj': "3transaccion exitosa"})
                 if x_cod_response == 4:
                     print("transaccion fallida", id_fact)
+                    return JsonResponse({"success": False, 'msj': "4transaccion exitosa"})
             else:
                 print('Firma no valida')
-                return JsonResponse({"success": False, 'msj': "firmano valida"})
+                return JsonResponse({"success": False, 'msj': "firma no valida"})
 
         except Exception as error:
             print('error : ', error)
@@ -109,21 +111,18 @@ class PagosEPayco():
         fact.codigo_aprobacion_payco = args[2]
         fact.numero_recibo_transaccion = args[3]
         fact.fecha_pago = args[4]
-        id_plan = fact.plan.id_plan
+        pln = fact.plan
         fact.save(update_fields=['pago','type_method',
                         'referencia_payco',
                         'codigo_aprobacion_payco',
                         'numero_recibo_transaccion',
                         'fecha_pago'], force_update=True)
-        if self.checStatePlanOk(id_plan):
-            pln = Plan.objects.get(pk=id_plan)
+        if self.checStatePlanOk(pln):
             pln.estado_plan = estados_plan.objects.get(pk=1)
             pln.save(update_fields=['estado_plan'], force_update=True)
 
-    def checStatePlanOk(self, id_plan):
-        plan = Plan.objects.get(pk=id_plan)
-        query = facturas.objects.filter(plan=plan)
+    def checStatePlanOk(self, pln):
+        query = facturas.objects.filter(plan=pln)
         if query.exists():
             return True
-        else:
-            return False
+        return False
