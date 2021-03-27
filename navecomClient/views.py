@@ -175,42 +175,37 @@ def responseTransactionEpayco(request):
             if response :
                 response = response.json()['data']
     
-                if response['status'] != 'error':
-                    context = {'fecha': response['x_transaction_date'],
-                            'respuesta': response['x_response'] ,
-                            'referencia': response['x_id_invoice'],
-                            'motivo': response['x_response_reason_text'],
-                            'recibo': response['x_transaction_id'],
-                            'banco': response['x_bank_name'],
-                            'autorizacion': response['x_approval_code'],
-                            'total':(response['x_amount'] + ' ' + response['x_currency_code']),
-                            'msj':''
-                            }
-                    if response['x_cod_response'] == 1:
-                    #Codigo personalizado
-                        context['msj'] = "Transaccion Aprobada" + response['status']    
-                    #Transaccion Rechazada
-                    if response['x_cod_response'] == 2:
-                        context['msj'] = 'transacción rechazada' + response['status'] 
-
-                    #Transaccion Pendiente
-                    if response['x_cod_response'] == 3:
-                        context['msj'] = 'transacción pendiente' + response['status'] 
-
-                    #Transaccion Fallida
-                    if response['x_cod_response'] == 4:
-                        context['msj'] = 'transacción fallida' + response['status']
                 
-                    return render(request, 'navecomClient/responseTransactionEpayco.html', context)
-                else:
-                    context['msj'] = str(response)
-                    return render(request, 'navecomClient/responseTransactionEpayco.html', context)
+                context = {'fecha': response['x_transaction_date'],
+                        'respuesta': response['x_response'] ,
+                        'referencia': response['x_id_invoice'],
+                        'motivo': response['x_response_reason_text'],
+                        'recibo': response['x_transaction_id'],
+                        'banco': response['x_bank_name'],
+                        'autorizacion': response['x_approval_code'],
+                        'total':(response['x_amount'] + ' ' + response['x_currency_code']),
+                        'msj':''
+                        }
+                if response['x_cod_response'] == 1:
+                #Codigo personalizado
+                    context['msj'] = "Transaccion Aprobada" + response['status']    
+                #Transaccion Rechazada
+                if response['x_cod_response'] == 2:
+                    context['msj'] = 'transacción rechazada' + response['status'] 
+                #Transaccion Pendiente
+                if response['x_cod_response'] == 3:
+                    context['msj'] = 'transacción pendiente' + response['status'] 
+                #Transaccion Fallida
+                if response['x_cod_response'] == 4:
+                    context['msj'] = 'transacción fallida' + response['status']
+            
+                return render(request, 'navecomClient/responseTransactionEpayco.html', context)
 
             else:
                 context['msj'] = "Lo sentimos, intente mas tarde, si el problema persiste comuniquese con nosotros"
                 return render(request, 'navecomClient/responseTransactionEpayco.html', context)
         except Exception as error : 
-            context['msj'] = error
+            context['msj'] = "Lo sentimos, intente mas tarde, si el problema persiste comuniquese con nosotros" + error
             return render(request, 'navecomClient/responseTransactionEpayco.html', context)
     else :
         return redirect('solicitud')
