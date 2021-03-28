@@ -7,7 +7,7 @@ from .forms import *
 from django.db.models import F
 from django.utils.html import format_html
 
-
+from django.contrib.admin.models import LogEntry
 from django.contrib.admin.widgets import AutocompleteSelect
 
 # Register your models here.
@@ -195,6 +195,7 @@ class planAdmin(admin.ModelAdmin):
                        'dias_limites_de_pago', 'saldo_contra', 'saldo_favor', 'estado_plan']
 
     autocomplete_fields = ['contrato', 'servicio']
+    
     filter_horizontal = ('montos_adicionales',
                          'descuentos_adicionales', 'novedades')
 
@@ -246,3 +247,5 @@ admin.site.register(tipo_usuario)
 admin.site.register(Permission)
 admin.site.register(zonas_servicio)
 admin.site.register(contact_request)
+admin.site.register(LogEntry)
+admin.site.register(routers)

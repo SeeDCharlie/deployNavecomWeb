@@ -37,6 +37,7 @@ class monto_adicional(models.Model):
     descripcion = models.CharField(max_length=60, blank=True, null=True, db_column='description')
     precio = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, db_column='price')
     porcentaje = models.DecimalField(max_digits=4, decimal_places=3, blank=True, null=True, db_column='percentage')
+    no_meses_aplica = models.SmallIntegerField(blank=True, null=True, default=1, db_column='no_aply')
 
     def __str__(self):
         return self.nombre_monto
@@ -132,6 +133,7 @@ class descuentos(models.Model):
     condiciones_restricciones = models.CharField(max_length=80, blank=True, null=True, db_column='conditions')
     precio = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True,db_column='price')
     porcentaje = models.DecimalField(max_digits=4, decimal_places=3, blank=True, null=True, db_column='percentage')
+    no_meses_aplica = models.SmallIntegerField( blank=True, null=True, default=1, db_column='no_aply')
 
     def __str__(self):
         return self.nombre_descuento
@@ -200,6 +202,24 @@ class estados_plan(models.Model):
         verbose_name_plural = "estados de planes"
 
 
+class routers(models.Model):
+    marca = models.CharField(max_length=300, blank=False, null=False)
+    ip_dir = models.CharField(max_length=15, blank=False, null=False)
+    mascara = models.CharField(max_length=10, blank=False, null=False)
+    serial = models.CharField(max_length=35, blank=False, null=False)
+    mac = models.CharField(max_length=25, blank=False, null=False)
+    referencia = models.CharField(max_length=60, blank=False, null=False)
+    nuevo = models.IntegerField(max_length=3, blank=False, null=False, choices=((1,'SI'),(2,'NO')))
+    cantidad = models.SmallIntegerField(blank=False, null=False, default=1, db_column='cant')
+
+    def __str__(self):
+        return "%s | %s | %s "%(self.ip_dir, self.serial, self.referencia )
+
+    class Meta:
+        db_table = 'routers'
+        verbose_name = "Router"
+        verbose_name_plural = "Routers"
+
 class plan(models.Model):
     id_plan = models.AutoField(primary_key=True)
     contrato = models.ForeignKey(contrato, models.DO_NOTHING, db_column='contract')
@@ -207,13 +227,14 @@ class plan(models.Model):
     estado_plan = models.ForeignKey(estados_plan, models.DO_NOTHING,default=1, db_column='state_plan')
     dia_inicio_pago = models.IntegerField(default=1, db_column='start_payment_day', choices=((1,1), (2,15)) )
     dias_limites_de_pago = models.IntegerField(default=5, blank=True, null=True, db_column='days_limit' )
-    ip_router = models.CharField(max_length=20, blank=True, null=True, db_column='address_plan')
     direccion_recidencial = models.CharField(max_length=300, blank=False, null=False)
     montos_adicionales = models.ManyToManyField(monto_adicional, blank=True)
     descuentos_adicionales = models.ManyToManyField(descuentos, blank=True)
     novedades = models.ManyToManyField(novedades_plan, blank=True)
     saldo_contra = models.DecimalField(max_digits=10, decimal_places=2, default= 0, db_column='negative_balance')
     saldo_favor = models.DecimalField(max_digits=10, decimal_places=2, default = 0, db_column='positive_balance')
+
+    router = models.ForeignKey(routers, models.DO_NOTHING, db_column='router')
 
     fecha_instalacion = models.DateTimeField( db_column='instalation_date')
     fecha_registro_plan = models.DateTimeField(blank=True, null=True, auto_now_add=True, db_column='date_start_plan')
