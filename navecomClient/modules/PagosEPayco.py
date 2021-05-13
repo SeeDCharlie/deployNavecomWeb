@@ -158,8 +158,8 @@ class PagosEPayco():
                     "invoice": factura.id_bill,
                     "description": factura.plan.servicio.servicio.nombre_servicio,
                     "value": float(factura.plan.servicio.costo),
-                    "tax": "0",
-                    "tax_base": "0",
+                    "tax": float(factura.plan.servicio.costo*0.19),
+                    "tax_base": float(factura.plan.servicio.costo-(factura.plan.servicio.costo*0.19)),
                     "currency": "COP",
                     "type_person": "0",
                     "doc_type": "CC",
@@ -169,7 +169,7 @@ class PagosEPayco():
                     "email": factura.plan.contrato.cliente.email,
                     "cell_phone": factura.plan.contrato.cliente.no_celular,
                     "end_date": str(factura.fecha_limite_pago),
-                    "ip": "190.99.223.145",
+                    "ip": "162.214.186.57",
                     #"url_response": "https://navecomingenieria.com/resposeGeneratePIN/",
                     "url_confirmation": "https://navecomingenieria.com/confirmTransactionPINEpayco/",
                     "method_confirmation": "POST",
@@ -198,7 +198,7 @@ class PagosEPayco():
         except Exception as error:
             log = logsnavecomsystem(log_name="error inesperado generarPINpagoFisico", log_description=str(error))
             log.save()
-            return False
+            return str(error)
 
         
 
