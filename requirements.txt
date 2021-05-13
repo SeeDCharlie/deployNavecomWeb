@@ -37,3 +37,4 @@ webencodings==0.5.1
 xhtml2pdf==0.2.5
 python-dotenv==0.15.0
 django-admin-logs==1.0.1
+epayco-sdk==2.0.0
