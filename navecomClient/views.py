@@ -197,7 +197,6 @@ def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
         try:
-
             if int(request.POST.get('x_cod_response')) == 1:
                 fact = facturas.objects.get(pk=int(request.POST.get('x_id_factura')))
                 fact.pago = 1
@@ -206,7 +205,7 @@ def confirmacionTransaccionPagoPorPIN(request):
                 fact.type_method = request.POST.get('x_bank_name')
                 fact.codigo_aprobacion_payco = request.POST.get('x_approval_code')
                 fact.numero_recibo_transaccion = request.POST.get('x_transaction_id')
-                fact.save(update_fields=['fecha_pago','referencia_payco',
+                fact.save(update_fields=['pago','fecha_pago','referencia_payco',
                                         'type_method','codigo_aprobacion_payco','numero_recibo_transaccion'], force_update=True)
                 pln = fact.plan
                 pln.estado_plan = estados_plan.objects.get(pk=1)
