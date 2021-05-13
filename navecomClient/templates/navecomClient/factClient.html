@@ -1,0 +1,84 @@
+{% extends 'navecomClient/base1.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'navecomClient/css_project/factClientStyle.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container" style="height: 100%; padding-top: 5%;">
+
+    <div class="containerFact">
+        <div class="row justify-content-center ">
+
+            <div class="col-12 align-self-center">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="factPen-tab" data-toggle="tab" href="#factPen" role="tab"
+                            aria-controls="factPen" aria-selected="true">Facturas Pendientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="histoFact-tab" data-toggle="tab" href="#histoFact" role="tab"
+                            aria-controls="histoFact" aria-selected="false">Historial de Facturas</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="factPen" role="tabpanel" aria-labelledby="factPen-tab">
+                        <br><br>
+                        <div class="row justify-content-center">
+                            
+                            <div class="col-8 itemListFact">
+                                itemuno
+                            </div>
+                            <div class="col-8 itemListFact">
+                                itemuno
+                            </div>
+                            <div class="col-8 itemListFact">
+                                itemuno
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="histoFact" role="tabpanel" aria-labelledby="histoFact-tab">
+                        <br><br>
+                        <div class="row justify-content-center">
+                            
+                            <div class="col-8 itemListFact">
+                                itemuno
+                            </div>
+                            <div class="col-8 itemListFact">
+                                itemuno
+                            </div>
+                            <div class="col-8 itemListFact">
+                                itemuno
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'navecomClient/js_project/motors/motorAjax.js' %}"></script>
+<script src="{% static 'navecomClient/js_project/controlFactClient.js' %}"></script>
+
+
+{% endblock %}

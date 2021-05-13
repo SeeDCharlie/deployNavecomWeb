@@ -11,7 +11,7 @@ class ControlLogin():
         rLogin = self.ctrl.loggin(request, email, passw)
         if rLogin:
             #str(reverse('index'))
-            return JsonResponse({'msj': "usuario : %s , contraseña: %s"%(email, passw), 'url': reverse('homeClient'), 'log': True,'success': True})
+            return JsonResponse({'msj': "usuario : %s , contraseña: %s"%(email, passw), 'url': reverse('factClient'), 'log': True,'success': True})
 
         else:
             return JsonResponse({'msj': 'usuario o contraseña incorrectos', 'success': False})

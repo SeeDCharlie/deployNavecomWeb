@@ -23,6 +23,39 @@ def not_found_404(request,exception=None):
 def index(request):
     return render(request,'navecomClient/index.html')
 
+def pagos(request):
+    return render(request,'navecomClient/pago.html')    
+
+def prueba(request):
+    return render(request,'navecomClient/prueba.html')
+
+def login(request):
+    return render(request,'navecomClient/login.html')
+
+def solicitud(request):
+    context = {'planes':categorias_servicio.objects.all()}
+    return render(request,'navecomClient/solicitud.html', context)
+
+def logOut(request):
+    ControlLogin().logOut(request)
+    return redirect('index')
+
+# login
+def loginUsr(request):
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
+        c = ControlLogin()
+        email = json.loads(request.POST.get('dats'))['email']
+        passw = json.loads(request.POST.get('dats'))['pass']
+        return c.loggin(request, email, passw)
+    else :
+        return redirect('login')
+
+def factClient(request):
+    if request.user.is_authenticated : 
+        return render(request, 'navecomClient/factClient.html')
+    else:
+        return redirect('index')
+
 def preFactura(request, idPlan = -1):
 
     if idPlan < 1 :
@@ -41,40 +74,7 @@ def preFactura(request, idPlan = -1):
             return render(request, 'navecomClient/preFactura.html', {'error': True, 'msj': 'LO SENTIMOS, POR FAVOR INTENTE MAS TARDE.' })
   
 
-def pagos(request):
-    return render(request,'navecomClient/pago.html')    
-
-def prueba(request):
-    return render(request,'navecomClient/prueba.html')
-
-def login(request):
-    return render(request,'navecomClient/login.html')
-
-def solicitud(request):
-    context = {'planes':categorias_servicio.objects.all()}
-    return render(request,'navecomClient/solicitud.html', context)
-
-def homeClient(request):
-    if request.user.is_authenticated : 
-        return render(request, 'navecomClient/templatesClient/homeClient.html')
-    else:
-        return redirect('index')
-
 # metodos de funcionalidades
-
-# login
-def loginUsr(request):
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
-        c = ControlLogin()
-        email = json.loads(request.POST.get('dats'))['email']
-        passw = json.loads(request.POST.get('dats'))['pass']
-        return c.loggin(request, email, passw)
-    else :
-        return redirect('login')
-
-def logOut(request):
-    ControlLogin().logOut(request)
-    return redirect('index')
 
 # formulario contacto
 
@@ -131,7 +131,6 @@ def responseTransactionEpayco(request):
         try :
             urlapp = "https://secure.epayco.co/validation/v1/reference/" + str(request.GET.get('ref_payco'))
             response = requests.get(urlapp)
-    
             if response :
                 response = response.json()['data']
                 fact = facturas.objects.get(pk=response['x_id_invoice'])
@@ -160,9 +159,7 @@ def responseTransactionEpayco(request):
                 #Transaccion Fallida
                 if response['x_cod_response'] == 4:
                     context['msj'] = 'transacción fallida'
-            
                 return render(request, 'navecomClient/responseTransactionEpayco.html', context)
-
             else:
                 context['error'] = True
                 context['msj'] = "Lo sentimos, intente mas tarde, si el problema persiste comuniquese con nosotros"
@@ -176,17 +173,63 @@ def responseTransactionEpayco(request):
 
 ## metodo que recibe los datos y estado de la transaccion por part de epayco estos datos son enviados por POST metodo
 ##
-@csrf_exempt
+#@csrf_exempt
 def confirmationTransactionEpayco(request):
-    
     if request.method == 'POST':
         try:
-
             pagosMod = PagosEPayco()
             print("request content : ",[ str(i) for i in request.POST.items()] )
             return pagosMod.checkResponseTransactionPayco(request)
-
         except Exception as error:
             return JsonResponse({'success': False, 'msj':'error 1.2 : %s'%str(error)})
     else :
         return redirect('index')
+
+def respuestaGenerarPIN(request):
+    if request.method == 'POST':
+        print("respuesta transaction PIN: ", [ str(i) for i in request.GET.items()])
+        return JsonResponse({"respuesta(generar PIN)": [ str(i) for i in request.POST.items()]})
+    else :
+        return redirect('index')
+
+def confirmacionTransaccionPagoPorPIN(request):
+
+    if request.method == 'POST':
+        try:
+            dats = json.loads(request.POST.body)
+
+            if dats['success']:
+                data = dats['data']
+                if data['x_cod_response'] == 1:
+                    fact = facturas.objects.get(pk=int(data['x_id_factura']))
+                    fact.fecha_pago = data['x_transaction_date']
+                    fact.referencia_payco = data['x_ref_payco']
+                    fact.type_method = data['x_bank_name']
+                    fact.codigo_aprobacion_payco = data['x_approval_code']
+                    fact.numero_recibo_transaccion = data['x_transaction_id']
+                    fact.save(update_fields=['fecha_pago','referencia_payco',
+                                            'type_method','codigo_aprobacion_payco','numero_recibo_transaccion'], force_update=True)
+                    pln = fact.plan
+                    pln.estado_plan = estados_plan.objects.get(pk=1)
+                    pln.save(update_fields=['estado_plan'], force_update=True)
+                    return JsonResponse({"ok": True})
+                else:
+                    log = logsnavecomsystem(log_name="error confirmacionTransaccionPagoPorPIN", log_description="aun no se ha hecho el pago fisico")
+                    log.save()
+                    return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(dats)})
+            else:
+                log = logsnavecomsystem(log_name="error confirmacionTransaccionPagoPorPIN", log_description=str(dats))
+                log.save()
+                return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(dats)})
+        except Exception as error:
+            log = logsnavecomsystem(log_name="error inesperado confirmacionTransaccionPagoPorPIN", log_description=str(error))
+            log.save()
+            return JsonResponse({"error inesperado confirmacionTransaccionPagoPorPIN": str(error)})
+    else :
+        return redirect('index')
+
+
+def pruebas(request):
+    p = PagosEPayco()
+    fact = facturas.objects.get(pk=22)
+    return JsonResponse( {'respuesta':p.generarPINpagoFisico(fact)})

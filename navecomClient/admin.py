@@ -6,9 +6,11 @@ from .models import *
 from .forms import *
 from django.db.models import F
 from django.utils.html import format_html
-
 from django.contrib.admin.models import LogEntry
 from django.contrib.admin.widgets import AutocompleteSelect
+from datetime import datetime, timedelta 
+from calendar import monthrange
+
 
 # Register your models here.
 
@@ -119,17 +121,18 @@ class datsClientsAdmin(admin.ModelAdmin):
 @admin.register(facturas)
 class facturaAdmin(admin.ModelAdmin):
 
-    list_filter = ('pago', 'fecha_creacion', 'metodo_pago', 'plan__dia_inicio_pago')
-    list_display = ('id_bill', 'nombre', 'plan', 'total_pagar', 'descargar')
-    list_display_links = ('id_bill', 'plan', 'nombre')
+    list_filter = ('pago', 'fecha_creacion',
+                   'metodo_pago', 'plan__dia_inicio_pago')
+    list_display = ('id_bill', 'plan', 'total_pagar', 'descargar')
+    list_display_links = ('id_bill', 'plan')
     show_full_result_count = 50
     #autocomplete_fields = ['plan']
-    raw_id_fields = ('plan' , )
+    raw_id_fields = ('plan', )
     search_fields = ['nombre',  'id_bill']
     date_hierarchy = 'fecha_creacion'
 
     fieldsets = (
-        ('Informacion de la factura', {'fields': ('pago', 'plan', 'total_recibido', 'total_pagar','total_devuelto', 'fecha_creacion', 'fecha_pago',
+        ('Informacion de la factura', {'fields': ('pago', 'plan', 'total_recibido', 'total_pagar', 'total_devuelto', 'fecha_creacion', 'fecha_pago',
                                                   'fecha_limite_pago', 'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion')}),
         ('Informacion del plan', {'fields': (
             'id_plan', 'servicio', 'costo_del_plan', 'saldo_en_contra', 'saldo_a_favor')}),
@@ -137,17 +140,18 @@ class facturaAdmin(admin.ModelAdmin):
          'fields': ('nombre',  'no_documento')}),
     )
 
-    readonly_fields = ['total_pagar', 'fecha_creacion', 'fecha_limite_pago',  'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion', 'servicio',
+    readonly_fields = ['total_pagar','fecha_pago', 'fecha_creacion', 'fecha_limite_pago',  'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion', 'servicio',
                        'saldo_en_contra', 'saldo_a_favor', 'nombre', 'no_documento', 'costo_del_plan', 'total_devuelto', 'id_plan']
 
     class Media:
         css = {
             "all": ("navecomClient/css_project/style_admin.css", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
         }
-        js = ( 'navecomClient/js_project/ctrlFaturaAdmin.js',)
+
+        js = ('navecomClient/js_project/ctrlFaturaAdmin.js',)
 
     def descargar(self, obj):
-        return format_html('<i class="fa fa-file-pdf-o linkPdf downloadFact" id="downloadFact" ><a href="%s"> Descargar</a></i>'%reverse('downloadFact', args=[obj.id_bill]) )
+        return format_html('<i class="fa fa-file-pdf-o linkPdf downloadFact" id="downloadFact" ><a href="%s"> Descargar</a></i>' % reverse('downloadFact', args=[obj.id_bill]))
 
     def nombre(self, obj):
         return "%s %s" % (obj.nombre, obj.apellido)
@@ -188,19 +192,84 @@ class planAdmin(admin.ModelAdmin):
                     'servicio', 'precio_plan', 'estado_del_plan')
     list_display_links = ('id_plan', 'nombre_cliente',
                           'servicio', 'precio_plan')
+
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('contrato', 'servicio','direccion_recidencial', 'estado_plan', 'dia_inicio_pago', 'dias_limites_de_pago'),
+        }),
+        ('Datos del Router', {'fields': ('marca', 'ip_dir',
+                                         'mascara', 'serial', 'mac', 'referencia', 'nuevo')}),
+        ('Fechas Importantes', {'fields': ('fecha_instalacion', 'fecha_registro_plan',
+                                           'fecha_fin_plan', 'fecha_cancelacion', 'fecha_ultima_modificacion')}),
+        ('Caracteristicas Adicionales', {'fields': (
+            'novedades', 'saldo_contra', 'saldo_favor')}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('contrato', 'servicio', 'estado_plan', 'dia_inicio_pago', 'dias_limites_de_pago', 'direccion_recidencial'),
+        }),
+        ('Datos del Router', {'fields': ('marca', 'ip_dir',
+                                         'mascara', 'serial', 'mac', 'referencia', 'nuevo')}),
+        ('Caracteristicas Adicionales', {None: (
+            'novedades', 'montos_adicionales', 'descuentos', 'saldo_contra', 'saldo_favor')}),
+        ('Fechas Importantes', {'fields': ('fecha_instalacion', 'fecha_registro_plan',
+                                           'fecha_fin_plan', 'fecha_cancelacion', 'fecha_ultima_modificacion')}),
+    )
+
     #raw_id_fields = ('', )
     search_fields = ['id_plan', 'nombre_cliente']
 
-    readonly_fields = ['fecha_registro_plan', 'fecha_ultima_modificacion',
+    readonly_fields = ['fecha_registro_plan', 'fecha_ultima_modificacion', 'dia_inicio_pago',
                        'dias_limites_de_pago', 'saldo_contra', 'saldo_favor', 'estado_plan']
 
     autocomplete_fields = ['contrato', 'servicio']
-    
-    filter_horizontal = ('montos_adicionales',
-                         'descuentos_adicionales', 'novedades')
+
+    filter_horizontal = ('novedades',)
+
+
+
+    def save_model(self, request,obj,form, change):
+        
+        super().save_model(request, obj, form, change)
+        print("variable change :", change)
+        if not change :
+            
+            #creamos el monto adicional de instalacion de servicio
+            monto = monto_adicional.objects.get(pk = 3)
+            registroMonto = montos_plan(plan = obj, monto_adicional=monto,estado='c', no_meses_aplica = 0)
+            registroMonto.save()
+            totalPagar = obj.servicio.costo + monto.precio
+            print("total con monto : " , totalPagar)
+
+            totalPlanPorDia = monto.precio / 30
+
+            fullDate = datetime.now()
+            newDate = None
+            if fullDate.day >= 14 and fullDate.day <= 27:
+                obj.dia_inicio_pago = '15'
+                newDate = fullDate + timedelta(days=5)  
+                if fullDate.day > 15 :
+                    totalPagar = totalPagar - (totalPlanPorDia * (fullDate.day - 15))
+                elif fullDate.day < 15 :
+                    totalPagar = totalPagar  + totalPlanPorDia
+            else:
+                obj.dia_inicio_pago = '1'
+                if fullDate.day > 1 and fullDate.day < 14 :
+                    totalPagar = totalPagar - (totalPlanPorDia * (fullDate.day - 1))
+                else :
+                    totalPagar = totalPagar  + (totalPlanPorDia * (monthrange(fullDate.year, fullDate.month)[1] - fullDate.day))
+
+            newDate = fullDate + timedelta(days=5) 
+            super().save_model(request, obj, form, change)
+            factu = facturas(plan=obj, total_pagar=totalPagar, fecha_limite_pago= newDate)
+            factu.save()
+
 
     def estado_del_plan(self, obj):
-        color = {1: '74FF00', 2: 'FFF700', 3: 'FF0000', 4: '00FFA2'}
+        color = {1: '00DC0D', 2: 'DC0000', 3: 'FBFF00', 4: 'C70039'}
         return format_html('<span style="color: #898989; background-color:#{}; padding: 3px 10px; border-radius: 7px; font-weight: bold;">{}</span>',
                            color[obj.estado_plan.id_state_plan],
                            obj.estado_plan)
@@ -215,6 +284,7 @@ class planAdmin(admin.ModelAdmin):
         querysetAux = super().get_queryset(request)
         return querysetAux.annotate(nombre_cliente=F('contrato__cliente__nombre'), apellido_cliente=F('contrato__cliente__apellido'), precio=F('servicio__costo'))
 
+
 @admin.register(solicitudes_servicio)
 class solitudServAdmin(admin.ModelAdmin):
 
@@ -223,6 +293,7 @@ class solitudServAdmin(admin.ModelAdmin):
                        'tel_fijo', 'direccion', 'fecha_solicitud', 'plan']
     list_filter = ('atendido',)
 
+
 @admin.register(servicio)
 class serviciosAdmin(admin.ModelAdmin):
 
@@ -230,13 +301,21 @@ class serviciosAdmin(admin.ModelAdmin):
     list_display_links = ('id_ser', 'nombre_servicio')
     search_fields = ('nombre_servicio', 'oferta_servicio')
 
+
 @admin.register(estados_usuario)
 class estadosUsuarioAdmin(admin.ModelAdmin):
     list_display = ('id_state_usr', 'nombre_estado', 'descripcion')
 
+
 @admin.register(estados_plan)
 class estadoPlanAdmin(admin.ModelAdmin):
     list_display = ('id_state_plan', 'estado_plan', 'descripcion')
+
+@admin.register(montos_plan)
+class montosPlanAdmin(admin.ModelAdmin):
+    list_display = ('monto_adicional', 'plan', 'estado')
+    readonly_fields = ['estado']
+
 
 admin.site.register(monto_adicional)
 admin.site.register(descuentos)
@@ -248,4 +327,4 @@ admin.site.register(Permission)
 admin.site.register(zonas_servicio)
 admin.site.register(contact_request)
 admin.site.register(LogEntry)
-admin.site.register(routers)
+

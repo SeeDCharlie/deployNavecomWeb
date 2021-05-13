@@ -56,7 +56,7 @@
                     <li><a href="{% url 'pagos'%}">Pagar Facturas</a></li>
                     <li><a href="{% url 'solicitud' %}">Solicitud</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'homeClient' %}">Mi Cuenta</a></li>
+                    <li><a href="{% url 'factClient' %}">Mis Facturas</a></li>
                     <li><a class="itemMenuBar" href="{% url 'logOut' %}">Salir</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Iniciar Sesion</a></li>

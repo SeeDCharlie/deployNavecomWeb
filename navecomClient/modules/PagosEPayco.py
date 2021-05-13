@@ -8,6 +8,7 @@ from django.conf import settings
 import requests
 import hashlib
 from datetime import datetime
+from epaycosdk import epayco
 
 class PagosEPayco():
 
@@ -88,13 +89,13 @@ class PagosEPayco():
                     return JsonResponse({"success": False, 'msj': "1transaccion exitosa"})
                 if x_cod_response == 2:
                     print("transaccion rechazada : ", id_fact)
-                    return JsonResponse({"success": False, 'msj': "2transaccion exitosa"})
+                    return JsonResponse({"success": False, 'msj': "2transaccion rechazada"})
                 if x_cod_response == 3:
                     print("transaccion pendiente", id_fact)
-                    return JsonResponse({"success": False, 'msj': "3transaccion exitosa"})
+                    return JsonResponse({"success": False, 'msj': "3transaccion pendiente"})
                 if x_cod_response == 4:
                     print("transaccion fallida", id_fact)
-                    return JsonResponse({"success": False, 'msj': "4transaccion exitosa"})
+                    return JsonResponse({"success": False, 'msj': "4transaccion fallida"})
             else:
                 print('Firma no valida')
                 return JsonResponse({"success": False, 'msj': "firma no valida"})
@@ -129,3 +130,75 @@ class PagosEPayco():
         if query.exists():
             return True
         return False
+
+    def autenticarConPayco(self):
+
+        url = 'https://api.secure.payco.co/v1/auth/login'
+        dats = {"public_key": settings.PUBLIC_KEY,
+                "private_key":settings.PRIVATE_KEY}
+
+        respuesta = requests.post(url, data = dats)
+
+        if respuesta.status_code != 200:
+            return False
+        else:
+            return respuesta.json()['status']
+            
+
+
+#   genera una factura con un pin paraser cancelada en puntos fisicos (efecty, baloto, gane...)
+
+    def generarPINpagoFisico(self, factura):
+
+        try:
+
+            if self.autenticarConPayco():
+                
+                cash_info = {
+                    "invoice": factura.id_bill,
+                    "description": factura.plan.servicio.servicio.nombre_servicio,
+                    "value": float(factura.plan.servicio.costo),
+                    "tax": "0",
+                    "tax_base": "0",
+                    "currency": "COP",
+                    "type_person": "0",
+                    "doc_type": "CC",
+                    "doc_number": factura.plan.contrato.cliente.no_documento,
+                    "name": factura.plan.contrato.cliente.nombre,
+                    "last_name": factura.plan.contrato.cliente.apellido,
+                    "email": factura.plan.contrato.cliente.email,
+                    "cell_phone": factura.plan.contrato.cliente.no_celular,
+                    "end_date": str(factura.fecha_limite_pago),
+                    "ip": "190.99.223.145",
+                    #"url_response": "https://navecomingenieria.com/resposeGeneratePIN/",
+                    "url_confirmation": "https://navecomingenieria.com/confirmTransactionPINEpayco/",
+                    "method_confirmation": "POST",
+                    "test":"TRUE",
+                    "public_key": settings.PUBLIC_KEY
+                }
+                print("cash info :" , cash_info)
+                cash = requests.post(url='https://secure.payco.co/restpagos/v2/efectivo/baloto', data=cash_info)
+                cash = cash.json()
+    
+                if cash['success'] and cash['title_response']=="SUCCESS":
+                    data = cash['data']
+                    fact = facturas.objects.get(pk=int(data['factura']))
+                    fact.referencia_payco = data['ref_payco']
+                    fact.pin_payco = data['pin']
+                    fact.save(update_fields=['referencia_payco','pin_payco'], force_update=True)
+                    return True
+                else:
+                    log = logsnavecomsystem(log_name="error respuesta generarPINpagoFisico", log_description=str(cash))
+                    log.save()
+                    return False
+            else:
+                log = logsnavecomsystem(log_name="error autenticacion generarPINpagoFisico", log_description="error de autenticacion")
+                log.save()
+                return False
+        except Exception as error:
+            log = logsnavecomsystem(log_name="error inesperado generarPINpagoFisico", log_description=str(error))
+            log.save()
+            return False
+
+        
+
