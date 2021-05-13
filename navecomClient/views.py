@@ -229,7 +229,7 @@ def confirmacionTransaccionPagoPorPIN(request):
         return redirect('index')
 
 
-def pruebas(request):
+def pruebas(request, idPlan):
     p = PagosEPayco()
-    fact = facturas.objects.get(pk=22)
+    fact = facturas.objects.get(pk=idPlan)
     return JsonResponse( {'respuesta':p.generarPINpagoFisico(fact)})
