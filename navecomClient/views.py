@@ -197,16 +197,15 @@ def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
         try:
-            data = json.loads(request.body.decode("utf-8"))
 
-            if data['x_cod_response'] == 1:
-                fact = facturas.objects.get(pk=int(data['x_id_factura']))
+            if request.POST.get('x_cod_response') == 1:
+                fact = facturas.objects.get(pk=int(request.POST.get('x_id_factura')))
                 fact.pago = 1
-                fact.fecha_pago = data['x_transaction_date']
-                fact.referencia_payco = data['x_ref_payco']
-                fact.type_method = data['x_bank_name']
-                fact.codigo_aprobacion_payco = data['x_approval_code']
-                fact.numero_recibo_transaccion = data['x_transaction_id']
+                fact.fecha_pago = request.POST.get('x_transaction_date')
+                fact.referencia_payco = request.POST.get('x_ref_payco')
+                fact.type_method = request.POST.get('x_bank_name')
+                fact.codigo_aprobacion_payco = request.POST.get('x_approval_code')
+                fact.numero_recibo_transaccion = request.POST.get('x_transaction_id')
                 fact.save(update_fields=['fecha_pago','referencia_payco',
                                         'type_method','codigo_aprobacion_payco','numero_recibo_transaccion'], force_update=True)
                 pln = fact.plan
@@ -216,7 +215,7 @@ def confirmacionTransaccionPagoPorPIN(request):
             else:
                 log = logsnavecomsystem(log_name="error confirmacionTransaccionPagoPorPIN", log_description="aun no se ha hecho el pago fisico")
                 log.save()
-                return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(data)})
+                return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(request.body)})
             
         except Exception as error:
             log = logsnavecomsystem(log_name="error inesperado confirmacionTransaccionPagoPorPIN", log_description=str(error))
