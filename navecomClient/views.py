@@ -198,7 +198,7 @@ def confirmacionTransaccionPagoPorPIN(request):
     if request.method == 'POST':
         try:
 
-            if request.POST.get('x_cod_response') == 1:
+            if int(request.POST.get('x_cod_response')) == 1:
                 fact = facturas.objects.get(pk=int(request.POST.get('x_id_factura')))
                 fact.pago = 1
                 fact.fecha_pago = request.POST.get('x_transaction_date')
