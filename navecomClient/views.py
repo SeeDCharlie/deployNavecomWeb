@@ -197,7 +197,7 @@ def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode("utf-8"))
 
             if data['x_cod_response'] == 1:
                 fact = facturas.objects.get(pk=int(data['x_id_factura']))
