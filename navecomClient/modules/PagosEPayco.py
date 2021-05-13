@@ -105,7 +105,7 @@ class PagosEPayco():
             return JsonResponse({"success": False, 'msj': "e 1.1 : " + str(error)})
 
 
-    #se hace registro del pago con los datos de confirmacion de devuelve epayco
+    #se hace registro del pago con los datos de confirmacion que devuelve epayco
     def transactionConfirmPayco(self, *args):
         fact = facturas.objects.get(pk=args[5])
         fact.pago = 1
@@ -146,38 +146,39 @@ class PagosEPayco():
             
 
 
-#   genera una factura con un pin paraser cancelada en puntos fisicos (efecty, baloto, gane...)
+#   genera una factura con un pin para ser cancelada en puntos fisicos (efecty, baloto, gane...)
 
     def generarPINpagoFisico(self, factura):
 
         try:
 
             if self.autenticarConPayco():
-                costo = float(factura.plan.servicio.costo)
+                costo = float(factura.total_pagar)
                 cash_info = {
-                    "invoice": factura.id_bill,
-                    "description": factura.plan.servicio.servicio.nombre_servicio,
-                    "value": str(costo),
-                    "tax": str(costo*0.19),
-                    "tax_base": str(costo-(costo*0.19)),
-                    "currency": "COP",
-                    "type_person": "0",
-                    "doc_type": "CC",
-                    "doc_number": factura.plan.contrato.cliente.no_documento,
-                    "name": factura.plan.contrato.cliente.nombre,
-                    "last_name": factura.plan.contrato.cliente.apellido,
+                    "factura": factura.id_bill,
+                    "descripcion": factura.plan.servicio.servicio.nombre_servicio,
+                    "valor": costo,
+                    "iva": costo*0.19,
+                    "baseiva": costo-(costo*0.19),
+                    "moneda": "COP",
+                    "tipo_persona": "0",
+                    "tipo_doc": "CC",
+                    "documento": factura.plan.contrato.cliente.no_documento,
+                    "nombres": factura.plan.contrato.cliente.nombre,
+                    "apellidos": factura.plan.contrato.cliente.apellido,
                     "email": factura.plan.contrato.cliente.email,
-                    "cell_phone": factura.plan.contrato.cliente.no_celular,
-                    "end_date": str(factura.fecha_limite_pago),
+                    "pais":"CO",
+                    "celular": factura.plan.contrato.cliente.no_celular,
+                    "fechaexpiracion": str(factura.fecha_limite_pago),
                     "ip": "162.214.186.57",
                     #"url_response": "https://navecomingenieria.com/resposeGeneratePIN/",
-                    "url_confirmation": "https://navecomingenieria.com/confirmTransactionPINEpayco/",
-                    "method_confirmation": "POST",
+                    "url_confirmacion": "https://navecomingenieria.com/confirmTransactionPINEpayco/",
+                    "metodoconfirmacion": "POST",
                     "test":"TRUE",
                     "public_key": settings.PUBLIC_KEY
                 }
                 print("cash info :" , cash_info)
-                cash = requests.post(url='https://secure.payco.co/restpagos/v2/efectivo/baloto', data=cash_info)
+                cash = requests.post(url='https://secure.payco.co/restpagos/v2/efectivo/gana', data=cash_info)
                 cash = cash.json()
     
                 if cash['success'] and cash['title_response']=="SUCCESS":

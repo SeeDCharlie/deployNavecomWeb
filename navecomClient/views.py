@@ -191,17 +191,19 @@ def respuestaGenerarPIN(request):
         return JsonResponse({"respuesta(generar PIN)": [ str(i) for i in request.POST.items()]})
     else :
         return redirect('index')
+        
 @csrf_exempt
 def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
         try:
-            dats = json.loads(request.POST.body)
+            dats = request.POST.body
 
             if dats['success']:
                 data = dats['data']
                 if data['x_cod_response'] == 1:
                     fact = facturas.objects.get(pk=int(data['x_id_factura']))
+                    fact.pago = 1
                     fact.fecha_pago = data['x_transaction_date']
                     fact.referencia_payco = data['x_ref_payco']
                     fact.type_method = data['x_bank_name']
