@@ -18,7 +18,7 @@ a {
 }
 
 a:hover, a:active, a:focus {
-  color: #2dca98;
+  color: #00425C;
   outline: none;
   text-decoration: none;
 }
@@ -90,6 +90,10 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   transition: all 0.5s;
   z-index: 997;
+}
+
+#header ul li a {
+  font-weight: 550;
 }
 
 #header #logo {

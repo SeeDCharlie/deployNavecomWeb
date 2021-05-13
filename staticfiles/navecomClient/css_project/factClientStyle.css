@@ -1,0 +1,28 @@
+
+
+header{
+    background: rgba(27, 27, 27, 0.5);
+}
+
+.containerFact{
+    min-height: 550px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+    margin: 10% 0;
+    padding: 30px 15px;
+}
+
+.containerFact ul li a {
+
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.itemListFact {
+    margin-bottom: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 20px;
+    border-radius: 1px;
+    border: 1px solid #39c;
+    text-align: left;
+}
