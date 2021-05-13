@@ -38,7 +38,7 @@ PRIVATE_KEY = os.getenv('NAV_PRIVATE_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['navecomingenieria.com']
 #ALLOWED_HOSTS = ['navecomingenieria.com']
 
 # Application definition
