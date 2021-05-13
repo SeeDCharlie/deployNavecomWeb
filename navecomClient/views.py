@@ -197,35 +197,31 @@ def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
         try:
-            dats = request.body
-            if request.POST.get('success'):
-                data = request.POST.get('data')
-                if data['x_cod_response'] == 1:
-                    fact = facturas.objects.get(pk=int(data['x_id_factura']))
-                    fact.pago = 1
-                    fact.fecha_pago = data['x_transaction_date']
-                    fact.referencia_payco = data['x_ref_payco']
-                    fact.type_method = data['x_bank_name']
-                    fact.codigo_aprobacion_payco = data['x_approval_code']
-                    fact.numero_recibo_transaccion = data['x_transaction_id']
-                    fact.save(update_fields=['fecha_pago','referencia_payco',
-                                            'type_method','codigo_aprobacion_payco','numero_recibo_transaccion'], force_update=True)
-                    pln = fact.plan
-                    pln.estado_plan = estados_plan.objects.get(pk=1)
-                    pln.save(update_fields=['estado_plan'], force_update=True)
-                    return JsonResponse({"ok": True})
-                else:
-                    log = logsnavecomsystem(log_name="error confirmacionTransaccionPagoPorPIN", log_description="aun no se ha hecho el pago fisico")
-                    log.save()
-                    return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(dats)})
+            data = json.loads(request.body)
+
+            if data['x_cod_response'] == 1:
+                fact = facturas.objects.get(pk=int(data['x_id_factura']))
+                fact.pago = 1
+                fact.fecha_pago = data['x_transaction_date']
+                fact.referencia_payco = data['x_ref_payco']
+                fact.type_method = data['x_bank_name']
+                fact.codigo_aprobacion_payco = data['x_approval_code']
+                fact.numero_recibo_transaccion = data['x_transaction_id']
+                fact.save(update_fields=['fecha_pago','referencia_payco',
+                                        'type_method','codigo_aprobacion_payco','numero_recibo_transaccion'], force_update=True)
+                pln = fact.plan
+                pln.estado_plan = estados_plan.objects.get(pk=1)
+                pln.save(update_fields=['estado_plan'], force_update=True)
+                return JsonResponse(data={"ok": True}, status=200)
             else:
-                log = logsnavecomsystem(log_name="error confirmacionTransaccionPagoPorPIN", log_description=str(dats))
+                log = logsnavecomsystem(log_name="error confirmacionTransaccionPagoPorPIN", log_description="aun no se ha hecho el pago fisico")
                 log.save()
-                return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(dats)})
+                return JsonResponse({"error confirmacionTransaccionPagoPorPIN": str(data)})
+            
         except Exception as error:
             log = logsnavecomsystem(log_name="error inesperado confirmacionTransaccionPagoPorPIN", log_description=str(error))
             log.save()
-            return JsonResponse({"error inesperado confirmacionTransaccionPagoPorPIN": str(error)})
+            return JsonResponse({"error inesperado confirmacionTransaccionPagoPorPIN": str(error)}, status=500)
     else :
         return redirect('index')
 
