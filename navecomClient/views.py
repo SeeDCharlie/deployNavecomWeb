@@ -197,6 +197,7 @@ def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
         try:
+            dats = request.body
             if request.POST.get('success'):
                 data = request.POST.get('data')
                 if data['x_cod_response'] == 1:
