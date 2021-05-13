@@ -173,7 +173,7 @@ def responseTransactionEpayco(request):
 
 ## metodo que recibe los datos y estado de la transaccion por part de epayco estos datos son enviados por POST metodo
 ##
-#@csrf_exempt
+@csrf_exempt
 def confirmationTransactionEpayco(request):
     if request.method == 'POST':
         try:
@@ -191,7 +191,7 @@ def respuestaGenerarPIN(request):
         return JsonResponse({"respuesta(generar PIN)": [ str(i) for i in request.POST.items()]})
     else :
         return redirect('index')
-
+@csrf_exempt
 def confirmacionTransaccionPagoPorPIN(request):
 
     if request.method == 'POST':
