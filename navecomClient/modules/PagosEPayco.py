@@ -153,13 +153,13 @@ class PagosEPayco():
         try:
 
             if self.autenticarConPayco():
-                
+                costo = float(factura.plan.servicio.costo)
                 cash_info = {
                     "invoice": factura.id_bill,
                     "description": factura.plan.servicio.servicio.nombre_servicio,
-                    "value": float(factura.plan.servicio.costo),
-                    "tax": float(factura.plan.servicio.costo*0.19),
-                    "tax_base": float(factura.plan.servicio.costo-(factura.plan.servicio.costo*0.19)),
+                    "value": str(costo),
+                    "tax": str(costo*0.19),
+                    "tax_base": str(costo-(costo*0.19)),
                     "currency": "COP",
                     "type_person": "0",
                     "doc_type": "CC",
