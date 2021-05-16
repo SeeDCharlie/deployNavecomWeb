@@ -53,15 +53,14 @@ def loginUsr(request):
 def factClient(request):
     if request.user.is_authenticated : 
         
-        print("user id : " , request.user.id_user, "type class: ", request.user)
         historialFacturas = facturas.objects.all().filter(plan__contrato__cliente = request.user)
         facturasPendientes = historialFacturas.filter(pago=0)
+        
         contex = {
             'histoFact':historialFacturas,
             'factPend':facturasPendientes
         }
-        for fact in historialFacturas:
-            print("factura id : " , fact.id_bill)
+
         return render(request, 'navecomClient/factClient.html', context=contex )
     else:
         return redirect('index')

@@ -31,6 +31,8 @@
                     <div class="tab-pane fade show active" id="factPen" role="tabpanel" aria-labelledby="factPen-tab">
                         <br><br>
                         <div class="row justify-content-center">
+
+                            {% if factPend %}
                             {% for fact in factPend %}
                             <div class="col-10 itemListFact">
                                 <div class="row">
@@ -52,13 +54,13 @@
                                         <div class="row">
                                             <div class="col-5 titleTres">Fecha Creacion</div>
                                             <div class="col-7">: {{fact.fecha_creacion}}</div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="row">
                                             <div class="col-5 titleTres">No Plan</div>
                                             <div class="col-7">: {{fact.plan.id_plan}}</div>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -66,38 +68,58 @@
                                         <div class="row">
                                             <div class="col-5 titleTres">Fecha Limite</div>
                                             <div class="col-7">: {{fact.fecha_limite_pago}}</div>
-                                        </div>                                          
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="row">
                                             <div class="col-5 titleTres">Total Factura</div>
                                             <div class="col-7">: $ {{fact.total_pagar}}</div>
-                                        </div> 
-                                        
+                                        </div>
+
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row justify-content-end" style="padding: 10px;">                                    
+                                <div class="row justify-content-end" style="padding: 10px;">
                                     <div class="col-auto">
-                                        <img src="{% static 'navecomClient/img/cuenta.png' %}" class="img-fluid" style="height: 60px;">
+                                        <img src="{% static 'navecomClient/img/cuenta.png' %}" class="img-fluid"
+                                            style="height: 60px;">
                                     </div>
                                     <div class="col-auto">
-                                        
-                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button id="btnPayInvoice" class="btn btn-cancel" >Descargar</button></a>
+
+                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button
+                                                id="btnPayInvoice" class="btn btn-cancel">Descargar</button></a>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="{% url 'preFactura' idPlan=fact.plan.id_plan %}"><button id="btnPayInvoice" class="btn btn-ok">Pagar</button></a>
+                                        <a href="{% url 'preFactura' idPlan=fact.plan.id_plan %}"><button
+                                                id="btnPayInvoice" class="btn btn-ok">Pagar</button></a>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             {% endfor %}
+                            {% else %}
+                            <div class="row justify-content-center" style="padding: 10px;">
+                                <div class="col-8 titleDos " style="text-align: center; margin-bottom: 30px;">
+                                    No Tienes Facturas Pendientes Por Pagar!
+            
+                                </div> 
+                                <div class="col-5" style="text-align: center;">
+                                    <img class="img-fluid" src="{% static 'navecomClient/img/like.png' %}" alt="">
+                                </div>
+
+                            </div>
+
+                            {% endif %}
+
+
                         </div>
 
                     </div>
                     <div class="tab-pane fade" id="histoFact" role="tabpanel" aria-labelledby="histoFact-tab">
                         <br><br>
                         <div class="row justify-content-center">
+
+                            {% if histoFact %}
                             {% for fact in histoFact %}
                             <div class="col-10 itemListFact">
                                 <div class="row">
@@ -119,13 +141,13 @@
                                         <div class="row">
                                             <div class="col-5 titleTres">Fecha Creacion</div>
                                             <div class="col-7">: {{fact.fecha_creacion}}</div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="row">
                                             <div class="col-5 titleTres">No Plan</div>
                                             <div class="col-7">: {{fact.plan.id_plan}}</div>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -133,29 +155,45 @@
                                         <div class="row">
                                             <div class="col-5 titleTres">Fecha Limite</div>
                                             <div class="col-7">: {{fact.fecha_limite_pago}}</div>
-                                        </div>                                          
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="row">
                                             <div class="col-5 titleTres">Total Factura</div>
                                             <div class="col-7">: $ {{fact.total_pagar}}</div>
-                                        </div> 
-                                        
+                                        </div>
+
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row justify-content-end" style="padding: 10px;">                                    
+                                <div class="row justify-content-end" style="padding: 10px;">
                                     <div class="col-auto">
-                                        <img src="{% static 'navecomClient/img/pdf.png' %}" class="img-fluid" style="height: 60px;">
+                                        <img src="{% static 'navecomClient/img/pdf.png' %}" class="img-fluid"
+                                            style="height: 60px;">
                                     </div>
                                     <div class="col-auto">
-                                        
-                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button id="btnPayInvoice" class="btn btn-cancel" >Descargar</button></a>
+
+                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button
+                                                id="btnPayInvoice" class="btn btn-cancel">Descargar</button></a>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             {% endfor %}
+
+                            {% else %}
+                            <div class="row justify-content-center" style="padding: 10px;">
+                                <div class="col-8 titleDos " style="text-align: center; margin-bottom: 30px;">
+                                    No Tienes Facturas Registradas!
+            
+                                </div> 
+                                <div class="col-5" style="text-align: center;">
+                                    <img class="img-fluid" src="{% static 'navecomClient/img/like.png' %}" alt="">
+                                </div>
+
+                            </div>
+
+                            {% endif %}
                         </div>
                     </div>
 

@@ -86,16 +86,16 @@ class PagosEPayco():
                 x_cod_response = int(request.POST.get('x_cod_response').replace('"',''))
                 if x_cod_response == 1:
                     self.transactionConfirmPayco(x_type_payment, x_ref_payco,x_autorizacion, x_transaction_id,x_transaction_date, id_fact)
-                    return JsonResponse({"success": False, 'msj': "1transaccion exitosa"})
+                    return JsonResponse({"success": True, 'msj': "1_transaccion exitosa"})
                 if x_cod_response == 2:
                     print("transaccion rechazada : ", id_fact)
-                    return JsonResponse({"success": False, 'msj': "2transaccion rechazada"})
+                    return JsonResponse({"success": False, 'msj': "2_transaccion rechazada"})
                 if x_cod_response == 3:
                     print("transaccion pendiente", id_fact)
-                    return JsonResponse({"success": False, 'msj': "3transaccion pendiente"})
+                    return JsonResponse({"success": False, 'msj': "3_transaccion pendiente"})
                 if x_cod_response == 4:
                     print("transaccion fallida", id_fact)
-                    return JsonResponse({"success": False, 'msj': "4transaccion fallida"})
+                    return JsonResponse({"success": False, 'msj': "4_transaccion fallida"})
             else:
                 print('Firma no valida')
                 return JsonResponse({"success": False, 'msj': "firma no valida"})
