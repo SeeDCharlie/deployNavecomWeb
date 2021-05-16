@@ -72,7 +72,8 @@
                     <div class="col-12 col-sm-2 d-none d-sm-block ">
                         <div class="row">
                             <h5 class="titleDos col-12">Motivo</h5>
-                            <h3 class="titleTres col-12"><i class="fa fa-internet-explorer" aria-hidden="true"></i> {{motivo}}</h3>
+                            <h3 class="titleTres col-12"><i class="fa fa-internet-explorer" aria-hidden="true"></i>
+                                {{motivo}}</h3>
                         </div>
 
                     </div>
@@ -106,21 +107,23 @@
                 <div class="row justify-content-center justify-content-md-end">
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
-                        <a href="{% url 'index' %}"  >
+                        <a href="{% url 'index' %}">
                             <button id="btnReturn" class="btn btn-blue">
                                 <i class="fa fa-sign-out" aria-hidden="true"></i>Regresar
                             </button>
                         </a>
 
-                        
+
                     </div>
-                    {%csrf_token%}
+
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
-                        <button id="btnPayInvoice" class="btn btn-cancel" id_fact="{{fact.id_bill}}"
-                            url="{% url 'getDatsForEpayco' %}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                             Factura
-                        </button>
+
+                        <a href="{% url 'downloadFact' id_fact=no_factura %}">
+                            <button  class="btn btn-cancel" ><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                Factura
+                            </button>
+                        </a>
 
                     </div>
                 </div>

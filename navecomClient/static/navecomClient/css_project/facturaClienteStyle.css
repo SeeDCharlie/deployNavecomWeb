@@ -12,6 +12,16 @@ body{
     width: 100%;
 }
 
+.cancelFact{
+    position: fixed;
+    z-index: 999;
+    text-align: center;
+    top: 40%;
+    left: 20%;
+    opacity: 0.5;
+
+}
+
 .p_superior{
     width: 100%;
     position: fixed;

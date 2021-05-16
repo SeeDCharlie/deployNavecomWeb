@@ -22,7 +22,13 @@
 
     <img class="p_superior" src="{% static 'navecomClient/img/parte_superior.png' %}" alt="">
 
+    {% if factura.pago %}
 
+    <img class="cancelFact" src="{% static 'navecomClient/img/cancelado.png' %}" alt="">
+    
+    {% endif %}
+
+    
 
     <div class="row parteSuperior">
         <div class="col-4">
@@ -30,21 +36,21 @@
         </div>
         <div class="col-8">
             <div class="row">
-                <div class="col-4">
+                <div class="col-auto">
                     <h4>Telefonos</h4>
                     <p style="font-family: Arial, Helvetica, sans-serif !important;">
                         +57 320 8528339 <br>
                         +57 320 8520718
                     </p>
                 </div>
-                <div class="col-4">
+                <div class="col-auto">
                     <h4>Web</h4>
                     <p>
-                        correo@correo.com <br>
-                        navecomingenieria.com
+                        navecomingenieria.com <br>
+                        info@navecomingenieria.com
                     </p>
                 </div>
-                <div class="col-4">
+                <div class="col-auto">
                     <h4>Area</h4>
                     <p>
                         Cali - Colombia

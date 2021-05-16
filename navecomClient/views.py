@@ -52,7 +52,17 @@ def loginUsr(request):
 
 def factClient(request):
     if request.user.is_authenticated : 
-        return render(request, 'navecomClient/factClient.html')
+        
+        print("user id : " , request.user.id_user, "type class: ", request.user)
+        historialFacturas = facturas.objects.all().filter(plan__contrato__cliente = request.user)
+        facturasPendientes = historialFacturas.filter(pago=0)
+        contex = {
+            'histoFact':historialFacturas,
+            'factPend':facturasPendientes
+        }
+        for fact in historialFacturas:
+            print("factura id : " , fact.id_bill)
+        return render(request, 'navecomClient/factClient.html', context=contex )
     else:
         return redirect('index')
 
@@ -114,7 +124,7 @@ def downloadFact(request, id_fact):
                   }
 
             return render_to_pdf_response(request, 'navecomClient/templatesAdmin/modelFact.html', contexto,
-                                      download_filename='prueba.pdf', base_url=request.build_absolute_uri())
+                                      download_filename='factura_%d.pdf'%int(fact.id_bill), base_url=request.build_absolute_uri())
         except Exception as error : 
             print(error)
             return JsonResponse({'success': False, 'msj': 'No pudimos procesar la solicitus \n error: %s.'%error})
@@ -147,10 +157,11 @@ def responseTransactionEpayco(request):
             response = requests.get(urlapp)
             if response :
                 response = response.json()['data']
-                fact = facturas.objects.get(pk=response['x_id_invoice'])
+                fact = facturas.objects.get(pk=int(response['x_id_invoice']))
+                print("factura: ", fact.id_bill)
                 context = {
                     'fecha': response['x_transaction_date'],
-                    'referenciaPayco': response['x_ref_payco'],
+                    'referenciaPayco': response['x_ref_payco'], 
                     'no_factura': response['x_id_invoice'],
                     'motivo': response['x_description'],
                     'recibo': response['x_transaction_id'],

@@ -31,32 +31,131 @@
                     <div class="tab-pane fade show active" id="factPen" role="tabpanel" aria-labelledby="factPen-tab">
                         <br><br>
                         <div class="row justify-content-center">
-                            
-                            <div class="col-8 itemListFact">
-                                itemuno
+                            {% for fact in factPend %}
+                            <div class="col-10 itemListFact">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">No factura</div>
+                                            <div class="col-7">: {{fact.id_bill}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Plan</div>
+                                            <div class="col-7">: {{fact.plan.servicio}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Fecha Creacion</div>
+                                            <div class="col-7">: {{fact.fecha_creacion}}</div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">No Plan</div>
+                                            <div class="col-7">: {{fact.plan.id_plan}}</div>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Fecha Limite</div>
+                                            <div class="col-7">: {{fact.fecha_limite_pago}}</div>
+                                        </div>                                          
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Total Factura</div>
+                                            <div class="col-7">: $ {{fact.total_pagar}}</div>
+                                        </div> 
+                                        
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row justify-content-end" style="padding: 10px;">                                    
+                                    <div class="col-auto">
+                                        <img src="{% static 'navecomClient/img/cuenta.png' %}" class="img-fluid" style="height: 60px;">
+                                    </div>
+                                    <div class="col-auto">
+                                        
+                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button id="btnPayInvoice" class="btn btn-cancel" >Descargar</button></a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="{% url 'preFactura' idPlan=fact.plan.id_plan %}"><button id="btnPayInvoice" class="btn btn-ok">Pagar</button></a>
+                                    </div>
+                                    
+                                </div>
                             </div>
-                            <div class="col-8 itemListFact">
-                                itemuno
-                            </div>
-                            <div class="col-8 itemListFact">
-                                itemuno
-                            </div>
+                            {% endfor %}
                         </div>
 
                     </div>
                     <div class="tab-pane fade" id="histoFact" role="tabpanel" aria-labelledby="histoFact-tab">
                         <br><br>
                         <div class="row justify-content-center">
-                            
-                            <div class="col-8 itemListFact">
-                                itemuno
+                            {% for fact in histoFact %}
+                            <div class="col-10 itemListFact">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">No factura</div>
+                                            <div class="col-7">: {{fact.id_bill}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Plan</div>
+                                            <div class="col-7">: {{fact.plan.servicio}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Fecha Creacion</div>
+                                            <div class="col-7">: {{fact.fecha_creacion}}</div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">No Plan</div>
+                                            <div class="col-7">: {{fact.plan.id_plan}}</div>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Fecha Limite</div>
+                                            <div class="col-7">: {{fact.fecha_limite_pago}}</div>
+                                        </div>                                          
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 titleTres">Total Factura</div>
+                                            <div class="col-7">: $ {{fact.total_pagar}}</div>
+                                        </div> 
+                                        
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row justify-content-end" style="padding: 10px;">                                    
+                                    <div class="col-auto">
+                                        <img src="{% static 'navecomClient/img/pdf.png' %}" class="img-fluid" style="height: 60px;">
+                                    </div>
+                                    <div class="col-auto">
+                                        
+                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button id="btnPayInvoice" class="btn btn-cancel" >Descargar</button></a>
+                                    </div>
+                                    
+                                </div>
                             </div>
-                            <div class="col-8 itemListFact">
-                                itemuno
-                            </div>
-                            <div class="col-8 itemListFact">
-                                itemuno
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
 
