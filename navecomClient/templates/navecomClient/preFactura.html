@@ -65,16 +65,17 @@
                     </div>
                     <div class="col-12 col-sm-5">
                         <h5 class="titleDos">Fecha de Vencimiento</h5>
-                        <span class="titleTres"><i class="fa fa-calendar-times-o"></i> {{factura.fecha_limite_pago}}</span>
+                        <span class="titleTres"><i class="fa fa-calendar-times-o"></i>
+                            {{factura.fecha_limite_pago}}</span>
                     </div>
                     <div class="col-12 col-sm-2 d-none d-sm-block ">
                         <h5 class="titleDos">Valor</h5>
-   
+
                     </div>
                 </div>
                 <hr>
                 <br>
-                <div class="row justify-content-end" >
+                <div class="row justify-content-end">
                     <div class="col-12 col-sm-4 titleDos">Propietario del Plan</div>
                     <div class="col-12 col-sm-7 titleTres">
                         {{factura.plan.contrato.cliente.nombre}} {{factura.plan.contrato.cliente.apellido}}
@@ -90,16 +91,45 @@
 
                 <div class="row justify-content-end">
                     <div class="col-12 col-sm-9 titleDos ">Montos Adicionales</div>
-                    <div class="col-12 col-sm-2 titleTres">$ 0.00</div>
+                    <div class="col-12 col-sm-2 titleTres"><i class="fa fa-plus" style="color: green;"></i></div>
+                </div>
+                {% for monto in montos %}
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleTres "><i class="fa fa-check-circle-o"
+                            style="color: greenyellow;"></i>
+                        {{monto.monto_adicional.nombre_monto}}</div>
+                    <div class="col-12 col-sm-2 titleTres">$ {{monto.monto_adicional.precio}}</div>
+                </div>
+                {% endfor %}
+                <hr>
+
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleDos ">Descuentos Adicionales</div>
+                    <div class="col-12 col-sm-2 titleTres"><i class="fa fa-minus" style="color: red;"></i></div>
                 </div>
                 <hr>
+                {% for descuento in descuentos %}
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleTres "><i class="fa fa-check-circle-o"
+                            style="color: greenyellow;"></i>
+                        {{descuento.descuentos.nombre_descuento}}</div>
+                    <div class="col-12 col-sm-2 titleTres">$ {{descuento.descuentos.precio}}</div>
+                </div>
+                {% endfor %}
 
                 <div class="row justify-content-end">
                     <div class="col-12 col-sm-9 titleDos ">Total</div>
                     <div class="col-12 col-sm-2 titleDos">$ {{factura.total_pagar}}</div>
                 </div>
                 <hr>
-
+                {% if factura.primera_factura %}
+                <div class="row justify-content-end">
+                    <p  style="color: red;">
+                        <strong>Esta es tu primera factura. El valor de tu factura puede variar dependiendo <br> del día
+                            que contrataste tu plan de servicio.</strong>
+                    </p>
+                </div>
+                {% endif %}
                 <div class="row justify-content-center justify-content-md-end">
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
@@ -110,7 +140,8 @@
                     {%csrf_token%}
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>
-                        <button id="btnPayInvoice" class="btn btn-ok" id_fact="{{factura.id_bill}}" url="{% url 'getDatsForEpayco' %}" >Pagar</button>  
+                        <button id="btnPayInvoice" class="btn btn-ok" id_fact="{{factura.id_bill}}"
+                            url="{% url 'getDatsForEpayco' %}">Pagar</button>
                     </div>
                 </div>
             </div>

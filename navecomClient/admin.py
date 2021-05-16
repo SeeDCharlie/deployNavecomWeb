@@ -10,6 +10,7 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.admin.widgets import AutocompleteSelect
 from datetime import datetime, timedelta 
 from calendar import monthrange
+from .modules.PagosEPayco import PagosEPayco
 
 
 # Register your models here.
@@ -148,7 +149,7 @@ class facturaAdmin(admin.ModelAdmin):
             "all": ("navecomClient/css_project/style_admin.css", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
         }
 
-        js = ('navecomClient/js_project/ctrlFaturaAdmin.js',)
+        #js = ('navecomClient/js_project/ctrlFaturaAdmin.js',)
 
     def descargar(self, obj):
         return format_html('<i class="fa fa-file-pdf-o linkPdf downloadFact" id="downloadFact" ><a href="%s"> Descargar</a></i>' % reverse('downloadFact', args=[obj.id_bill]))
@@ -244,9 +245,9 @@ class planAdmin(admin.ModelAdmin):
             totalPagar = obj.servicio.costo + monto.precio
             print("total con monto : " , totalPagar)
 
-            totalPlanPorDia = monto.precio / 30
-
             fullDate = datetime.now()
+            totalPlanPorDia = monto.precio / monthrange(fullDate.year, fullDate.month)[1]
+
             newDate = None
             if fullDate.day >= 14 and fullDate.day <= 27:
                 obj.dia_inicio_pago = '15'
@@ -264,8 +265,12 @@ class planAdmin(admin.ModelAdmin):
 
             newDate = fullDate + timedelta(days=5) 
             super().save_model(request, obj, form, change)
-            factu = facturas(plan=obj, total_pagar=totalPagar, fecha_limite_pago= newDate)
+            factu = facturas(plan=obj, total_pagar=totalPagar, fecha_limite_pago= newDate, primera_factura= True)
             factu.save()
+            registroMonto.factura = factu
+            registroMonto.save(update_fields=['factura'], force_update=True)
+            #p = PagosEPayco()
+            #p.generarPINpagoFisico(factu)
 
 
     def estado_del_plan(self, obj):

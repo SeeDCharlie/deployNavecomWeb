@@ -65,7 +65,9 @@ def preFactura(request, idPlan = -1):
         try:
             factura = facturas.objects.get(plan=plan.objects.get(pk=int(idPlan)))
             if factura.plan.estado_plan == estados_plan.objects.get(pk=4) :
-                context = {'factura': factura, 'msj': 'Bienvenido'}
+                montos = montos_plan.objects.all().filter(factura=factura)
+                descuentos = descuentos_plan.objects.all().filter(factura=factura)
+                context = {'factura': factura, 'msj': 'Bienvenido', 'montos': montos, 'descuentos':descuentos}
                 return render(request, 'navecomClient/preFactura.html', context )
             else :
                 return render(request, 'navecomClient/preFactura.html' ,{'error': True, 'msj': 'USTED NO TIENE SALDO PENDIENTE POR PAGAR' })
@@ -97,9 +99,21 @@ def getDataContact(request):
 #devuelve la factura en pdf. la peticion debe ser ajax y post y llevar dentro el id de la factura
 
 def downloadFact(request, id_fact):
-    if request.user.is_authenticated and request.user.tipo_usuario == tipo_usuario.objects.all().get(pk=1)  :
+    if request.user.is_authenticated :
         try:
-            return render_to_pdf_response(request, 'navecomClient/templatesAdmin/modelFact.html', {'content': "pdf prueba"},
+            fact = facturas.objects.get(pk=id_fact)
+            montos = montos_plan.objects.all().filter(factura=fact)
+            descuentos = descuentos_plan.objects.all().filter(factura=fact)
+
+            contexto={
+                'factura': fact,
+                'montos': montos,
+                'descuentos':descuentos,
+                'ivaFact': "{:10.2f}".format(float(fact.total_pagar) * 0.19),
+                'subTotal': "{:10.2f}".format(float(fact.total_pagar) - (float(fact.total_pagar) * 0.19))
+                  }
+
+            return render_to_pdf_response(request, 'navecomClient/templatesAdmin/modelFact.html', contexto,
                                       download_filename='prueba.pdf', base_url=request.build_absolute_uri())
         except Exception as error : 
             print(error)

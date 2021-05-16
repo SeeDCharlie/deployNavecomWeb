@@ -1,18 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>factura</title>
+    {% load static %}
+    <link href="{% static 'navecomClient/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'navecomClient/css_project/facturaClienteStyle.css' %}" rel="stylesheet">
+
+
 </head>
+
 <body>
-    
+
+    <!--
+        color parte superior : #333134
+        color de fondo : #ececec
+    -->
+
+    <img class="p_superior" src="{% static 'navecomClient/img/parte_superior.png' %}" alt="">
 
 
-        <h1>prueba pdf</h1>
 
-        <p style="color: yellow;">{{ content }}</p>
+    <div class="row parteSuperior">
+        <div class="col-4">
+            <img src="{% static 'navecomClient/img/antena.png' %}" class="img_logo" alt="">
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-4">
+                    <h4>Telefonos</h4>
+                    <p style="font-family: Arial, Helvetica, sans-serif !important;">
+                        +57 320 8528339 <br>
+                        +57 320 8520718
+                    </p>
+                </div>
+                <div class="col-4">
+                    <h4>Web</h4>
+                    <p>
+                        correo@correo.com <br>
+                        navecomingenieria.com
+                    </p>
+                </div>
+                <div class="col-4">
+                    <h4>Area</h4>
+                    <p>
+                        Cali - Colombia
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dats_fact">
+        <div class="col-4">
+            <p style="font-family: Arial, Helvetica, sans-serif !important;">
+                <strong>Cliente:</strong> <br>
+                <strong style="font-size: 0.9rem !important;">{{factura.plan.contrato.cliente.nombre}} {{factura.plan.contrato.cliente.apellido}}</strong><br>
+                {{factura.plan.direccion_recidencial}} <br>
+                {{factura.plan.contrato.cliente.no_celular}} <br>
+                <strong>Plan No:</strong>
+                {{factura.plan.id_plan}}
+            </p>
+        </div>
+
+        <div class="col-8">
+            <h4>FACTURA</h4>
+            <p>
+                <table>
+                    <tr>
+                        <td><strong>Factura No</strong></td>
+                        <td>: {{factura.id_bill}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fecha de Cobro</strong></td>
+                        <td>: {{factura.fecha_creacion}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fecha Límite</strong></td>
+                        <td>: {{factura.fecha_limite_pago}}</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+    </div>
+    <!--lista de cobros a la factura-->
+    <div class="lista_cobros">
+        <div class="row ">
+            <div class="col-8 col_item" style="background-color: #00719e;">
+                <strong>Servicios</strong>
+            </div>
+            <div class="col col_item" style="color: #ececec; background-color: #222222; ">
+                <strong>Precio</strong>
+            </div>
+        </div>
+        <!--precio real del plan-->
+        <div class="row row_item" >
+            <div class="col-8 col_item" >
+                <strong>Plan</strong> <br>
+                <span style="font-family: Arial, Helvetica, sans-serif !important;">{{factura.plan.servicio}}</span>
+            </div>
+            <div class="col col_item" style="padding-top: 20px;" >
+                <strong style="font-family: Arial, Helvetica, sans-serif !important;"> $ {{factura.plan.servicio.costo}}</strong>
+            </div>
+        </div>
+        <!--montos adicionales-->
+        {% for monto in montos %}
+        <div class="row row_item" >
+            <div class="col-8 col_item" >
+                <strong>Monto adicional</strong> <br>
+                <span style="font-family: Arial, Helvetica, sans-serif !important;">{{monto.monto_adicional.nombre_monto}}</span>
+            </div>
+            <div class="col col_item" style="padding-top: 20px;" >
+                <strong style="font-family: Arial, Helvetica, sans-serif !important;"> $ {{monto.monto_adicional.precio}}</strong>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for descuento in descuentos %}
+        <div class="row row_item" >
+            <div class="col-8 col_item" >
+                <strong>Descuentos</strong> <br>
+                <span style="font-family: Arial, Helvetica, sans-serif !important;">{{descuento.descuentos.nombre_descuento}}</span>
+            </div>
+            <div class="col col_item" style="padding-top: 20px;" >
+                <strong style="font-family: Arial, Helvetica, sans-serif !important;"> $ {{descuento.descuentos.precio}}</strong>
+            </div>
+        </div>
+        {% endfor %}
+        <br>
+        <!--sub totales-->
+        <div class="row" style="font-family: Arial, Helvetica, sans-serif !important; padding-left: 420px; font-size: 0.8rem; font-weight: 700;">
+            <div class="col-3">Sub total</div>  
+            <div class="col-3" style="">${{subTotal}}</div>
+        </div>
+        <div class="row" style="font-family: Arial, Helvetica, sans-serif !important; padding-left: 420px; font-size: 0.8rem; font-weight: 700;">
+            <div class="col-3" >Iva 19%</div>
+            <div class="col-3" >${{ivaFact}}</div>
+        </div>
+        <br>
+        <!--info facturay total factura-->
+
+        <div class="row justify-content-between">
+            <div class="col" style="padding-left: 80px;">
+                <p style="font-family: Arial, Helvetica, sans-serif !important; font-size: 0.8rem;">
+                    <strong>INFORMACION DE PAGO</strong><br>
+                    PIN Efecty : {{factura.pin_payco}}
+                </p>
+                
+            </div>
+            <div class="col-8">
+                <div class="row" style="background-color: #00719e; padding-left: 50px; padding-right: 50px; padding-top: 15px;padding-bottom: 15px;">
+                    <div class="col-5 ">
+                        <strong>TOTAL A PAGAR</strong>
+                    </div>
+                    <div class="col" style="font-family: Arial, Helvetica, sans-serif !important;">
+                        <strong>${{factura.total_pagar}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        {% if factura.primera_factura %}
+            <div>
+                <p class="col_item" style="color: red;">
+                    <strong>Esta es tu primera factura. El valor de tu factura puede variar dependiendo <br> del día que contrataste tu plan de servicio.</strong>
+                </p>
+            </div>
+        {% endif %}
+        <!--parte de abajo-->
+
+        <div class="row" style="position: absolute; bottom: 30px;">
+            <div class="col col_item" style="width: 700px;">
+                <strong>NAVECOM INGENIERÍA</strong>
+            </div>
+            <div class="col col_item" style="width: 700px;">
+                <strong>Gracias por su compra</strong>
+            </div>
+        </div>
+
+    </div>
+
+
+
 
 </body>
+
 </html>

@@ -45,10 +45,7 @@ window.addEventListener("load", function() {
 
             var datos = JSON.stringify({
                 id_fact: id_fact,
-            });
-
-            alert("descargar pdf id factura valor : " + id_fact);
-        
+            });       
 
         });
     })(django.jQuery);

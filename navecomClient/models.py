@@ -55,7 +55,8 @@ class facturas(models.Model):
     total_pagar = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, db_column='total_pay')
     total_devuelto = models.DecimalField(max_digits=9, decimal_places=2, blank=True,null=True, db_column='balance_returned')
     metodo_pago = models.ForeignKey('metodos_pago', models.DO_NOTHING, default=5, db_column='payment_method')
-    
+    primera_factura = models.BooleanField(db_column = 'first_fact', default=0)
+
     type_method = models.CharField(max_length=20, blank=True, null=True)  
     referencia_payco = models.CharField(max_length=250, blank=True, null=True, db_column='ref_payco')
     codigo_aprobacion_payco = models.CharField(max_length=250, blank=True, null=True, db_column='cod_apro_payco')
@@ -205,6 +206,7 @@ class estados_plan(models.Model):
 class descuentos_plan(models.Model):
     plan = models.ForeignKey('plan', models.DO_NOTHING)
     descuentos = models.ForeignKey('descuentos', models.DO_NOTHING)
+    factura = models.ForeignKey('facturas', models.DO_NOTHING, null=True)
     no_meses_aplica = models.PositiveIntegerField(default=1)
     ESTADOS = (('p', 'Pendiente'), ('c','Culminado') )
     estado = models.CharField(default=1,db_column='descuentos_estado',max_length=15, choices= ESTADOS)
@@ -222,12 +224,12 @@ class descuentos_plan(models.Model):
 class montos_plan(models.Model):
     monto_adicional = models.ForeignKey('monto_adicional',models.DO_NOTHING, default=3)
     plan = models.ForeignKey('plan', models.DO_NOTHING)
+    factura = models.ForeignKey('facturas', models.DO_NOTHING, null=True)
     no_meses_aplica = models.PositiveIntegerField(default=1)
     ESTADOS = (('p', 'Pendiente'), ('c','Culminado') )
     estado = models.CharField(default=1,db_column='estado_monto',max_length=15, choices= ESTADOS)
     fecha_creacion = models.DateField(auto_now_add=True, blank=True, null=True)
     fecha_modificacion = models.DateField(auto_now=True, blank=True, null=True)
-    
 
     def __str__(self):
         return str(self.monto_adicional) + " " + str(self.plan)
