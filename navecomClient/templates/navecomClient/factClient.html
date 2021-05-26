@@ -36,61 +36,61 @@
                             {% for fact in factPend %}
                             <div class="col-10 itemListFact">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">No factura</div>
-                                            <div class="col-7">: {{fact.id_bill}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">No factura</div>
+                                            <div class="col-12 col-sm-7"> {{fact.id_bill}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">Plan</div>
-                                            <div class="col-7">: {{fact.plan.servicio}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-5 titleTres">Fecha Creacion</div>
-                                            <div class="col-7">: {{fact.fecha_creacion}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-5 titleTres">No Plan</div>
-                                            <div class="col-7">: {{fact.plan.id_plan}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">Plan</div>
+                                            <div class="col-12 col-sm-7"> {{fact.plan.servicio}}</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">Fecha Limite</div>
-                                            <div class="col-7">: {{fact.fecha_limite_pago}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">Fecha Creacion</div>
+                                            <div class="col-12 col-sm-7"> {{fact.fecha_creacion}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">Total Factura</div>
-                                            <div class="col-7">: $ {{fact.total_pagar}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">No Plan</div>
+                                            <div class="col-12 col-sm-7"> {{fact.plan.id_plan}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-5 titleTres">Fecha Limite</div>
+                                            <div class="col-12 col-sm-7"> {{fact.fecha_limite_pago}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-5 titleTres">Total Factura</div>
+                                            <div class="col-12 col-sm-7"> $ {{fact.total_pagar}}</div>
                                         </div>
 
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row justify-content-end" style="padding: 10px;">
-                                    <div class="col-auto">
+                                <div class="row " style="padding: 10px;">
+                                    <div class="col-12 col-sm-4" >
                                         <img src="{% static 'navecomClient/img/cuenta.png' %}" class="img-fluid"
-                                            style="height: 60px;">
+                                            style="height: 60px; margin-bottom: 20px;">
                                     </div>
-                                    <div class="col-auto">
+                                    <div class="col-12 col-sm-4">
 
-                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button
+                                        <a style="margin-bottom: 20px; float: right;" href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button
                                                 id="btnPayInvoice" class="btn btn-cancel">Descargar</button></a>
                                     </div>
-                                    <div class="col-auto">
-                                        <a href="{% url 'preFactura' idPlan=fact.plan.id_plan %}"><button
+                                    <div class="col-12 col-sm-4" >
+                                        <a style="margin-bottom: 20px; float: right;" href="{% url 'preFactura' idPlan=fact.plan.id_plan %}"><button
                                                 id="btnPayInvoice" class="btn btn-ok">Pagar</button></a>
                                     </div>
 
@@ -123,57 +123,60 @@
                             {% for fact in histoFact %}
                             <div class="col-10 itemListFact">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">No factura</div>
-                                            <div class="col-7">: {{fact.id_bill}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">No factura</div>
+                                            <div class="col-12 col-sm-7">{{fact.id_bill}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">Plan</div>
-                                            <div class="col-7">: {{fact.plan.servicio}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-5 titleTres">Fecha Creacion</div>
-                                            <div class="col-7">: {{fact.fecha_creacion}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-5 titleTres">No Plan</div>
-                                            <div class="col-7">: {{fact.plan.id_plan}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">Plan</div>
+                                            <div class="col-12 col-sm-7">{{fact.plan.servicio}}</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">Fecha Limite</div>
-                                            <div class="col-7">: {{fact.fecha_limite_pago}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">Fecha Creacion</div>
+                                            <div class="col-12 col-sm-7">{{fact.fecha_creacion}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-sm-6">
                                         <div class="row">
-                                            <div class="col-5 titleTres">Total Factura</div>
-                                            <div class="col-7">: $ {{fact.total_pagar}}</div>
+                                            <div class="col-12 col-sm-5 titleTres">No Plan</div>
+                                            <div class="col-12 col-sm-7"> {{fact.plan.id_plan}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-5 titleTres">Fecha Limite</div>
+                                            <div class="col-12 col-sm-7"> {{fact.fecha_limite_pago}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-5 titleTres">Total Factura</div>
+                                            <div class="col-12 col-sm-7"> $ {{fact.total_pagar}}</div>
                                         </div>
 
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row justify-content-end" style="padding: 10px;">
-                                    <div class="col-auto">
-                                        <img src="{% static 'navecomClient/img/pdf.png' %}" class="img-fluid"
-                                            style="height: 60px;">
+                                    <div class="col-12 col-sm-6 align-self-start" style="margin-bottom: 20px;">
+                                        <div class="col-12 titleTres">Fecha que pago</div>
+                                        <div class="col-12">{{fact.fecha_pago}}</div>
                                     </div>
-                                    <div class="col-auto">
-
-                                        <a href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button
+                                    <div class="col-4 col-sm-3">
+                                        <img src="{% static 'navecomClient/img/pdf.png' %}" class="img-fluid"
+                                            style="height: 60px; float: right;">
+                                    </div>
+                                    <div class="col-8 col-sm-3 ">
+                                        <a style="float: right;" href="{% url 'downloadFact' id_fact=fact.id_bill %}"><button
                                                 id="btnPayInvoice" class="btn btn-cancel">Descargar</button></a>
                                     </div>
 

@@ -4,9 +4,13 @@ header{
     background: rgba(27, 27, 27, 0.5);
 }
 
+#histoFact{
+    overflow: scroll;
+}
+
 .containerFact{
     min-height: 700px;
-    overflow: auto;
+
     box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
     margin: 10% 0;
     padding: 30px 15px;
@@ -28,4 +32,8 @@ header{
     border: 1px solid #39c;
     text-align: left;
     box-shadow: 2px 2px 15px rgb(8, 8, 8);
+}
+
+.containerFact .row {
+    margin-bottom: 5px;
 }

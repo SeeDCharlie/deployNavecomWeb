@@ -321,6 +321,10 @@ class montosPlanAdmin(admin.ModelAdmin):
     list_display = ('monto_adicional', 'plan', 'estado')
     readonly_fields = ['estado']
 
+@admin.register(descuentos_plan)
+class montosPlanAdmin(admin.ModelAdmin):
+    list_display = ('descuentos', 'plan', 'estado')
+    readonly_fields = ['estado']
 
 admin.site.register(monto_adicional)
 admin.site.register(descuentos)

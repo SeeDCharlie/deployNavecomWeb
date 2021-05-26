@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import get_template, render_to_string
@@ -11,14 +12,15 @@ from django.conf import settings
 import hashlib
 import requests
 from .modules.PagosEPayco import PagosEPayco
+from .modules.recaudo import Recaudo
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
 
 # metodos para la devolucion de vistas html
-def not_found_404(request,exception=None):
-    return render(request,'navecomClient/error_404.html')
+def not_found_404(request, exception=None):
+    return render(request,'navecomClient/404.html')
 
 def index(request):
     return render(request,'navecomClient/index.html')
@@ -252,3 +254,25 @@ def pruebas(request, idPlan):
     p = PagosEPayco()
     fact = facturas.objects.get(pk=idPlan)
     return JsonResponse( {'respuesta':p.generarPINpagoFisico(fact)})
+
+
+def generarFacturas(request):
+
+    if request.method == 'POST':
+        try:
+
+            diaPago = request.POST.get('diaPago')
+            key = request.POST.get('key')
+            if key == 'runMethodGenerateBills654165':
+                r =  Recaudo()
+                r.generarFacturas(diaPago)
+                log = logsnavecomsystem(log_name="facturas generadas - "+str(datetime.now()), log_description="facturas generadas - "+str(datetime.now()) )
+                log.save()
+                return JsonResponse({'msj':"facturas generadas - "+str(datetime.now())})
+            log = logsnavecomsystem(log_name="erro key facturas generadas - "+str(datetime.now()), log_description="erro key : "+key )
+            log.save()
+            return JsonResponse({'error':"error de llave - " + key},status=500)
+        except Exception as error:
+            log = logsnavecomsystem(log_name="error system generarFacturas", log_description=str(error))
+            log.save()
+            return JsonResponse({'error':str(error)},status=500)
