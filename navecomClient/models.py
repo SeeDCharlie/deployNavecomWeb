@@ -67,6 +67,8 @@ class facturas(models.Model):
     fecha_pago = models.DateTimeField(blank=True, null=True, db_column='payment_date')
     fecha_limite_pago = models.DateField(blank=True, null = True, db_column='payday_limit')
 
+    observacion = models.CharField(max_length=400, null=True, blank=True)
+
     def __str__(self):
         return "%d | %s"%(self.id_bill, str(self.plan))
 

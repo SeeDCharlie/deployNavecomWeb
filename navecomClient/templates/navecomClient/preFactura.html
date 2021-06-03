@@ -117,19 +117,34 @@
                 </div>
                 {% endfor %}
 
+                {% if factura.observacion %}
+                <hr>
+
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleDos ">Observaciones</div>
+                    <div class="col-12 col-sm-2 titleTres"><i class="fa fa-minus" style="color: red;"></i></div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-12 col-sm-9 titleTres "><i class="fa fa-check-circle-o"
+                            style="color: greenyellow;"></i>
+                        {{factura.observacion}}</div>
+                </div>
+                <hr>
+                {% endif %}
+
                 <div class="row justify-content-end">
                     <div class="col-12 col-sm-9 titleDos ">Total</div>
                     <div class="col-12 col-sm-2 titleDos">$ {{factura.total_pagar}}</div>
                 </div>
                 <hr>
-                {% if factura.primera_factura %}
+                <!--{% if factura.primera_factura %}
                 <div class="row justify-content-end">
                     <p  style="color: red;">
                         <strong>Esta es tu primera factura. El valor de tu factura puede variar dependiendo <br> del día
                             que contrataste tu plan de servicio.</strong>
                     </p>
                 </div>
-                {% endif %}
+                {% endif %}-->
                 <div class="row justify-content-center justify-content-md-end">
                     <div class="col-12 col-sm-6 col-md-3">
                         <br>

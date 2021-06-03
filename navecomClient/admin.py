@@ -123,7 +123,7 @@ class datsClientsAdmin(admin.ModelAdmin):
 class facturaAdmin(admin.ModelAdmin):
 
     list_filter = ('pago', 'fecha_creacion',
-                   'metodo_pago', 'plan__dia_inicio_pago')
+                   'type_method', 'plan__dia_inicio_pago')
     list_display = ('id_bill', 'plan', 'total_pagar', 'descargar')
     list_display_links = ('id_bill', 'plan')
     show_full_result_count = 50
@@ -134,14 +134,14 @@ class facturaAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Informacion de la factura', {'fields': ('pago', 'plan', 'total_recibido', 'total_pagar', 'total_devuelto', 'fecha_creacion', 'fecha_pago',
-                                                  'fecha_limite_pago', 'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion')}),
+                                                  'fecha_limite_pago', 'type_method', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion', 'pin_payco', 'observacion')}),
         ('Informacion del plan', {'fields': (
             'id_plan', 'servicio', 'costo_del_plan', 'saldo_en_contra', 'saldo_a_favor')}),
         ('Informacion del cliente', {
          'fields': ('nombre',  'no_documento')}),
     )
 
-    readonly_fields = ['total_pagar','fecha_pago', 'fecha_creacion', 'fecha_limite_pago',  'metodo_pago', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion', 'servicio',
+    readonly_fields = ['total_pagar','fecha_pago', 'fecha_creacion', 'fecha_limite_pago',  'type_method', 'referencia_payco', 'codigo_aprobacion_payco', 'numero_recibo_transaccion', 'pin_payco', 'observacion', 'servicio',
                        'saldo_en_contra', 'saldo_a_favor', 'nombre', 'no_documento', 'costo_del_plan', 'total_devuelto', 'id_plan']
 
     class Media:
@@ -243,6 +243,7 @@ class planAdmin(admin.ModelAdmin):
             registroMonto = montos_plan(plan = obj, monto_adicional=monto,estado='c', no_meses_aplica = 0)
             registroMonto.save()
             totalPagar = obj.servicio.costo + monto.precio
+            observacion = ''
             print("total con monto : " , totalPagar)
 
             fullDate = datetime.now()
@@ -253,24 +254,32 @@ class planAdmin(admin.ModelAdmin):
                 obj.dia_inicio_pago = '15'
                 newDate = fullDate + timedelta(days=5)  
                 if fullDate.day > 15 :
-                    totalPagar = totalPagar - (totalPlanPorDia * (fullDate.day - 15))
+                    noDias = fullDate.day - 15
+                    totalPagar = totalPagar - (totalPlanPorDia * (noDias))
+                    observacion = 'A usted se le descontaran %d dias que tienen un valor de %f'%(noDias, (totalPlanPorDia * (noDias)))
                 elif fullDate.day < 15 :
+                    observacion = 'A usted se le adicionara %d dia que tiene un valor de %f '%(1, totalPlanPorDia )
                     totalPagar = totalPagar  + totalPlanPorDia
             else:
                 obj.dia_inicio_pago = '1'
                 if fullDate.day > 1 and fullDate.day < 14 :
-                    totalPagar = totalPagar - (totalPlanPorDia * (fullDate.day - 1))
+                    noDias =  fullDate.day - 1
+                    totalPagar = totalPagar - (totalPlanPorDia * noDias )
+                    observacion = 'A usted se le descontaran %d dias que tienen un valor de %f'%(noDias, (totalPlanPorDia * (noDias)))
                 else :
-                    totalPagar = totalPagar  + (totalPlanPorDia * (monthrange(fullDate.year, fullDate.month)[1] - fullDate.day))
+                    noDias = monthrange(fullDate.year, fullDate.month)[1] - fullDate.day
+                    totalPagar = totalPagar  + (totalPlanPorDia * noDias)
+                    observacion = 'A usted se le adicionaran %d dias que tienen un valor de %f'%(noDias, (totalPlanPorDia * noDias))
+
 
             newDate = fullDate + timedelta(days=5) 
             super().save_model(request, obj, form, change)
-            factu = facturas(plan=obj, total_pagar=totalPagar, fecha_limite_pago= newDate, primera_factura= True)
+            factu = facturas(observacion=observacion, plan=obj, total_pagar=totalPagar, fecha_limite_pago= newDate, primera_factura= True)
             factu.save()
             registroMonto.factura = factu
             registroMonto.save(update_fields=['factura'], force_update=True)
-            #p = PagosEPayco()
-            #p.generarPINpagoFisico(factu)
+            p = PagosEPayco()
+            p.generarPINpagoFisico(factu)
 
 
     def estado_del_plan(self, obj):

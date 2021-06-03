@@ -137,6 +137,18 @@
             </div>
         </div>
         {% endfor %}
+
+        {% if factura.observacion %}
+        <div class="row row_item" >
+            <div class="col-8 col_item" >
+                <strong>Observaciones</strong> <br>
+                <span style="font-family: Arial, Helvetica, sans-serif !important;">{{factura.observacion}}</span>
+            </div>
+
+        </div>
+
+        {% endif %}
+
         <br>
         <!--sub totales-->
         <div class="row" style="font-family: Arial, Helvetica, sans-serif !important; padding-left: 420px; font-size: 0.8rem; font-weight: 700;">
