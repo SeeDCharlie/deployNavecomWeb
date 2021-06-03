@@ -256,20 +256,20 @@ class planAdmin(admin.ModelAdmin):
                 if fullDate.day > 15 :
                     noDias = fullDate.day - 15
                     totalPagar = totalPagar - (totalPlanPorDia * (noDias))
-                    observacion = 'A usted se le descontaran %d dias que tienen un valor de %f'%(noDias, (totalPlanPorDia * (noDias)))
+                    observacion = 'A usted se le descontaran %d dias que tienen un valor de $ %s'%(noDias, "{:10.2f}".format(totalPlanPorDia * (noDias)) )
                 elif fullDate.day < 15 :
-                    observacion = 'A usted se le adicionara %d dia que tiene un valor de %f '%(1, totalPlanPorDia )
+                    observacion = 'A usted se le adicionara %d dia que tiene un valor de $ %s'%(1, "{:10.2f}".format(totalPlanPorDia) )
                     totalPagar = totalPagar  + totalPlanPorDia
             else:
                 obj.dia_inicio_pago = '1'
                 if fullDate.day > 1 and fullDate.day < 14 :
                     noDias =  fullDate.day - 1
                     totalPagar = totalPagar - (totalPlanPorDia * noDias )
-                    observacion = 'A usted se le descontaran %d dias que tienen un valor de %f'%(noDias, (totalPlanPorDia * (noDias)))
+                    observacion = 'A usted se le descontaran %d dias que tienen un valor de $ %s'%(noDias, "{:10.2f}".format(totalPlanPorDia * (noDias)))
                 else :
                     noDias = monthrange(fullDate.year, fullDate.month)[1] - fullDate.day
                     totalPagar = totalPagar  + (totalPlanPorDia * noDias)
-                    observacion = 'A usted se le adicionaran %d dias que tienen un valor de %f'%(noDias, (totalPlanPorDia * noDias))
+                    observacion = 'A usted se le adicionaran %d dias que tienen un valor de $ %s'%(noDias, "{:10.2f}".format(totalPlanPorDia * noDias))
 
 
             newDate = fullDate + timedelta(days=5) 
